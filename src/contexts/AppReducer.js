@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react'
 import {
     CODE_USER, ID_USER,
     NAME_USER, PHONE_USER, RESP_ERROR_LOGIN, LOGIN_SPINNER,
-    TYPE_USER, VALIDE_USER, ERROR_USER, ACCIONES, TITLEPAGE, PORCENTAGE, TOKEN
+    TYPE_USER, VALIDE_USER, ERROR_USER, ACCIONES, TITLEPAGE, PORCENTAGE, TOKEN,
+    DATA_USER
 } from "./constantesVar";
 
 
@@ -96,6 +97,16 @@ const AppReducer = (state, action) => {
                 ...state,
                 userError: payload
             };
+        case DATA_USER:
+            console.log(payload)
+            return {
+                ...state,
+                dataUser: {
+                    ...state.dataApp,
+                    ...payload
+
+                }
+            }
         default:
             return state;
     }

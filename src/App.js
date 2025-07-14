@@ -29,6 +29,8 @@ import { InfoStudent } from './pages/infoStudent/infoStudent';
 import { EventId } from './pages/events/eventId';
 import { Profes } from './pages/profe/profes';
 import Setting from './pages/setting/setting';
+import Registre from './pages/registre/registre';
+import OtpForm from './pages/confirmEmail/confirmEmail';
 
 const queryClient = new QueryClient()
 
@@ -62,11 +64,23 @@ function App() {
             />
             <Routes>
 
+              <Route exact path="/confirm" element={
+                <RedirectUser>
+                  <OtpForm />
+                </RedirectUser>
+
+              } />
               <Route exact path="/signIn" element={
                 <RedirectUser>
                   <Loginn />
                 </RedirectUser>
 
+              } />
+
+              <Route exact path="/signUp" element={
+                <RedirectUser>
+                  <Registre />
+                </RedirectUser>
               } />
 
               <Route exact path="/" element={

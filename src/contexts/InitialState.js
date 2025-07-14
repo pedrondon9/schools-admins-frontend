@@ -1,5 +1,6 @@
 
 export const InitialState = {
+    dataUser: JSON.parse(window.localStorage.getItem("enableTAdmins"))?JSON.parse(window.localStorage.getItem("enableTAdmins")):null,
     valideLogin: JSON.parse(window.localStorage.getItem("enableTAdmins"))?JSON.parse(window.localStorage.getItem("enableTAdmins")).valor:false,
     userId :JSON.parse(window.localStorage.getItem("enableTAdmins"))?JSON.parse(window.localStorage.getItem("enableTAdmins")).valorI:'',
     token :JSON.parse(window.localStorage.getItem("enableTAdmins"))?JSON.parse(window.localStorage.getItem("enableTAdmins")).tokI:'',

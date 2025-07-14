@@ -18,7 +18,6 @@ import AppContext from '../../contexts/ServiceContext'
 import toast from 'react-hot-toast';
 
 
-
 const ResetForm = () => {
 
     const navigate = useNavigate();
@@ -81,15 +80,11 @@ const ResetForm = () => {
                     setLoad(false)
                     toast.success(`${reset.data.mens}`)
 
-
-
-
                 } else {
 
                     toast.error(`${reset.data.mens}`)
                     setErrorInit(true)
                     setLoad(false)
-
 
                 }
 

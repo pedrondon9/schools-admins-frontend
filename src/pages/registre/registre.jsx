@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom'
 import AppContext from '../../contexts/ServiceContext'
 import { PulseLoader } from "react-spinners"
 import { useNavigate } from 'react-router-dom'
-import { ACCIONES, CODE_USER, DATA_USER, ID_USER, LOGIN_SPINNER, NAME_USER, PHONE_USER, PORCENTAGE, RESP_ERROR_LOGIN, SALDO, SALDO_EFECTIVO, TOKEN, TYPE_USER, URL_SERVER, VALIDE_USER } from "../../contexts/constantesVar";
+import {
+    ACCIONES, CODE_USER, ID_USER, LOGIN_SPINNER, NAME_USER, PHONE_USER, PORCENTAGE, RESP_ERROR_LOGIN, SALDO, SALDO_EFECTIVO, TOKEN, TYPE_USER,
+    URL_SERVER, VALIDE_USER, DATA_USER
+} from "../../contexts/constantesVar";
 import 'animate.css';
 import toast, { Toaster } from 'react-hot-toast';
-import "./loginn.css"
+import "../login/loginn.css"
 import axios from 'axios'
 import ReCAPTCHA from "react-google-recaptcha";
 import axiosConfigs from '../../components/axiosConfig'
@@ -21,14 +24,14 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { deepPurple } from '@mui/material/colors'
 import { useForm } from 'react-hook-form';
 import KeyIcon from '@mui/icons-material/Key';
-import LoginForm from "../../components/form_components/LoginForm"
+import RegistreForm from "../../components/form_components/RegistreForm"
 import ExternalLink from '../../components/form_components/ExternalLink'
 import { stylesForm } from '../../components/form_components/styleForm'
 
 
 
 
-function Loginn() {
+function Registre() {
 
     const navigate = useNavigate();
 
@@ -51,16 +54,21 @@ function Loginn() {
     //Funcion que se llama despues dpulsar el boton submit
     const onSubmit = async (data) => {
         setErrorInit(false)
-        //console.log(data)
+        console.log(data)
+        if (data.password1 !== data.password2) {
+            setErrorInit(true)
+            setErrorInitMessage('Las contrasenas no coinsiden')
+
+            return
+        }
 
 
         try {
+
             setLoad(true)
 
             const logearse = await axios({ url: `${URL_SERVER}/login_post`, method: "post", data })
             console.log(logearse.data)
-
-
 
             if (logearse.data.verify) {
                 let dataUsers = {
@@ -80,25 +88,7 @@ function Loginn() {
                     type: DATA_USER,
                     payload: dataUsers
                 })
-                dispatch({
-                    type: TOKEN,
-                    payload: logearse.data.token
-                })
 
-                dispatch({
-                    type: NAME_USER,
-                    payload: logearse.data.userData.nombre
-                })
-
-                dispatch({
-                    type: ID_USER,
-                    payload: logearse.data.userData._id
-                })
-
-                dispatch({
-                    type: PHONE_USER,
-                    payload: logearse.data.userData.contact
-                })
 
 
             } else {
@@ -110,18 +100,6 @@ function Loginn() {
                     tokI: "",
                 }
                 setLoad(false)
-                dispatch({
-                    type: VALIDE_USER,
-                    payload: false
-                })
-                dispatch({
-                    type: DATA_USER,
-                    payload: dataUsers
-                })
-                dispatch({
-                    type: ID_USER,
-                    payload: ""
-                })
 
                 window.localStorage.setItem("enableTAdmins", JSON.stringify(dataUsers))
                 setErrorInitMessage(logearse.data.mens)
@@ -135,18 +113,43 @@ function Loginn() {
             setErrorInitMessage('Verifica tu conexion')
             setErrorInit(true)
         }
+
     }
     const fields = [
         {
-            name: "nombre",
-            label: "Usuario",
-            type: "text",
+            name: "email",
+            label: "Correo",
+            type: "email",
             validation: { required: "Campo requerido" },
-            startIcon: <AccountCircle />,
+            startIcon: <Email />,
         },
+
+        /*
         {
-            name: "contrasena",
+            name: "rol",
+            label: "Rol",
+            type: "select",
+            validation: { required: "Selecciona un rol" },
+            options: [
+                { label: "Estudiante", value: "student" },
+                { label: "Profesor", value: "teacher" },
+               { label: "Administrador", value: "admin" },
+            ],
+        }, 
+
+        */
+
+        {
+            name: "password1",
             label: "Contraseña",
+            type: "password",
+            validation: { required: "Campo requerido" },
+            startIcon: <KeyIcon />,
+        },
+
+        {
+            name: "password2",
+            label: "Repite la Contraseña",
             type: "password",
             validation: { required: "Campo requerido" },
             startIcon: <KeyIcon />,
@@ -155,40 +158,40 @@ function Loginn() {
     useEffect(() => {
         if (JSON.parse(window.localStorage.getItem("enableTAdmins"))) {
         } else {
-            window.localStorage.setItem("enableTAdmins", JSON.stringify({ valor: false, valorI: "", nameI: '', typeI: '', emailI: '' }))
+            window.localStorage.setItem("enableTAdmins", JSON.stringify({ valor: false, valorI: "", nameI: '', typeI: '', phoneI: '' }))
         }
     }, [])
 
     return (
+        <>
+            <Grid
+                bgcolor="backgroundColorPage"
+                sx={{ display: "flex", minHeight: "100vh", justifyContent: "center", alignItems: "center" }}
+            >
+                <Box sx={stylesForm}>
+                    <RegistreForm
+                        onSubmit={onSubmit}
+                        handleSubmit={handleSubmit}
+                        register={register}
+                        errors={errors}
+                        fields={fields}
+                        showPassword={showPassword}
+                        togglePasswordVisibility={() => setShowPassword(!showPassword)}
+                        errorInit={errorInit}
+                        errorInitMessage={errorInitMessage}
+                        loading={loading}
+                        buttonLabel="Iniciar"
+                        imageUrl=""
+                        imageAlt="Global2a"
+                        linkUrl=""
+                        linkText=""
+                    />
+                    <ExternalLink url={"/signIn"} text={"Si ya tienes una cuenta inicia"} />
+                </Box>
+            </Grid>
 
-        <Grid
-            bgcolor="backgroundColorPage"
-            sx={{ display: "flex", minHeight: "100vh", justifyContent: "center", alignItems: "center" }}
-        >
-            <Box sx={stylesForm}>
-                <LoginForm
-                    onSubmit={onSubmit}
-                    handleSubmit={handleSubmit}
-                    register={register}
-                    errors={errors}
-                    fields={fields}
-                    showPassword={showPassword}
-                    togglePasswordVisibility={() => setShowPassword(!showPassword)}
-                    errorInit={errorInit}
-                    errorInitMessage={errorInitMessage}
-                    loading={loading}
-                    buttonLabel="Iniciar"
-                    imageUrl=""
-                    imageAlt="Global2a"
-                    linkUrl=""
-                    linkText=""
-                />
-
-                <ExternalLink url={"/signUp"} text={"Si todavia no tienes una cuenta crea tu cuenta"} />
-                <ExternalLink url={"/signUp"} text={"Y Si no recuerdas tu contrasenas, la puedes recuperar"} />
-            </Box>
-        </Grid>
+        </>
     );
 };
 
-export default Loginn;
+export default Registre;

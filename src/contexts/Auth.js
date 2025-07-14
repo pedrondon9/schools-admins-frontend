@@ -329,7 +329,7 @@ export default (props) => {
         },
     });
 
-    const RenoverToken = async () => {
+    const RenoverToken = async () => {  
         const renovar_token = await axios({ url: `${URL_SERVER}/renover_token`, method: "post", data:{token:state.token} })
         //console.log(renovar_token,"ddddd")
         if (renovar_token.data.verify) {
@@ -441,20 +441,7 @@ export default (props) => {
 
     /*********** FIN DE  VERIFICAR TOKEN ********/
 
-    const ObtenervalorMoneda = async()=>{
-        try {
-            const moneda = await axiosConfigs({ url: `/obtener_monedas`, method: "get"})
-            //console.log(moneda)
-            if (moneda.data.verificar) {
-                console.log(moneda.data.data.docs[0].valor)
-                setMonedaValor(moneda.data.data.docs[0].valor)
-            } else {
-                
-            }
-        } catch (error) {
-            
-        }
-    }
+
 
 
 
@@ -480,7 +467,7 @@ export default (props) => {
             porcentage: state.porcentage, //para almacenar el porcentage de interes del socio
             VerificarToken,
             AxiosConfigsToken,
-            ObtenervalorMoneda,
+            dataUser:state.dataUser,
             monedaValor:monedaValor
 
 
