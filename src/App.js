@@ -31,6 +31,7 @@ import { Profes } from './pages/profe/profes';
 import Setting from './pages/setting/setting';
 import Registre from './pages/registre/registre';
 import OtpForm from './pages/confirmEmail/confirmEmail';
+import UpdatePassword from './pages/updatePassword/updatePassword';
 
 const queryClient = new QueryClient()
 
@@ -67,6 +68,13 @@ function App() {
               <Route exact path="/confirm" element={
                 <RedirectUser>
                   <OtpForm />
+                </RedirectUser>
+
+              } />
+
+              <Route exact path="/updatepass" element={
+                <RedirectUser>
+                  <UpdatePassword />
                 </RedirectUser>
 
               } />

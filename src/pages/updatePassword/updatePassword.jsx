@@ -26,8 +26,10 @@ import { useForm } from 'react-hook-form';
 import KeyIcon from '@mui/icons-material/Key';
 import RegistreForm from "../../components/form_components/RegistreForm"
 import ExternalLink from '../../components/form_components/ExternalLink'
-import { stylesForm } from '../../components/form_components/styleForm'
-
+import { stylesForm, stylesFormOpt, textStyleP } from '../../components/form_components/styleForm'
+import RecetPassword from '../../components/form_components/recetPassword'
+import OtpInput from '../../components/form_components/OtpInput'
+import PassworUpdate2 from '../../components/form_components/passworUpdate2'
 
 
 
@@ -43,6 +45,22 @@ function UpdatePassword() {
     const [showPassword, setShowPassword] = useState(false);
 
 
+    const [otpCode, setOtpCode] = useState("");
+    const [loadingOpt, setLoadOtp] = useState(false)//estado para activar el spinner del boton submit
+    const [errorInitOtp, setErrorInitOtp] = useState(false)
+    const [showFormOtp, setShowFormOtp] = useState(false)
+    const [errorInitMessageOtp, setErrorInitMessageOtp] = useState('')
+
+
+    const [errorInitMessageUpdatePass, setErrorInitMessageUpdatePass] = useState(false)
+    const [errorInitUpdatePass, setErrorInitUpdatePass] = useState('')
+    const [loadingUpdatePass, setLoadUpdatePass] = useState(false)//estado para activar el spinner del boton submit
+    const [showFormUpdatePass, setShowFormUpdatePass] = useState(false)
+    const [tokenUpdataPass, setTokenUpdataPass] = useState('')
+
+
+
+
     //el useForm de react form hook
     const {
         register,
@@ -52,9 +70,8 @@ function UpdatePassword() {
     } = useForm();
 
     //Funcion que se llama despues dpulsar el boton submit
-    const onSubmit = async (data) => {
+    const onSubmitSendEmali = async (data) => {
         setErrorInit(false)
-        console.log(data)
         if (data.password1 !== data.password2) {
             setErrorInit(true)
             setErrorInitMessage('Las contrasenas no coinsiden')
@@ -71,25 +88,8 @@ function UpdatePassword() {
             console.log(logearse.data)
 
             if (logearse.data.verify) {
-                let dataUsers = {
-                    valor: logearse.data.validarLogin,
-                    valorI: logearse.data.userData._id,
-                    nameI: logearse.data.userData.nombre,
-                    emailI: logearse.data.userData.contact,
-                    tokI: logearse.data.token,
-                }
-                window.localStorage.setItem("enableTAdmins", JSON.stringify(dataUsers))
-
-                //console.log(logearse)
-
-                setLoad(false)
-
-                dispatch({
-                    type: DATA_USER,
-                    payload: dataUsers
-                })
-
-
+                setShowFormOtp(true)
+                setTokenUpdataPass(logearse.data.token)
 
             } else {
                 let dataUsers = {
@@ -115,7 +115,85 @@ function UpdatePassword() {
         }
 
     }
+
+
+    const handleSubmitOpt = async () => {
+        
+        console.log("OTP ingresado:", otpCode);
+        // enviar a backend, validar, etc.
+        setErrorInitOtp(false)
+        setLoadOtp(true)
+
+        try {
+
+            const confirmOpt = await axios({ url: `${URL_SERVER}/confirm_opt`, method: "post", data: { otp: otpCode,token:tokenUpdataPass } })
+
+            if (confirmOpt.data.verify) {
+               
+
+            } else {
+                
+                setLoadOtp(false)
+                setShowFormOtp(false)
+                setShowFormUpdatePass(true)
+
+                window.localStorage.setItem("enableTAdmins", JSON.stringify(dataUsers))
+                setErrorInitMessage(confirmOpt.data.mens)
+                setErrorInitOtp(true)
+
+            }
+        } catch (error) {
+            setLoadOtp(false)
+            setErrorInitMessageOtp('Verifica tu conexion')
+            setErrorInitOtp(true)
+        }
+    }
+
+
+
+
+    const onSubmitRecepPassword = async (data) => {
+        setErrorInitUpdatePass(false)
+        console.log(data)
+        if (data.password1 !== data.password2) {
+            setErrorInitUpdatePass(true)
+            setErrorInitMessageUpdatePass('Las contrasenas no coinsiden')
+
+            return
+        }
+
+
+        try {
+
+            setLoadUpdatePass(true)
+
+            const logearse = await axios({ url: `${URL_SERVER}/login_post`, method: "post", data })
+            console.log(logearse.data)
+
+            if (logearse.data.verify) {
+
+                setShowFormUpdatePass(false)
+                setLoadUpdatePass(false)
+
+
+            } else {
+                
+                setLoadUpdatePass(false)
+                setErrorInitMessageUpdatePass(logearse.data.mens)
+                setErrorInitUpdatePass(true)
+
+            }
+
+        } catch (error) {
+            //console.log(error)
+            setLoadUpdatePass(false)
+            setErrorInitMessageUpdatePass('Verifica tu conexion')
+            setErrorInitUpdatePass(true)
+        }
+
+    }
     const fields = [
+
         {
             name: "email",
             label: "Correo",
@@ -139,6 +217,10 @@ function UpdatePassword() {
 
         */
 
+    ];
+
+    const fieldsConfirmePass2 = [
+
         {
             name: "password1",
             label: "Contraseña",
@@ -154,7 +236,25 @@ function UpdatePassword() {
             validation: { required: "Campo requerido" },
             startIcon: <KeyIcon />,
         },
+
+        /*
+        {
+            name: "rol",
+            label: "Rol",
+            type: "select",
+            validation: { required: "Selecciona un rol" },
+            options: [
+                { label: "Estudiante", value: "student" },
+                { label: "Profesor", value: "teacher" },
+               { label: "Administrador", value: "admin" },
+            ],
+        }, 
+
+        */
+
     ];
+
+    
     useEffect(() => {
         if (JSON.parse(window.localStorage.getItem("enableTAdmins"))) {
         } else {
@@ -162,15 +262,16 @@ function UpdatePassword() {
         }
     }, [])
 
+
     return (
         <>
             <Grid
                 bgcolor="backgroundColorPage"
-                sx={{ display: "flex", minHeight: "100vh", justifyContent: "center", alignItems: "center" }}
+                sx={{ display: "flex", minHeight: "100vh", justifyContent: "center", alignItems: "center", flexDirection: "column" }}
             >
                 <Box sx={stylesForm}>
-                    <RegistreForm
-                        onSubmit={onSubmit}
+                    <RecetPassword
+                        onSubmit={onSubmitSendEmali}
                         handleSubmit={handleSubmit}
                         register={register}
                         errors={errors}
@@ -180,13 +281,75 @@ function UpdatePassword() {
                         errorInit={errorInit}
                         errorInitMessage={errorInitMessage}
                         loading={loading}
-                        buttonLabel="Iniciar"
+                        buttonLabel="Enviar"
                         imageUrl=""
                         imageAlt="Global2a"
                         linkUrl=""
                         linkText=""
                     />
-                    <ExternalLink url={"/signIn"} text={"Si ya tienes una cuenta inicia"} />
+
+                </Box>
+
+                <div style={{ textAlign: "", padding: 20 }}>
+                    <Typography variant="p" align='left' sx={textStyleP}>Ingrese el código que hemos enviado en tu
+                        <br />
+                        <LoadingButton
+                            component={LoadingButton}
+                            loading={loading}
+                            variant="outlined"
+                            size='small'
+                            color="primary"
+                            onClick={handleSubmit}
+
+                            sx={{
+                                //textAlign: "right",
+                                fontFamily: "sans-serif",
+                                marginTop: 1
+                                //fontSize: "12px",
+                                //color: "#3e2723",
+                            }}
+                        >
+                            Enviar otra vez el codigo
+                        </LoadingButton>
+                    </Typography>
+                    <OtpInput length={6} onChange={setOtpCode} />
+                    {errorInitOtp && (
+                        <Box sx={{ width: "95%", mt: 2 }}>
+                            <FormAlert message={errorInitMessageOtp} />
+                        </Box>
+                    )}
+                    <LoadingButton
+                        loading={loading}
+                        variant="contained"
+                        size='small'
+                        color="primary"
+                        onClick={handleSubmitOpt}
+                        sx={{ mt: 3 }}
+                        disabled={otpCode.length !== 6}
+                    >
+                        Verificar
+                    </LoadingButton>
+                </div>
+
+                <Box sx={stylesForm}>
+                    <PassworUpdate2
+                        onSubmit={onSubmitRecepPassword}
+                        handleSubmit={handleSubmit}
+                        register={register}
+                        errors={errors}
+                        fields={fieldsConfirmePass2}
+                        showPassword={showPassword}
+                        togglePasswordVisibility={() => setShowPassword(!showPassword)}
+                        errorInit={errorInitUpdatePass}
+                        errorInitMessage={errorInitMessageUpdatePass}
+                        loading={loadingUpdatePass}
+                        buttonLabel="Actualizar Contraseña"
+                        imageUrl=""
+                        imageAlt="Global2a"
+                        linkUrl=""
+                        linkText=""
+                    />
+
                 </Box>
             </Grid>
 
