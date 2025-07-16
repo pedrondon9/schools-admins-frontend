@@ -4,7 +4,7 @@ import AppContext from '../contexts/ServiceContext'
 import axiosConfigs from './axiosConfig'
 
 function RedirectUser({ isAlloweb, children }) {
-  const { valideLogin } = useContext(AppContext)
+  const { dataUser } = useContext(AppContext)
   const enable = window.localStorage.getItem("enableT")
   axiosConfigs.interceptors.response.use(
 
@@ -15,7 +15,7 @@ function RedirectUser({ isAlloweb, children }) {
     }
   )
 
-  if (valideLogin) {
+  if (dataUser.login) {
     return <Navigate to="/" replace />
   }
   return children

@@ -4,11 +4,9 @@ import AppContext from '../contexts/ServiceContext'
 import axiosConfigs from './axiosConfig'
 
 function Protected({ isAlloweb, children }) {
-  const { Logins, dispatch, errorResponseLogin, userError, Registers, userName, userId, valideLogin } = useContext(AppContext)
-  const enable = window.localStorage.getItem("enableT")
+  const { dataUser } = useContext(AppContext)
 
-
-  if (!valideLogin) {
+  if (!dataUser.login) {
     return <Navigate to="/signIn" replace />
   }
   return children

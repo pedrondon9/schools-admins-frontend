@@ -73,24 +73,30 @@ function Registre() {
     const handleSubmitOpt = async () => {
 
         console.log("OTP ingresado:", otpCode);
+        const Otp = JSON.parse(window.localStorage.getItem(cacheKey)) 
+        console.log("token:", Otp);
+
         // enviar a backend, validar, etc.
         setErrorInitOtp(false)
         setLoadOtp(true)
 
         try {
 
-            const confirmOpt = await axios({ url: `${URL_SERVER}/confirm_opt`, method: "post", data: { otp: otpCode } })
+            const confirmOpt = await axios({ url: `${URL_SERVER}/auth/confir_opt_register_post`, method: "post", data: { otp: otpCode ,token:Otp.token} })
+
+            console.log(confirmOpt.data)
 
             if (confirmOpt.data.verify) {
+                
                 let dataUsers = {
-                    valor: confirmOpt.data.validarLogin,
-                    valorI: confirmOpt.data.userData._id,
-                    nameI: confirmOpt.data.userData.nombre,
-                    emailI: confirmOpt.data.userData.contact,
-                    tokI: confirmOpt.data.token,
-                    confirmEmail: confirmOpt.data.confirmEmail,
+                    login: confirmOpt.data.userData.active,
+                    loginId: confirmOpt.data.userData._id,
+                    logo:confirmOpt.data.userData.logo,
+                    loginName: confirmOpt.data.userData.fullname,
+                    loginToken: confirmOpt.data.token,
                 }
                 window.localStorage.setItem("enableTAdmins", JSON.stringify(dataUsers))
+                window.localStorage.removeItem(cacheKey);
 
                 //console.log(logearse)
 
@@ -101,7 +107,7 @@ function Registre() {
                     payload: dataUsers
                 })
 
-
+                navigate("/")
 
             } else {
 
@@ -113,9 +119,19 @@ function Registre() {
 
             }
         } catch (error) {
+            console.log(error)
+            const messages = error.response.data.mens? error.response.data.mens : 'Error al verificar el OTP'
+            
+            if(error.response.data.mens === null){
+                setErrorInitOtp(true)
+                setErrorInitMessageOtp('')
+
+            }else{
+                setErrorInitOtp(true)
+                setErrorInitMessageOtp(messages)
+            }
             setLoadOtp(false)
-            setErrorInitMessageOtp('Verifica tu conexion')
-            setErrorInitOtp(true)
+          
         }
     };
     //Funcion que se llama despues dpulsar el boton submit
@@ -124,7 +140,7 @@ function Registre() {
         setErrorInit(false)
         console.log("Datos del formulario:", data)
 
-        if (data.password1 !== data.password2) {
+        if (data.password !== data.password2) {
             setErrorInit(true)
             setErrorInitMessage('Las contrasenas no coinsiden')
 
@@ -136,37 +152,45 @@ function Registre() {
 
             setLoad(true)
 
-            const registerPost = await axios({ url: `${URL_SERVER}/login_post`, method: "post", data })
-            console.log(registerPost.data)
+            const registerPost = await axios({ url: `${URL_SERVER}/auth/registro_post`, method: "post", data })
 
             if (registerPost.data.verify) {
-                let dataOpt = {
+                console.log(registerPost.data)
 
-                    timeExpire: Date.now() + 2 * 60 * 1000, // 2 minuto en milisegundos
+                let dataOtp = {
+
+                    timeExpire: Date.now() + 10 * 60 * 1000, // 2 minuto en milisegundos
                     token: registerPost.data.token,
                     confirmEmail: registerPost.data.confirmEmail,
                 }
 
-                window.localStorage.setItem(cacheKey, JSON.stringify(dataOpt))
+                window.localStorage.setItem(cacheKey, JSON.stringify(dataOtp))
 
                 setShowFormOtp(true)
                 setLoad(false)
                 setErrorInitMessage(registerPost.data.mens)
                 setErrorInit(true)
+                setDataOtp(dataOtp);
+                setErrorInitOtp(false);
+                setErrorInitMessageOtp('');
 
             } else {
 
                 setLoad(false)
                 setErrorInitMessage(registerPost.data.mens)
                 setErrorInit(true)
+                setErrorInitOtp(false);
+                setErrorInitMessageOtp('');
 
             }
 
         } catch (error) {
-            //console.log(error)
+            console.log(error,'error')
             setLoad(false)
             setErrorInitMessage('Verifica tu conexion')
             setErrorInit(true)
+            setErrorInitOtp(false);
+            setErrorInitMessageOtp('');
         }
 
     }
@@ -195,7 +219,7 @@ function Registre() {
         */
 
         {
-            name: "password1",
+            name: "password",
             label: "Contraseña",
             type: "password",
             validation: { required: "Campo requerido" },
@@ -231,7 +255,7 @@ function Registre() {
                     setDataOtp({
                         timeExpire: 0,
                         token: '',
-                        confirmEmail: true,
+                        confirmEmail: false,
                     });
                     setShowFormOtp(false);
                     setOtpCode("");
@@ -244,12 +268,12 @@ function Registre() {
                 window.localStorage.setItem(cacheKey, JSON.stringify({
                     timeExpire: 0,
                     token: '',
-                    confirmEmail: true
+                    confirmEmail: false
                 }));
                 setDataOtp({
                     timeExpire: 0,
                     token: '',
-                    confirmEmail: true
+                    confirmEmail: false
                 });
             }
 
@@ -319,17 +343,17 @@ function Registre() {
 
                             </Typography>
                             <OtpInput length={6} onChange={setOtpCode} />
-                            {errorInit && (
+                            {errorInitOtp && (
                                 <Box sx={{ width: "95%", mt: 2 }}>
-                                    <FormAlert message={errorInitMessage} />
+                                    <FormAlert message={errorInitMessageOtp} />
                                 </Box>
                             )}
                             <LoadingButton
-                                loading={loading}
+                                loading={loadingOpt}
                                 variant="contained"
                                 size='small'
                                 color="primary"
-                                onClick={handleSubmit}
+                                onClick={handleSubmitOpt}
                                 sx={{ mt: 3 }}
                                 disabled={otpCode.length !== 6}
                             >

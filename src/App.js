@@ -48,7 +48,6 @@ function App() {
 
 
 
-  const [userData, setUserData] = useState({ permision: ['crear', 'recargar'], name: 'g-nob' })
 
 
   return (
@@ -65,19 +64,12 @@ function App() {
             />
             <Routes>
 
-              <Route exact path="/confirm" element={
-                <RedirectUser>
-                  <OtpForm />
-                </RedirectUser>
-
-              } />
 
               <Route exact path="/updatepass" element={
-                <RedirectUser>
                   <UpdatePassword />
-                </RedirectUser>
-
               } />
+
+
               <Route exact path="/signIn" element={
                 <RedirectUser>
                   <Loginn />
@@ -91,8 +83,11 @@ function App() {
                 </RedirectUser>
               } />
 
+
+
+
               <Route exact path="/" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <Homes />
                 </Protected>
               }
@@ -100,7 +95,7 @@ function App() {
               />
 
               <Route exact path="/setting" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <Setting />
                 </Protected>
               }
@@ -108,7 +103,7 @@ function App() {
               />
 
               <Route exact path="/users" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <Users />
                 </Protected>
               }
@@ -116,64 +111,56 @@ function App() {
               />
 
               <Route exact path="/profil" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <Profil />
                 </Protected>
               }
               />
 
               <Route exact path="/students" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <Students />
                 </Protected>
               }
 
               />
               <Route exact path="/course" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <Course />
                 </Protected>
               }
               />
               <Route exact path="/info_student/:id" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <InfoStudent />
                 </Protected>
               }
               />
               <Route exact path="/profes" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <Profes />
                 </Protected>
               }
               />
               <Route exact path="/info_event/:id" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <EventId />
                 </Protected>
               }
               />
               <Route exact path="/course/:id" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <CourseInfo />
                 </Protected>
               }
               />
               <Route exact path="/events" element={
-                <Protected isAlloweb={!!userData}>
+                <Protected >
                   <Events />
                 </Protected>
               }
 
               />
-              {/*              
-              <Route exact path="/cambiar_password" element={
-                <Protected isAlloweb={!!userData}>
-                  <CambiarPasswords />
-                </Protected>
-              }
-              />
-            */}
 
             </Routes>
           </MenuAppBars>
