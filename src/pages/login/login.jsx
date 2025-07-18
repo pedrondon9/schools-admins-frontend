@@ -1,24 +1,12 @@
 import React, { useEffect, useState, useContext, useRef } from 'react'
-import { Link } from 'react-router-dom'
 import AppContext from '../../contexts/ServiceContext'
-import { PulseLoader } from "react-spinners"
 import { useNavigate } from 'react-router-dom'
-import { ACCIONES, CODE_USER, DATA_USER, ID_USER, LOGIN_SPINNER, NAME_USER, PHONE_USER, PORCENTAGE, RESP_ERROR_LOGIN, SALDO, SALDO_EFECTIVO, TOKEN, TYPE_USER, URL_SERVER, VALIDE_USER } from "../../contexts/constantesVar";
+import {  DATA_USER, ID_USER, NAME_USER, PHONE_USER,TOKEN,  URL_SERVER, VALIDE_USER } from "../../contexts/constantesVar";
 import 'animate.css';
-import toast, { Toaster } from 'react-hot-toast';
 import "./loginn.css"
 import axios from 'axios'
-import ReCAPTCHA from "react-google-recaptcha";
-import axiosConfigs from '../../components/axiosConfig'
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import { Alert, Avatar, IconButton, InputAdornment, Typography } from '@mui/material'
-import MenuAppBars from '../../components/appBar/appBarr'
 import { Box, Grid } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import { AccountCircle, Email, Grid3x3Rounded, Password, PhoneAndroid, PhoneCallback, Send, SendRounded, Visibility, VisibilityOff } from '@mui/icons-material'
-import LoadingButton from '@mui/lab/LoadingButton';
-import { deepPurple } from '@mui/material/colors'
+import { AccountCircle} from '@mui/icons-material'
 import { useForm } from 'react-hook-form';
 import KeyIcon from '@mui/icons-material/Key';
 import ExternalLink from '../../components/form_components/ExternalLink'
@@ -28,7 +16,7 @@ import RegistreForm from '../../components/form_components/form/RegistreForm'
 
 
 
-function Loginn() {
+function Login() {
 
     const navigate = useNavigate();
 
@@ -64,11 +52,14 @@ function Loginn() {
 
             if (logearse.data.verify) {
                 let dataUsers = {
-                    valor: logearse.data.validarLogin,
-                    valorI: logearse.data.userData._id,
-                    nameI: logearse.data.userData.nombre,
-                    emailI: logearse.data.userData.contact,
-                    tokI: logearse.data.token,
+                    login: confirmOpt.data.userData.active,
+                    loginId: confirmOpt.data.userData._id,
+                    logo: confirmOpt.data.userData.logo,
+                    loginName: confirmOpt.data.userData.fullname,
+                    loginToken: confirmOpt.data.token,
+                    schoolTenant: confirmOpt.data.token,
+                    schoolName: confirmOpt.data.token,
+                    schoolLogo: confirmOpt.data.token,
                 }
                 window.localStorage.setItem("enableTAdmins", JSON.stringify(dataUsers))
 
@@ -80,26 +71,7 @@ function Loginn() {
                     type: DATA_USER,
                     payload: dataUsers
                 })
-                dispatch({
-                    type: TOKEN,
-                    payload: logearse.data.token
-                })
-
-                dispatch({
-                    type: NAME_USER,
-                    payload: logearse.data.userData.nombre
-                })
-
-                dispatch({
-                    type: ID_USER,
-                    payload: logearse.data.userData._id
-                })
-
-                dispatch({
-                    type: PHONE_USER,
-                    payload: logearse.data.userData.contact
-                })
-
+            
 
             } else {
                 let dataUsers = {
@@ -109,23 +81,17 @@ function Loginn() {
                     emailI: "",
                     tokI: "",
                 }
-                setLoad(false)
-                dispatch({
-                    type: VALIDE_USER,
-                    payload: false
-                })
+
                 dispatch({
                     type: DATA_USER,
                     payload: dataUsers
                 })
-                dispatch({
-                    type: ID_USER,
-                    payload: ""
-                })
+               
 
                 window.localStorage.setItem("enableTAdmins", JSON.stringify(dataUsers))
                 setErrorInitMessage(logearse.data.mens)
                 setErrorInit(true)
+                setLoad(false)
 
             }
 
@@ -191,4 +157,4 @@ function Loginn() {
     );
 };
 
-export default Loginn;
+export default Login;

@@ -52,7 +52,7 @@ const columns1 = [
 ];
 
 function DataTable() {
-    const { userId, typeUser, acciones ,AxiosConfigsToken} = React.useContext(AppContext)
+    const { AxiosConfigsToken} = React.useContext(AppContext)
 
     //SWR para hacer peticiones
 

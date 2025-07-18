@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { stylesForm, textStyleP } from '../../components/form_components/styleForm'
 import RegistrePost from './registerPost'
 import RegistreConfirmOTP from './registerConfirmOtp'
-import RegisterCreateSchool from './registerCreateSchool'
+import RegisterCreate from './registerCreate'
 
 
 
@@ -80,7 +80,7 @@ function Registre() {
 
                     <RegistreConfirmOTP setDataOTP={(data) => setDataOtp(data)} dataOTP={dataOtp} chooseForm ={"a"} />
 
-                    <RegisterCreateSchool setDataOTP={(data) => setDataOtp(data)} dataOTP={dataOtp} chooseForm ={"a"} />
+                    <RegisterCreate setDataOTP={(data) => setDataOtp(data)} dataOTP={dataOtp} chooseForm ={"a"} />
 
 
                 </Box>

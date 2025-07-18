@@ -8,9 +8,9 @@ import { Box, Grid } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { stylesForm, textStyleP } from '../../components/form_components/styleForm'
-import RegistrePost from './registerPost'
-import RegistreConfirmOTP from './registerConfirmOtp'
-import RegisterCreateSchool from './registerCreateSchool'
+import UpdatePost from './updatePost'
+import UpdatePasswordConfirmOTP from './updatePasswordConfirmOTP'
+import UpdatePasswordCreateNew from './updatePasswordCreateNew'
 
 
 
@@ -65,11 +65,11 @@ function Registre() {
             >
                 <Box sx={stylesForm}>
 
-                    <RegistrePost setDataOTP={(data) => setDataOtp(data)} dataOTP={dataOtp} chooseForm={"a"} />
+                    <UpdatePost setDataOTP={(data) => setDataOtp(data)} dataOTP={dataOtp} chooseForm={"a"} />
 
-                    <RegistreConfirmOTP setDataOTP={(data) => setDataOtp(data)} dataOTP={dataOtp} chooseForm={"a"} />
+                    <UpdatePasswordConfirmOTP setDataOTP={(data) => setDataOtp(data)} dataOTP={dataOtp} chooseForm={"a"} />
 
-                    <RegisterCreateSchool setDataOTP={(data) => setDataOtp(data)} dataOTP={dataOtp} chooseForm={"a"} />
+                    <UpdatePasswordCreateNew setDataOTP={(data) => setDataOtp(data)} dataOTP={dataOtp} chooseForm={"a"} />
 
                 </Box>
             </Grid>

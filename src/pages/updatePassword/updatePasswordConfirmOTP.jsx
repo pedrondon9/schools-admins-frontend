@@ -16,14 +16,15 @@ import OtpInput from '../../components/form_components/form/OtpInput'
 import FormAlert from '../../components/form_components/FormAlert'
 import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
 import { handleSubmitOptF, onSubmitResendOTPF } from '../../components/form_components/form_submit/onSubmitOtp';
+import { cacheKeyUpdatePassword } from '../../components/form_components/constantVariable';
 
 
 
 
 
-function RegistreConfirmOTP({ dataOTP, setDataOTP }) {
+function UpdatePasswordConfirmOTP({ dataOTP, setDataOTP }) {
 
-
+    const cacheKey = cacheKeyUpdatePassword
 
     const [loading, setLoad] = useState(false)//estado para activar el spinner del boton submit
 
@@ -32,7 +33,6 @@ function RegistreConfirmOTP({ dataOTP, setDataOTP }) {
     const [otpCode, setOtpCode] = useState("");
     const [loadingOpt, setLoadOtp] = useState(false)
 
-    const cacheKey = 'otpUpdatePass';
 
 
 
@@ -131,4 +131,4 @@ function RegistreConfirmOTP({ dataOTP, setDataOTP }) {
     );
 };
 
-export default RegistreConfirmOTP;
+export default UpdatePasswordConfirmOTP;

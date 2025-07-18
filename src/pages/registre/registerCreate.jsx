@@ -14,9 +14,10 @@ import ExternalLink from '../../components/form_components/ExternalLink'
 
 import { fieldCreate, fields, fieldUpdatePassword } from '../../components/form_components/arrayFields'
 import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
+import { cacheKeyRegister } from '../../components/form_components/constantVariable';
 
 
-function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
+function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
 
 
     const { } = useContext(AppContext)
@@ -28,7 +29,7 @@ function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
     const [showPassword, setShowPassword] = useState(false);
 
 
-    const cacheKey = 'otpCodeCache';
+    const cacheKey = cacheKeyRegister;
 
 
 
@@ -76,7 +77,7 @@ function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
 
                     //console.log(logearse)
 
-                    setLoadOtp(false)
+                    setLoad(false)
 
                     dispatch({
                         type: DATA_USER,
@@ -164,4 +165,4 @@ function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
     );
 };
 
-export default RegisterCreateSchool;
+export default RegisterCreate;

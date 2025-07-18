@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from 'react'
 import AppContext from '../../contexts/ServiceContext'
 import {
-    DATA_USER,
     URL_SERVER,
 } from "../../contexts/constantesVar";
 import 'animate.css';
@@ -12,12 +11,16 @@ import { useForm } from 'react-hook-form';
 import RegistreForm from "../../components/form_components/form/RegistreForm"
 import ExternalLink from '../../components/form_components/ExternalLink'
 
-import { fieldCreate, fieldEmail, fields, fieldUpdatePassword } from '../../components/form_components/arrayFields'
-import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
+import { fieldEmail, fields } from '../../components/form_components/arrayFields'
 import OnSubmit from '../../components/form_components/form_submit/onSubmitForm';
+import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
+import { cacheKeyUpdatePassword } from '../../components/form_components/constantVariable';
 
 
-function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
+
+
+
+function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
 
 
     const { } = useContext(AppContext)
@@ -29,7 +32,7 @@ function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
     const [showPassword, setShowPassword] = useState(false);
 
 
-    const cacheKey = 'otpUpdatePass';
+    const cacheKey = cacheKeyUpdatePassword;
 
 
 
@@ -43,23 +46,11 @@ function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
 
 
     //Funcion que se llama despues dpulsar el boton submit
-
     const onSubmit = async (data) => {
 
         if (chooseForm === "a") {
-
-
-            if (data.password !== data.password2) {
-                setErrorInit(true)
-                setErrorInitMessage('Las contrasenas no coinsiden')
-                return
-            }
-
-            await OnSubmit(data, 'auth/registro_post', setLoad, setErrorInitMessage, setErrorInit, setDataOTP, cacheKey)
-
-
+            await OnSubmit(data,'update_pass/send_otp', setLoad, setErrorInitMessage, setErrorInit, setDataOTP,cacheKey)
         }
-
 
     }
 
@@ -67,24 +58,25 @@ function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
     useEffect(() => {
         try {
 
-            CacheDataOtp(cacheKey, setDataOTP)
+            CacheDataOtp(cacheKey,setDataOTP)
 
         } catch (error) {
-        }
-    }, []);
 
+        }
+
+    }, [])
 
     return (
         <>
 
-            {dataOTP?.confirmEmail === "2" ?
+            {dataOTP?.confirmEmail === "0" ?
                 <>
                     <RegistreForm
                         onSubmit={onSubmit}
                         handleSubmit={handleSubmit}
                         register={register}
                         errors={errors}
-                        fields={fieldUpdatePassword}
+                        fields={fieldEmail}
                         showPassword={showPassword}
                         togglePasswordVisibility={() => setShowPassword(!showPassword)}
                         errorInit={errorInit}
@@ -96,6 +88,7 @@ function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
                         linkUrl=""
                         linkText=""
                     />
+                    <ExternalLink url={"/signIn"} text={"Si ya tienes una cuenta inicia"} />
                 </>
                 :
                 <></>
@@ -105,4 +98,4 @@ function RegisterCreateSchool({ setDataOTP, dataOTP, chooseForm }) {
     );
 };
 
-export default RegisterCreateSchool;
+export default RegistrePost;

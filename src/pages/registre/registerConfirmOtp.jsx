@@ -16,6 +16,7 @@ import OtpInput from '../../components/form_components/form/OtpInput'
 import FormAlert from '../../components/form_components/FormAlert'
 import { handleSubmitOptF, onSubmitResendOTPF } from '../../components/form_components/form_submit/onSubmitOtp';
 import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
+import { cacheKeyRegister } from '../../components/form_components/constantVariable';
 
 
 
@@ -28,7 +29,7 @@ function RegistreConfirmOTP({ dataOTP, setDataOTP }) {
     const [otpCode, setOtpCode] = useState("");
     const [loadingOpt, setLoadOtp] = useState(false)
 
-    const cacheKey = 'otpCodeCache';
+    const cacheKey = cacheKeyRegister;
 
 
 

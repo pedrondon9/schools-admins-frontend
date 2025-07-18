@@ -14,6 +14,7 @@ import ExternalLink from '../../components/form_components/ExternalLink'
 import { fields } from '../../components/form_components/arrayFields'
 import OnSubmit from '../../components/form_components/form_submit/onSubmitForm';
 import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
+import { cacheKeyRegister } from '../../components/form_components/constantVariable';
 
 
 
@@ -31,7 +32,7 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
     const [showPassword, setShowPassword] = useState(false);
 
 
-    const cacheKey = 'otpCodeCache';
+    const cacheKey = cacheKeyRegister;
 
 
 

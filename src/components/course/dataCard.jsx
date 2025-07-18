@@ -54,7 +54,10 @@ const columns1 = [
 ];
 
 function DataCard() {
-    const { userId, typeUser, acciones, AxiosConfigsToken } = React.useContext(AppContext)
+    const { AxiosConfigsToken ,dataUser} = React.useContext(AppContext)
+    let userId = dataUser.loginName
+    let userName = dataUser.loginId
+    let valideLogin = dataUser.login
 
     //SWR para hacer peticiones
 
