@@ -30,7 +30,6 @@ import { EventId } from './pages/events/eventId';
 import { Profes } from './pages/profe/profes';
 import Setting from './pages/setting/setting';
 import Registre from './pages/registre/registre';
-import OtpForm from './pages/confirmEmail/confirmEmail';
 import UpdatePassword from './pages/updatePassword/updatePassword';
 
 const queryClient = new QueryClient()

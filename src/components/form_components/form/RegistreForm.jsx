@@ -1,13 +1,13 @@
-// components/form/ReusableForm.jsx
 import React from "react";
 import { Box } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import TextFieldInput from "./TextFieldInput";
-import FormAlert from "./FormAlert";
-import FormImage from "./FormImage";
-import ExternalLink from "./ExternalLink";
+import TextFieldInput from "../TextFieldInput";
+import FormAlert from "../FormAlert";
+import FormImage from "../FormImage";
+import ExternalLink from "../ExternalLink";
+import SelectInput from "../SelectInput";
 
-const RecetPassword = ({
+const RegistreForm = ({
     onSubmit,
     handleSubmit,
     register,
@@ -38,18 +38,30 @@ const RecetPassword = ({
 
             {fields.map((field) => (
                 <Box key={field.name} sx={{ width: "95%", mt: 2 }}>
-                    <TextFieldInput
-                        name={field.name}
-                        label={field.label}
-                        type={field.type}
-                        register={register}
-                        validation={field.validation}
-                        error={errors?.[field.name]}
-                        helperText={errors?.[field.name]?.message}
-                        startIcon={field.startIcon}
-                        showPassword={showPassword}
-                        togglePasswordVisibility={togglePasswordVisibility}
-                    />
+                    {field.type === "select" ? (
+                        <SelectInput
+                            name={field.name}
+                            label={field.label}
+                            options={field.options}
+                            register={register}
+                            validation={field.validation}
+                            error={errors?.[field.name]}
+                        />
+                    ) : (
+                        <TextFieldInput
+                            name={field.name}
+                            label={field.label}
+                            type={field.type}
+                            register={register}
+                            validation={field.validation}
+                            error={errors?.[field.name]}
+                            helperText={errors?.[field.name]?.message}
+                            //startIcon={field?.startIcon}
+                            showPassword={showPassword}
+                            togglePasswordVisibility={togglePasswordVisibility}
+                        />
+                    )}
+
                 </Box>
             ))}
 
@@ -59,7 +71,7 @@ const RecetPassword = ({
                 </Box>
             )}
 
-            <Box sx={{ width: "95%", mt: 4 }}>
+            <Box sx={{ width: "95%", mt: 2 }}>
                 <LoadingButton
                     loading={loading}
                     variant="contained"
@@ -77,4 +89,4 @@ const RecetPassword = ({
     );
 };
 
-export default RecetPassword;
+export default RegistreForm;

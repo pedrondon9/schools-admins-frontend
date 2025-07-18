@@ -21,9 +21,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { deepPurple } from '@mui/material/colors'
 import { useForm } from 'react-hook-form';
 import KeyIcon from '@mui/icons-material/Key';
-import LoginForm from "../../components/form_components/LoginForm"
 import ExternalLink from '../../components/form_components/ExternalLink'
 import { stylesForm } from '../../components/form_components/styleForm'
+import RegistreForm from '../../components/form_components/form/RegistreForm'
 
 
 
@@ -166,7 +166,7 @@ function Loginn() {
             sx={{ display: "flex", minHeight: "100vh", justifyContent: "center", alignItems: "center" }}
         >
             <Box sx={stylesForm}>
-                <LoginForm
+                <RegistreForm
                     onSubmit={onSubmit}
                     handleSubmit={handleSubmit}
                     register={register}
@@ -185,7 +185,7 @@ function Loginn() {
                 />
 
                 <ExternalLink url={"/signUp"} text={"Si todavia no tienes una cuenta crea tu cuenta"} />
-                <ExternalLink url={"/signUp"} text={"Y Si no recuerdas tu contrasenas, la puedes recuperar"} />
+                <ExternalLink url={"/updatepass"} text={"Y Si no recuerdas tu contrasenas, la puedes recuperar"} />
             </Box>
         </Grid>
     );
