@@ -17,6 +17,7 @@ import {
 import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
 import { cacheKeyRegister } from '../../components/form_components/constantVariable';
 import { OnSubmitRegister } from '../../components/form_components/form_submit/onSubmitForm';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
   const { dispatch } = useContext(AppContext);
@@ -29,6 +30,9 @@ function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const cacheKey = cacheKeyRegister;
+
+  const navigate = useNavigate();
+
 
   //el useForm de react form hook
   const {
