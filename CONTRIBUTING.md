@@ -1,4 +1,3 @@
-
 Development Guidelines
 Use ESLint and Prettier to maintain consistent code style.
 
@@ -30,11 +29,12 @@ Do not mutate state or props directly.
 
 Use tools:
 
-
 # Format code
+
 npx prettier --write .
 
 # Lint code
+
 npx eslint . --ext .js,.jsx
 React Best Practices
 Use functional components and React Hooks.
@@ -54,21 +54,20 @@ Avoid inline styles; use CSS Modules, styled-components, or Tailwind CSS.
 Example Folder Structure
 src/
 ├── components/
-│   ├── Button/
-│   │   ├── Button.jsx
-│   │   ├── Button.module.css
-│   │   └── index.js
+│ ├── Button/
+│ │ ├── Button.jsx
+│ │ ├── Button.module.css
+│ │ └── index.js
 ├── hooks/
-│   └── useAuth.js
+│ └── useAuth.js
 ├── pages/
-│   └── Home.jsx
+│ └── Home.jsx
 ├── utils/
-│   └── formatDate.js
+│ └── formatDate.js
 ├── App.jsx
 └── index.js
 Pull Requests
 Sync with main or dev before submitting:
-
 
 git pull origin main
 Run npm run lint and npm run test before pushing.

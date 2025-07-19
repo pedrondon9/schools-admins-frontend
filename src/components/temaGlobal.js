@@ -1,20 +1,19 @@
-import { ThemeProvider, createTheme,responsiveFontSizes } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { esES } from '@mui/material/locale';
 
-
-const TemaGlobals = createTheme({
+const TemaGlobals = createTheme(
+  {
     palette: {
       primary: {
-        main:'#6200ea'
+        main: '#6200ea',
       },
-      textColorTitle:"#5900d6",
-      textColorTitle2:"#212121",
-      backgroundColorPage:"#eee",
-      principalColor:"#ff9800",
-      
+      textColorTitle: '#5900d6',
+      textColorTitle2: '#212121',
+      backgroundColorPage: '#eee',
+      principalColor: '#ff9800',
     },
-},
-esES
+  },
+  esES
 );
 
-export const TemaGlobal = responsiveFontSizes(TemaGlobals)
+export const TemaGlobal = responsiveFontSizes(TemaGlobals);

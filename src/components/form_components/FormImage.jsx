@@ -1,13 +1,19 @@
-
-
 // components/media/FormImage.jsx
-import React from "react";
-import { Box } from "@mui/material";
+import React from 'react';
+import { Box } from '@mui/material';
 
 const FormImage = ({ src, alt }) => {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", my: 2, }}>
-      <img src={src} alt={alt} width={250} loading="lazy" />
+    <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+      <img
+        style={{
+          filter: 'grayscale(100%)',
+        }}
+        src={src}
+        alt={alt}
+        width={80}
+        loading="lazy"
+      />
     </Box>
   );
 };

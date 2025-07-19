@@ -50,4 +50,3 @@ This Code of Conduct is adapted from the [Contributor Covenant](https://www.cont
 ---
 
 Thank you for helping to make this project a respectful and inclusive space for everyone.
-

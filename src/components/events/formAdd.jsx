@@ -14,45 +14,32 @@ import { Add, CloudUpload, UploadFile, UploadSharp } from '@mui/icons-material';
 import AppContext from '../../contexts/ServiceContext';
 import { DatePicker } from '@mui/lab';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { es } from 'date-fns/locale'
+import { es } from 'date-fns/locale';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateField } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 
-
-
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-
-
-
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: { xs: "90%", sm: "70%", md: "500px" },
-  bgcolor: "#fff",//'background.paper',
+  width: { xs: '90%', sm: '70%', md: '500px' },
+  bgcolor: '#fff', //'background.paper',
   boxShadow: 24,
   pb: 4,
   pt: 4,
-  overflowY: "scroll",
-  height: '500px'
+  overflowY: 'scroll',
+  height: '500px',
 };
 
-
-
-
-
 export default function FormAdd() {
+  const { userId, AxiosConfigsToken } = React.useContext(AppContext);
 
-  const { userId, AxiosConfigsToken } = React.useContext(AppContext)
-
-
-
-  const { mutate } = useSWRConfig()
+  const { mutate } = useSWRConfig();
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -70,7 +57,7 @@ export default function FormAdd() {
   const [openM, setOpenM] = React.useState(false);
   const handleOpenM = () => setOpenM(true);
   const handleCloseM = () => {
-    setOpenM(false)
+    setOpenM(false);
     //setImagen(null)
     //setPreviImage(null)
   };
@@ -78,13 +65,10 @@ export default function FormAdd() {
 
   const theme = useTheme();
   const [perfils, setPerfils] = React.useState('');
-  const [birthdate, setBirthdate] = React.useState('')
-  const [previImage, setPreviImage] = React.useState(null)
-  const [imagen, setImagen] = React.useState(null)
-  const [load, setLoad] = React.useState(false)//estado para activar el spinner del boton submit
-
-
-
+  const [birthdate, setBirthdate] = React.useState('');
+  const [previImage, setPreviImage] = React.useState(null);
+  const [imagen, setImagen] = React.useState(null);
+  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
 
   //el useForm de react form hook
   const {
@@ -92,143 +76,130 @@ export default function FormAdd() {
     handleSubmit,
     reset,
     control,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
   //para enviar datos en el servidor
   const onSubmit = async (data) => {
-
-
     var etiquetas = new Array();
     // This will return an array with strings "1", "2", etc.
-    etiquetas = data.etiquetas.split(",")
+    etiquetas = data.etiquetas.split(',');
 
-
-    console.log(data, etiquetas)
-
+    console.log(data, etiquetas);
 
     try {
-      setLoad(true)
-      const fs = new FormData()
+      setLoad(true);
+      const fs = new FormData();
 
-      fs.append("imagen1", imagen)
-      fs.append("titulo", data.titulo)
-      fs.append("contenido", data.contenido)
-      fs.append("autor", data.autor)
-      fs.append("categoria", data.categoria)
-      fs.append("etiquetas", etiquetas)
+      fs.append('imagen1', imagen);
+      fs.append('titulo', data.titulo);
+      fs.append('contenido', data.contenido);
+      fs.append('autor', data.autor);
+      fs.append('categoria', data.categoria);
+      fs.append('etiquetas', etiquetas);
 
       const sendData = await axiosConfigs({
         url: `/create_event`,
-        method: "post",
+        method: 'post',
         data: fs,
-        headers: { "Content-Type": "multipart/form-data" }
-      }
-      )
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       if (sendData.data.verificar) {
-        toast.success(`${sendData.data.mens}`)
+        toast.success(`${sendData.data.mens}`);
         reset({
-          courseName: "",
-          courseCode: "",
-          description: "",
-          open: "",
-          posGalery: ""
-        })
-        setImagen(null)
-        setPreviImage(null)
-        setLoad(false)
-        mutate("getEvents")
-        handleCloseM()
-
-
+          courseName: '',
+          courseCode: '',
+          description: '',
+          open: '',
+          posGalery: '',
+        });
+        setImagen(null);
+        setPreviImage(null);
+        setLoad(false);
+        mutate('getEvents');
+        handleCloseM();
       } else {
-        toast.error(`${sendData.data.mens}`)
-        setLoad(false)
+        toast.error(`${sendData.data.mens}`);
+        setLoad(false);
       }
     } catch (error) {
-      console.log(error)
-      toast.error(`Hay un problema front`)
-      setLoad(false)
+      console.log(error);
+      toast.error(`Hay un problema front`);
+      setLoad(false);
     }
-
-  }
+  };
 
   const getPerfil = async () => {
     try {
-      const res = await AxiosConfigsToken.get('/obtener_roles')
-      const data = res.data.data.docs
+      const res = await AxiosConfigsToken.get('/obtener_roles');
+      const data = res.data.data.docs;
 
-      setPerfils(data)
-    } catch (error) {
-
-    }
-
-  }
-
+      setPerfils(data);
+    } catch (error) {}
+  };
 
   const getImgUser = (e) => {
-    const arrayImg = ["jpg", "png", "jpeg", "JPG", "PNG", "JPEG"]
-    const WIDTH = 300
-
+    const arrayImg = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
+    const WIDTH = 300;
 
     if (e[0]) {
-      const imgExtension = e[0].name.split(".")[e[0].name.split(".").length - 1]
-
-
+      const imgExtension = e[0].name.split('.')[e[0].name.split('.').length - 1];
 
       if (arrayImg.includes(imgExtension)) {
-        const reader = new FileReader()
-        reader.readAsDataURL(e[0])
+        const reader = new FileReader();
+        reader.readAsDataURL(e[0]);
         reader.onload = (event) => {
-          let img_url = event.target.result
+          let img_url = event.target.result;
           //console.log(img_url)
-          let image = document.createElement("img")
-          image.src = img_url
+          let image = document.createElement('img');
+          image.src = img_url;
           image.onload = async (e) => {
             //COMENZANDO CON LA REDUCCION DEL TAMAÑO DEL IMAGEN
-            let canvas = document.createElement("canvas")
-            let ratio = WIDTH / e.target.width
-            canvas.width = WIDTH
-            canvas.height = e.target.height * ratio
-            //crear objeto canvas 
-            const context = canvas.getContext("2d")
-            context.drawImage(image, 0, 0, canvas.width, canvas.height)
-            let new_img_url = context.canvas.toDataURL("image/png", 100)//obtencion del imagen en base64
-            setPreviImage(new_img_url)
-            console.log(new_img_url)
+            let canvas = document.createElement('canvas');
+            let ratio = WIDTH / e.target.width;
+            canvas.width = WIDTH;
+            canvas.height = e.target.height * ratio;
+            //crear objeto canvas
+            const context = canvas.getContext('2d');
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            let new_img_url = context.canvas.toDataURL('image/png', 100); //obtencion del imagen en base64
+            setPreviImage(new_img_url);
+            console.log(new_img_url);
 
+            //VOLVER A CONVERTIR LA IMAGEN EN FORMATO BLOB ES DECIR PASMOS DE "base64 ----> blob"
+            const img_fetch = await fetch(`data:image/png;base64,${new_img_url.split(',')[1]}`);
+            const img_convert_to_blob = await img_fetch.blob('image/png');
 
-            //VOLVER A CONVERTIR LA IMAGEN EN FORMATO BLOB ES DECIR PASMOS DE "base64 ----> blob" 
-            const img_fetch = await fetch(`data:image/png;base64,${new_img_url.split(",")[1]}`)
-            const img_convert_to_blob = await img_fetch.blob("image/png")
-
-            setImagen(img_convert_to_blob)
-            console.log(img_convert_to_blob)
-
-          }
-        }
+            setImagen(img_convert_to_blob);
+            console.log(img_convert_to_blob);
+          };
+        };
       } else {
-        setImagen(null)
+        setImagen(null);
       }
     } else {
-      setImagen(null)
-
+      setImagen(null);
     }
-  }
+  };
 
   React.useEffect(() => {
-    getPerfil()
+    getPerfil();
     //setImagen(null)
     //setPreviImage(null)
-  }, [])
+  }, []);
 
   return (
-    <Box sx={{ height: "auto", width: '100%', marginBottom: "10px", display: "flex", justifyContent: "end" }}>
-      <Button
-        variant="contained"
-        onClick={handleOpenM}
-        size='small'
-      ><Add />
+    <Box
+      sx={{
+        height: 'auto',
+        width: '100%',
+        marginBottom: '10px',
+        display: 'flex',
+        justifyContent: 'end',
+      }}
+    >
+      <Button variant="contained" onClick={handleOpenM} size="small">
+        <Add />
       </Button>
       <Modal
         open={openM}
@@ -236,109 +207,186 @@ export default function FormAdd() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         disableScrollLock={true}
-
       >
-       <Box sx={style}>
-          <Typography variant='h6' sx={{ textAlign: "center", marginBottom: 2, color: "textColorTitle" }}>Publicar</Typography>
-          <Grid sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-              <Box sx={{ width: "100%", display: "flex", justifyContent: "center", flexDirection: "column" }}>
-
-
-
-
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
-                    <InputLabel size='small' id="demo-simple-select-label">Categoria</InputLabel>
+        <Box sx={style}>
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: 'center',
+              marginBottom: 2,
+              color: 'textColorTitle',
+            }}
+          >
+            Publicar
+          </Typography>
+          <Grid sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}
+              >
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
+                    <InputLabel size="small" id="demo-simple-select-label">
+                      Categoria
+                    </InputLabel>
                     <Select
-                      size='small'
+                      size="small"
                       labelId="demo-simple-select-label"
                       id="demo-simple-selectz"
                       label="Categoria"
-                      {...register("categoria", { required: true })}
-
+                      {...register('categoria', { required: true })}
                     >
-                      <MenuItem value="Tecnologia" >Tecnologia</MenuItem>
-                      <MenuItem value="Educacion" >Educacion</MenuItem>
-
-                    </Select >
+                      <MenuItem value="Tecnologia">Tecnologia</MenuItem>
+                      <MenuItem value="Educacion">Educacion</MenuItem>
+                    </Select>
                   </FormControl>
                 </div>
 
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
                     <TextField
-                      size='small'
+                      size="small"
                       id="outlined-basic"
                       label="Titulo"
                       variant="outlined"
-                      {...register("titulo", { required: "Campo requerido", minLength: 1 })}
+                      {...register('titulo', {
+                        required: 'Campo requerido',
+                        minLength: 1,
+                      })}
                     />
                   </FormControl>
                 </div>
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
                     <TextField
-                      size='small'
+                      size="small"
                       multiline
                       id="outlined-basic"
                       label="Parafo 1 (Obligatorio)"
                       variant="outlined"
-                      {...register("contenido", { required: "Campo requerido", minLength: 1 })}
+                      {...register('contenido', {
+                        required: 'Campo requerido',
+                        minLength: 1,
+                      })}
                     />
                   </FormControl>
                 </div>
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
                     <TextField
-                      size='small'
+                      size="small"
                       multiline
                       id="outlined-basic"
                       label="Parafo 2 (Opcional)"
                       variant="outlined"
-                      {...register("contenido1", { required: "Campo requerido", minLength: 1 })}
+                      {...register('contenido1', {
+                        required: 'Campo requerido',
+                        minLength: 1,
+                      })}
                     />
                   </FormControl>
                 </div>
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
                     <TextField
-                      size='small'
+                      size="small"
                       multiline
                       id="outlined-basic"
                       label="Parafo 3 (Opcional)"
                       variant="outlined"
-                      {...register("contenido2", { required: "Campo requerido", minLength: 1 })}
+                      {...register('contenido2', {
+                        required: 'Campo requerido',
+                        minLength: 1,
+                      })}
                     />
                   </FormControl>
                 </div>
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
                     <TextField
-                      size='small'
+                      size="small"
                       multiline
                       id="outlined-basic"
                       label="Parafo 4 (Opcional)"
                       variant="outlined"
-                      {...register("contenido3", { required: "Campo requerido", minLength: 1 })}
+                      {...register('contenido3', {
+                        required: 'Campo requerido',
+                        minLength: 1,
+                      })}
                     />
                   </FormControl>
                 </div>
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
                     <TextField
-                      size='small'
+                      size="small"
                       multiline
                       id="outlined-basic"
                       label="Etiquetas (separadas por comas)"
                       variant="outlined"
-                      {...register("etiquetas", { required: "Campo requerido", minLength: 1 })}
+                      {...register('etiquetas', {
+                        required: 'Campo requerido',
+                        minLength: 1,
+                      })}
                     />
                   </FormControl>
                 </div>
 
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
                     <Button
                       component="label"
                       role={undefined}
@@ -347,61 +395,72 @@ export default function FormAdd() {
                       startIcon={<CloudUpload />}
                     >
                       La foto de la noticia
-                      <VisuallyHiddenInput type="file" onChange={(e) => getImgUser(e.target.files)} />
+                      <VisuallyHiddenInput
+                        type="file"
+                        onChange={(e) => getImgUser(e.target.files)}
+                      />
                     </Button>
                   </FormControl>
                 </div>
 
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "40%" }}>
-                    {previImage ?
-                      <img src={previImage} alt="" />
-
-                      :
-                      <></>
-                    }
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '40%' }}>
+                    {previImage ? <img src={previImage} alt="" /> : <></>}
                   </FormControl>
-
                 </div>
 
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
                     <TextField
-                      size='small'
+                      size="small"
                       id="outlined-basic"
                       label="Autor"
                       variant="outlined"
-                      {...register("autor", { required: "Campo requerido", minLength: 1 })}
+                      {...register('autor', {
+                        required: 'Campo requerido',
+                        minLength: 1,
+                      })}
                     />
                   </FormControl>
                 </div>
 
-
-
-
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 2, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 2, width: '95%' }}>
                     <LoadingButton
                       loading={load}
                       variant="contained"
                       color="primary"
                       type="submit"
-                      sx={{ width: "100%" }}
+                      sx={{ width: '100%' }}
                       size="large"
-
                     >
                       <span>Publicar</span>
                     </LoadingButton>
-
                   </FormControl>
                 </div>
-
               </Box>
             </form>
-
           </Grid>
-        </Box> 
-      </Modal >
-    </Box >
+        </Box>
+      </Modal>
+    </Box>
   );
 }

@@ -40,4 +40,4 @@ This project is the foundation of a future **SaaS (Software as a Service)** plat
    ```bash
    git clone https://github.com/pedrondon9/schools-admins-frontend
    cd schools-admins-frontend
-
+   ```

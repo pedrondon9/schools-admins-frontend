@@ -7,12 +7,6 @@ import { Add } from '@mui/icons-material';
 import { Grid } from '@mui/material';
 import FormUpdate from './formUpdate';
 
-
-
-export default function ModalUpdate({dataUp}) {
-
-
-    return (
-        <FormUpdate dataUp={dataUp}/>
-    );
+export default function ModalUpdate({ dataUp }) {
+  return <FormUpdate dataUp={dataUp} />;
 }

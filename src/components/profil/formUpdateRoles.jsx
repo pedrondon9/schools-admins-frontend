@@ -1,42 +1,46 @@
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-import useSWR, { useSWRConfig } from 'swr'
+import useSWR, { useSWRConfig } from 'swr';
 import FormControl from '@mui/material/FormControl';
-import { Alert, Box, Button, Grid, IconButton, Modal, Snackbar, TextField, Typography } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Modal,
+  Snackbar,
+  TextField,
+  Typography,
+} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useForm } from 'react-hook-form';
 import { Edit } from '@mui/icons-material';
 import toast, { Toaster } from 'react-hot-toast';
 import AppContext from '../../contexts/ServiceContext';
 
-
-
-
-
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: { xs: "90%", sm: "70%", md: "500px" },
+  width: { xs: '90%', sm: '70%', md: '500px' },
   bgcolor: 'background.paper',
   boxShadow: 24,
   pb: 4,
   pt: 4,
 };
 
-
-
 export default function FormUpdateRoles({ dataUser }) {
-  const { userId, AxiosConfigsToken } = React.useContext(AppContext)
+  const { userId, AxiosConfigsToken } = React.useContext(AppContext);
 
   const theme = useTheme();
-  const { mutate } = useSWRConfig()
+  const { mutate } = useSWRConfig();
 
-  const [role, setRole] = React.useState("")
-  const [porcentajje, setPorcentajje] = React.useState("")
-  const [description, setDescription] = React.useState("")
-  const [porcentajjeInt, setPorcentajjeInt] = React.useState("")
+  const [role, setRole] = React.useState('');
+  const [porcentajje, setPorcentajje] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [porcentajjeInt, setPorcentajjeInt] = React.useState('');
   //habrir y cerrar el modal
   const [openM, setOpenM] = React.useState(false);
   const handleOpenM = () => setOpenM(true);
@@ -44,14 +48,13 @@ export default function FormUpdateRoles({ dataUser }) {
   /*********************************** */
 
   /*activar el spinner del botton submit******/
-  const [load, setLoad] = React.useState(false)//estado para activar el spinner del boton submit
+  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
   /*********************************** */
 
-
   /* abrir , cerrar y mensage de alerta *****/
-  const [snackMessage, setsnackMessage] = React.useState("")//mensage del alerta
-  const [open, setOpen] = React.useState(false);//abrir el alerta
-  const [alertType, setAlertType] = React.useState(false)
+  const [snackMessage, setsnackMessage] = React.useState(''); //mensage del alerta
+  const [open, setOpen] = React.useState(false); //abrir el alerta
+  const [alertType, setAlertType] = React.useState(false);
   const handleClick = () => {
     setOpen(true);
   };
@@ -69,75 +72,71 @@ export default function FormUpdateRoles({ dataUser }) {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setPersonName(typeof value === 'string' ? value.split(',') : value);
     //console.log(personName)
   };
 
-
   //para obtener el tipo de admin que se registra
   const handleChangeTipo = (event) => {
-    setPersonName([])
+    setPersonName([]);
     setTipo(event.target.value);
     //console.log(event.target.value)
   };
-
-
 
   //el useForm de react form hook
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
   //para enviar datos en el servidor
   const onSubmit = async (data) => {
-    data.id = dataUser._id
-    data.idSuper = userId
-    data.role = dataUser.name
+    data.id = dataUser._id;
+    data.idSuper = userId;
+    data.role = dataUser.name;
 
     try {
-      setLoad(true)
-      const sendData = await AxiosConfigsToken({ url: `/update_role`, method: "post", data })
+      setLoad(true);
+      const sendData = await AxiosConfigsToken({
+        url: `/update_role`,
+        method: 'post',
+        data,
+      });
       if (sendData.data.verificar) {
-        setLoad(false)
-        mutate('getRoles')
-        setsnackMessage(sendData.data.mens)
-        toast.success(`${sendData.data.mens}`)
-        setAlertType(true)
-        handleClick()
-        handleCloseM()
-
+        setLoad(false);
+        mutate('getRoles');
+        setsnackMessage(sendData.data.mens);
+        toast.success(`${sendData.data.mens}`);
+        setAlertType(true);
+        handleClick();
+        handleCloseM();
       } else {
-        setLoad(false)
-        toast.error(`${sendData.data.mens}`)
-        setAlertType(false)
-        handleClick()
-
+        setLoad(false);
+        toast.error(`${sendData.data.mens}`);
+        setAlertType(false);
+        handleClick();
       }
     } catch (error) {
-      setLoad(false)
-      toast.error("Hay un problema")
-      setAlertType(false)
-      handleClick()
+      setLoad(false);
+      toast.error('Hay un problema');
+      setAlertType(false);
+      handleClick();
     }
-  }
+  };
 
   React.useEffect(() => {
-    setPorcentajje(dataUser.porcentage)
-    setPorcentajjeInt(dataUser.porcentageIntern)
-    setRole(dataUser.name)
-    setDescription(dataUser.description)
-    console.log(dataUser)
-  }, [])
+    setPorcentajje(dataUser.porcentage);
+    setPorcentajjeInt(dataUser.porcentageIntern);
+    setRole(dataUser.name);
+    setDescription(dataUser.description);
+    console.log(dataUser);
+  }, []);
 
   return (
     <>
-
-      <Button sx={{}} size='small' onClick={() => setOpenM(true)} variant="text" >
+      <Button sx={{}} size="small" onClick={() => setOpenM(true)} variant="text">
         <Edit />
       </Button>
 
@@ -148,68 +147,97 @@ export default function FormUpdateRoles({ dataUser }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography variant='h6' sx={{ textAlign: "center", marginBottom: 2, color: "textColorTitle" }}>Actualizar el role </Typography>
-          <Grid sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-            <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-              <Box sx={{ width: "100%", display: "flex", justifyContent: "center", flexDirection: "column" }}>
-
-
-
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 1, width: "95%" }}>
+          <Typography
+            variant="h6"
+            sx={{
+              textAlign: 'center',
+              marginBottom: 2,
+              color: 'textColorTitle',
+            }}
+          >
+            Actualizar el role{' '}
+          </Typography>
+          <Grid sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                }}
+              >
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 1, width: '95%' }}>
                     <TextField
                       id="outlined-basic"
                       label="Modificar role"
                       variant="outlined"
                       //value={role}
                       defaultValue={role}
-                      {...register("role", { required: "Campo requerido", minLength: 1 })}
+                      {...register('role', {
+                        required: 'Campo requerido',
+                        minLength: 1,
+                      })}
                       error={!!errors?.role}
-
                     />
                   </FormControl>
                 </div>
 
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 1, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 1, width: '95%' }}>
                     <TextField
                       id="outlined-basic"
                       label="Modificar role"
                       variant="outlined"
                       //value={role}
                       defaultValue={description}
-                      {...register("description", { required: "Campo requerido", minLength: 1 })}
+                      {...register('description', {
+                        required: 'Campo requerido',
+                        minLength: 1,
+                      })}
                       error={!!errors?.description}
-
                     />
                   </FormControl>
                 </div>
 
-                <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-                  <FormControl sx={{ mb: 1, width: "95%" }}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mb: 1, width: '95%' }}>
                     <LoadingButton
                       loading={load}
                       variant="contained"
                       color="primary"
                       type="submit"
-                      sx={{ width: "100%" }}
+                      sx={{ width: '100%' }}
                       size="large"
-
                     >
                       <span>Actualizar</span>
                     </LoadingButton>
-
                   </FormControl>
-
-
                 </div>
-
               </Box>
             </form>
           </Grid>
         </Box>
       </Modal>
-
     </>
   );
 }
