@@ -29,29 +29,35 @@ export const fields = [
 
 export const fieldCreate = [
     {
-        name: "nameSchool",
+        name: "schoolName",
         label: "Nombre del centro",
         type: "text",
         validation: { required: "Campo requerido" },
         startIcon: null,
     },
     {
-        name: "emailSchool",
+        name: "schoolEmail",
         label: "Correo del centro",
         type: "email",
         validation: { required: "Campo requerido" },
         startIcon: null,
     },
     {
-        name: "phoneSchool",
+        name: "schoolPhone",
         label: "Telefono del centro",
         type: "text",
         validation: { required: "Campo requerido" },
         startIcon: null,
     },
-
     {
-        name: "country",
+        name: "imagen1",
+        label: "El logo del centro",
+        type: "file",
+        validation: { required: "Campo requerido" },
+        startIcon: null,
+    },
+    {
+        name: "schoolCountry",
         label: "Pais",
         type: "select",
         validation: { required: "Selecciona un rol" },
@@ -61,15 +67,15 @@ export const fieldCreate = [
         ],
     },
     {
-        name: "provinceShool",
-        label: "Provincia",
+        name: "schoolCity",
+        label: "Ciudad",
         type: "text",
         validation: { required: "Campo requerido" },
         startIcon: null,
     },
 
     {
-        name: "adressSchool",
+        name: "schoolAddress",
         label: "Direccion",
         type: "text",
         validation: { required: "Campo requerido" },

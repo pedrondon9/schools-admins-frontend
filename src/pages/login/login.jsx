@@ -45,7 +45,7 @@ function Login() {
         try {
             setLoad(true)
 
-            const logearse = await axios({ url: `${URL_SERVER}/login_post`, method: "post", data })
+            const logearse = await axios({ url: `${URL_SERVER}/auth/login_post`, method: "post", data })
             console.log(logearse.data)
 
 
@@ -71,6 +71,9 @@ function Login() {
                     type: DATA_USER,
                     payload: dataUsers
                 })
+
+                navigate("/")
+
             
 
             } else {

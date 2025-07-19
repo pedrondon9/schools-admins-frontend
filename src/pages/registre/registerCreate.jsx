@@ -20,11 +20,12 @@ import { cacheKeyRegister } from '../../components/form_components/constantVaria
 function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
 
 
-    const { } = useContext(AppContext)
+    const { dispatch} = useContext(AppContext)
 
     const [loading, setLoad] = useState(false)//estado para activar el spinner del boton submit
     const [errorInit, setErrorInit] = useState(false)
     const [errorInitMessage, setErrorInitMessage] = useState('')
+    const [arrayFiles, setArrayFiles] = useState('')
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -44,32 +45,39 @@ function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
 
     //Funcion que se llama despues dpulsar el boton submit
     const onSubmit = async (data) => {
-        console.log(data)
-        console.log(dataOTP)
+        console.log(data, arrayFiles)
+        //console.log(dataOTP)
+        const cachedDataOtp = JSON.parse(window.localStorage.getItem(cacheKey)) ? JSON.parse(window.localStorage.getItem(cacheKey)) : null;
 
 
-        if (chooseForm === "bs") {
+        if (cachedDataOtp) {
             setErrorInit(false)
 
             console.log("Datos del formulario:", data)
 
             try {
 
+                const fs = new FormData()
+                fs.append("arrayFiles", arrayFiles)
+                fs.append("schoolData", JSON.stringify(data))
+                fs.append("token", cachedDataOtp.token)
+
                 setLoad(true)
 
-                const registerPost = await axios({ url: `${URL_SERVER}/auth/create_first_admin_post`, method: "post", data })
+                const registerPost = await axios({ url: `${URL_SERVER}/auth/create_first_admin_post`, method: "post",data: fs, headers: { "Content-Type": "multipart/form-data"}  })
 
+                console.log(registerPost.data)
                 if (registerPost.data.verify) {
 
                     let dataUsers = {
-                        login: confirmOpt.data.userData.active,
-                        loginId: confirmOpt.data.userData._id,
-                        logo: confirmOpt.data.userData.logo,
-                        loginName: confirmOpt.data.userData.fullname,
-                        loginToken: confirmOpt.data.token,
-                        schoolTenant: confirmOpt.data.token,
-                        schoolName: confirmOpt.data.token,
-                        schoolLogo: confirmOpt.data.token,
+                        login: registerPost.data.userData.active,
+                        loginId: registerPost.data.userData._id,
+                        logo: registerPost.data.userData.logo,
+                        loginName: registerPost.data.userData.fullname,
+                        loginToken: registerPost.data.token,
+                        schoolTenant: registerPost.data.token,
+                        schoolName: registerPost.data.token,
+                        schoolLogo: registerPost.data.token,
                     }
 
                     window.localStorage.setItem("enableTAdmins", JSON.stringify(dataUsers))
@@ -103,9 +111,19 @@ function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
             } catch (error) {
                 console.log(error, 'error')
 
-                const messages = error.response.data ? error.response.data.mens : 'Error al verificar el OTP'
+                const messages = error.response?.data ? error.response.data.mens : 'Error al verificar el OTP'
 
-                if (error.response.data.mens === null) {
+                if (error.response?.data?.mens === 'token_expired') {
+                    window.localStorage.setItem(cacheKey, JSON.stringify({
+                        timeExpire: 0,
+                        token: '',
+                        confirmEmail: "0"
+                    }));
+                    setDataOTP({
+                        timeExpire: 0,
+                        token: '',
+                        confirmEmail: "0"
+                    });
                     setErrorInit(true)
                     setErrorInitMessage('')
 
@@ -141,16 +159,17 @@ function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
                 <>
                     <RegistreForm
                         onSubmit={onSubmit}
+                        setArrayFiles={setArrayFiles}
                         handleSubmit={handleSubmit}
                         register={register}
                         errors={errors}
-                        fields={fieldUpdatePassword}
+                        fields={fieldCreate}
                         showPassword={showPassword}
                         togglePasswordVisibility={() => setShowPassword(!showPassword)}
                         errorInit={errorInit}
                         errorInitMessage={errorInitMessage}
                         loading={loading}
-                        buttonLabel="Iniciar"
+                        buttonLabel="Registrar"
                         imageUrl=""
                         imageAlt="Global2a"
                         linkUrl=""

@@ -6,9 +6,13 @@ import FormAlert from "../FormAlert";
 import FormImage from "../FormImage";
 import ExternalLink from "../ExternalLink";
 import SelectInput from "../SelectInput";
+import FieldImageInput from "../fieldImage";
+import { Controller, useForm } from "react-hook-form";
+
 
 const RegistreForm = ({
     onSubmit,
+    onChange,
     handleSubmit,
     register,
     errors,
@@ -23,7 +27,10 @@ const RegistreForm = ({
     imageAlt,
     linkUrl,
     linkText,
+    setArrayFiles
 }) => {
+    const { control } = useForm();
+
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
@@ -36,26 +43,39 @@ const RegistreForm = ({
         >
             {imageUrl && <FormImage src={imageUrl} alt={imageAlt} />}
 
-            {fields.map((field) => (
-                <Box key={field.name} sx={{ width: "95%", mt: 2 }}>
-                    {field.type === "select" ? (
-                        <SelectInput
-                            name={field.name}
-                            label={field.label}
-                            options={field.options}
-                            register={register}
-                            validation={field.validation}
-                            error={errors?.[field.name]}
-                        />
+            {fields.map((fld) => (
+                <Box key={fld.name} sx={{ width: "95%", mt: 2 }}>
+                    {fld.type === "select" || fld.type === "file" ? (
+                        <>
+                            {fld.type === "select" ? (
+                                <SelectInput
+                                    name={fld.name}
+                                    label={fld.label}
+                                    options={fld.options}
+                                    register={register}
+                                    validation={fld.validation}
+                                    error={errors?.[fld.name]}
+                                />
+                            ) : (
+                                <Controller
+                                    name='imagen1'
+                                    control={control}
+                                    defaultValue={null}
+                                    render={({ field }) => (
+                                        <FieldImageInput label={fld.label} onFileChange={(file) => {setArrayFiles(file)}} />
+                                    )}
+                                />
+                            )}
+                        </>
                     ) : (
                         <TextFieldInput
-                            name={field.name}
-                            label={field.label}
-                            type={field.type}
+                            name={fld.name}
+                            label={fld.label}
+                            type={fld.type}
                             register={register}
-                            validation={field.validation}
-                            error={errors?.[field.name]}
-                            helperText={errors?.[field.name]?.message}
+                            validation={fld.validation}
+                            error={errors?.[fld.name]}
+                            helperText={errors?.[fld.name]?.message}
                             //startIcon={field?.startIcon}
                             showPassword={showPassword}
                             togglePasswordVisibility={togglePasswordVisibility}
