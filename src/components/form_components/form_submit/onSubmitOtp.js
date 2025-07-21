@@ -65,7 +65,7 @@ export const onSubmitResendOTPF = async (
         const registerPost = await axios({
             url: `${URL_SERVER}/auth/resend_otp`,
             method: 'post',
-            data: { otp: Otp },
+            data: {token: Otp.token },
         });
 
         if (registerPost.data.verify) {

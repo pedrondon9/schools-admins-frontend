@@ -7,6 +7,8 @@ const ErrorG = (error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInitOt
 
         setErrorInitMessage(error.response?.data.dataErrors[0]?.msg);
 
+        return
+
         
 
     }
@@ -15,8 +17,7 @@ const ErrorG = (error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInitOt
 
         setErrorInitMessage(error.response?.data?.message);
         setErrorInitOtp(true)
-
-        
+        return
 
     }
     if (error.response?.status === 405) {
@@ -36,6 +37,7 @@ const ErrorG = (error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInitOt
         });
         setErrorInitMessage('');
         setErrorInitOtp(true)
+        return
 
 
 
@@ -45,11 +47,13 @@ const ErrorG = (error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInitOt
         // No hubo respuesta del servidor
         setErrorInitMessage('No se pudo conectar con el servidor.');
         setErrorInitOtp(true)
+        return
 
     } else {
         // Otro error
         setErrorInitMessage('Error desconocido.');
         setErrorInitOtp(true)
+        return
 
     }
 }
