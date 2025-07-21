@@ -7,7 +7,7 @@ const ErrorG = (error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInitOt
 
         setErrorInitMessage(error.response?.data.dataErrors[0]?.msg);
 
-        return
+        
 
     }
 
@@ -16,7 +16,7 @@ const ErrorG = (error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInitOt
         setErrorInitMessage(error.response?.data?.message);
         setErrorInitOtp(true)
 
-        return
+        
 
     }
     if (error.response?.status === 405) {
@@ -38,7 +38,6 @@ const ErrorG = (error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInitOt
         setErrorInitOtp(true)
 
 
-        return
 
     }
 

@@ -133,15 +133,17 @@ export const OnSubmitRegister = async (
             console.log(registerPost.data);
             if (registerPost.data.verify) {
                 let dataUsers = {
-                    login: registerPost.data.userData.active,
+                    login: registerPost.data.userData.isActive,
                     loginId: registerPost.data.userData._id,
-                    logo: registerPost.data.userData.logo,
-                    loginName: registerPost.data.userData.fullname,
+                    logo: registerPost.data.userData?.logo,
+                    loginName: registerPost.data.userData?.email,
+                    loginEmail: registerPost.data.userData?.email,
                     loginToken: registerPost.data.token,
-                    schoolTenant: registerPost.data.token,
-                    schoolName: registerPost.data.token,
-                    schoolLogo: registerPost.data.token,
+                    schoolTenant: registerPost.data.userData?.school[0]?._id,
+                    schoolName: registerPost.data.userData?.school[0]?.name,
+                    schoolLogo: registerPost.data.userData?.school[0]?.logo,
                 };
+
 
                 window.localStorage.setItem('enableTAdmins', JSON.stringify(dataUsers));
                 window.localStorage.removeItem(cacheKey);

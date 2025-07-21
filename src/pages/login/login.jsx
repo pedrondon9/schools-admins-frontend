@@ -58,18 +58,19 @@ function Login() {
 
       if (logearse.data.verify) {
         let dataUsers = {
-          login: confirmOpt.data.userData.active,
-          loginId: confirmOpt.data.userData._id,
-          logo: confirmOpt.data.userData.logo,
-          loginName: confirmOpt.data.userData.fullname,
-          loginToken: confirmOpt.data.token,
-          schoolTenant: confirmOpt.data.token,
-          schoolName: confirmOpt.data.token,
-          schoolLogo: confirmOpt.data.token,
+          login: logearse.data.userData.isActive,
+          loginId: logearse.data.userData._id,
+          logo: logearse.data.userData?.logo,
+          loginName: logearse.data.userData?.email,
+          loginEmail: logearse.data.userData?.email,
+          loginToken: logearse.data.token,
+          schoolTenant: logearse.data.userData?.school[0]?._id,
+          schoolName: logearse.data.userData?.school[0]?.name,
+          schoolLogo: logearse.data.userData?.school[0]?.logo,
         };
         window.localStorage.setItem('enableTAdmins', JSON.stringify(dataUsers));
 
-        //console.log(logearse)
+        console.log(dataUsers)
 
         setLoad(false);
 
@@ -97,10 +98,12 @@ function Login() {
         setErrorInitMessage(logearse.data.message);
         setErrorInit(true);
         setLoad(false);
+
+        
       }
     } catch (error) {
 
-      ErrorG(error, setErrorInitMessage, "", "","")
+      ErrorG(error, setErrorInitMessage, "", "",setErrorInit)
 
       setErrorInit(true);
       setLoad(false);
