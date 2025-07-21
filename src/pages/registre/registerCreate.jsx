@@ -44,7 +44,7 @@ function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
 
   //Funcion que se llama despues dpulsar el boton submit
   const onSubmit = async (data) => {
-    console.log(data, arrayFiles);
+    //console.log(data, arrayFiles);
     //console.log(dataOTP)
     OnSubmitRegister(
       data,

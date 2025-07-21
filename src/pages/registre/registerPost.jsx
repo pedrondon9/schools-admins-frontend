@@ -15,88 +15,94 @@ import { cacheKeyRegister } from '../../components/form_components/constantVaria
 import { OnSubmit } from '../../components/form_components/form_submit/onSubmitForm';
 
 function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
-  const {} = useContext(AppContext);
+    const { } = useContext(AppContext);
 
-  const [loading, setLoad] = useState(false); //estado para activar el spinner del boton submit
-  const [errorInit, setErrorInit] = useState(false);
-  const [errorInitMessage, setErrorInitMessage] = useState('');
+    const [loading, setLoad] = useState(false); //estado para activar el spinner del boton submit
+    const [errorInit, setErrorInit] = useState(false);
+    const [errorInitMessage, setErrorInitMessage] = useState('');
 
-  const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-  const cacheKey = cacheKeyRegister;
+    const cacheKey = cacheKeyRegister;
 
-  //el useForm de react form hook
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
+    //el useForm de react form hook
+    const {
+        register,
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm();
 
-  //Funcion que se llama despues dpulsar el boton submit
-  const onSubmit = async (data) => {
-    if (chooseForm === 'a') {
-      setErrorInit(false);
+    //Funcion que se llama despues dpulsar el boton submit
+    const onSubmit = async (data) => {
 
-      console.log('Datos del formulario:', data);
+        data.roles = ['admin']
 
-      if (data.password !== data.password2) {
-        setErrorInit(true);
-        setErrorInitMessage('Las contrasenas no coinsiden');
+        if (chooseForm === 'a') {
+            setErrorInit(false);
 
-        return;
-      }
+            console.log('Datos del formulario:', data);
+            try {
+                if (data.password !== data.password2) {
+                    setErrorInit(true);
+                    setErrorInitMessage('Las contrasenas no coinsiden');
 
-      await OnSubmit(
-        data,
-        'auth/registro_post',
-        setLoad,
-        setErrorInitMessage,
-        setErrorInit,
-        setDataOTP,
-        cacheKey
-      );
-    }
-  };
+                    return;
+                }
 
-  useEffect(() => {
-    try {
-      CacheDataOtp(cacheKey, setDataOTP);
-    } catch (error) {}
-  }, []);
+                await OnSubmit(
+                    data,
+                    'auth/registro_post',
+                    setLoad,
+                    setErrorInitMessage,
+                    setErrorInit,
+                    setDataOTP,
+                    cacheKey
+                );
+            } catch (error) {
+            }
 
-  return (
-    <>
-      {dataOTP?.confirmEmail === '0' ? (
+        }
+    };
+
+    useEffect(() => {
+        try {
+            CacheDataOtp(cacheKey, setDataOTP);
+        } catch (error) { }
+    }, []);
+
+    return (
         <>
-          <RegistreForm
-            onSubmit={onSubmit}
-            handleSubmit={handleSubmit}
-            register={register}
-            errors={errors}
-            fields={fields}
-            showPassword={showPassword}
-            togglePasswordVisibility={() => setShowPassword(!showPassword)}
-            errorInit={errorInit}
-            errorInitMessage={errorInitMessage}
-            loading={loading}
-            buttonLabel="Iniciar"
-            imageUrl=""
-            imageAlt="Global2a"
-            linkUrl=""
-            linkText=""
-          />
-          <ExternalLink
-            url={'/signIn'}
-            text={'Si ya tienes una cuenta '}
-            path={'Inicia sesion aqui'}
-          />
+            {dataOTP?.confirmEmail === '0' ? (
+                <>
+                    <RegistreForm
+                        onSubmit={onSubmit}
+                        handleSubmit={handleSubmit}
+                        register={register}
+                        errors={errors}
+                        fields={fields}
+                        showPassword={showPassword}
+                        togglePasswordVisibility={() => setShowPassword(!showPassword)}
+                        errorInit={errorInit}
+                        errorInitMessage={errorInitMessage}
+                        loading={loading}
+                        buttonLabel="Iniciar"
+                        imageUrl=""
+                        imageAlt="Global2a"
+                        linkUrl=""
+                        linkText=""
+                    />
+                    <ExternalLink
+                        url={'/signIn'}
+                        text={'Si ya tienes una cuenta '}
+                        path={'Inicia sesion aqui'}
+                    />
+                </>
+            ) : (
+                <></>
+            )}
         </>
-      ) : (
-        <></>
-      )}
-    </>
-  );
+    );
 }
 
 export default RegistrePost;

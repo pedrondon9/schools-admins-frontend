@@ -6,7 +6,7 @@ export const fields = [
     name: 'email',
     label: 'Correo',
     type: 'email',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: <Email />,
   },
 
@@ -14,7 +14,7 @@ export const fields = [
     name: 'password',
     label: 'Contraseña',
     type: 'password',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: <KeyIcon />,
   },
 
@@ -22,42 +22,42 @@ export const fields = [
     name: 'password2',
     label: 'Repite la Contraseña',
     type: 'password',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: <KeyIcon />,
   },
 ];
 
 export const fieldCreate = [
   {
-    name: 'schoolName',
+    name: 'name',
     label: 'Nombre del centro',
     type: 'text',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: null,
   },
   {
-    name: 'schoolEmail',
+    name: 'email',
     label: 'Correo del centro',
     type: 'email',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: null,
   },
   {
-    name: 'schoolPhone',
+    name: 'phone',
     label: 'Telefono del centro',
     type: 'text',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: null,
   },
   {
     name: 'imagen1',
     label: 'El logo del centro',
     type: 'file',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: null,
   },
   {
-    name: 'schoolCountry',
+    name: 'country',
     label: 'Pais',
     type: 'select',
     validation: { required: 'Selecciona un rol' },
@@ -67,18 +67,18 @@ export const fieldCreate = [
     ],
   },
   {
-    name: 'schoolCity',
+    name: 'city',
     label: 'Ciudad',
     type: 'text',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: null,
   },
 
   {
-    name: 'schoolAddress',
+    name: 'address',
     label: 'Direccion',
     type: 'text',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: null,
   },
 ];
@@ -88,7 +88,7 @@ export const fieldEmail = [
     name: 'email',
     label: 'Correo',
     type: 'email',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: null,
   },
 ];
@@ -98,7 +98,7 @@ export const fieldUpdatePassword = [
     name: 'password',
     label: 'Contraseña',
     type: 'password',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: <KeyIcon />,
   },
 
@@ -106,7 +106,7 @@ export const fieldUpdatePassword = [
     name: 'password2',
     label: 'Repite la Contraseña',
     type: 'password',
-    validation: { required: 'Campo requerido' },
+    validation: { required: true },
     startIcon: <KeyIcon />,
   },
 ];

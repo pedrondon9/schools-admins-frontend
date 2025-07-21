@@ -20,6 +20,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import ExternalLink from '../../components/form_components/ExternalLink';
 import { stylesForm } from '../../components/form_components/styleForm';
 import RegistreForm from '../../components/form_components/form/RegistreForm';
+import { ErrorG } from '../../components/errorGestion';
 
 function Login() {
   const navigate = useNavigate();
@@ -93,25 +94,13 @@ function Login() {
         });
 
         window.localStorage.setItem('enableTAdmins', JSON.stringify(dataUsers));
-        setErrorInitMessage(logearse.data.mens);
+        setErrorInitMessage(logearse.data.message);
         setErrorInit(true);
         setLoad(false);
       }
     } catch (error) {
-      if (error.response) {
-        // El servidor respondió con un código de error
 
-        if (error.response?.data?.mens === 'token_expired') {
-        } else {
-          setErrorInitMessage(error.response.data.mens || 'Error del servidor.');
-        }
-      } else if (error.request) {
-        // No hubo respuesta del servidor
-        setErrorInitMessage('No se pudo conectar con el servidor.');
-      } else {
-        // Otro error
-        setErrorInitMessage('Error desconocido.');
-      }
+      ErrorG(error, setErrorInitMessage, "", "","")
 
       setErrorInit(true);
       setLoad(false);
@@ -120,17 +109,17 @@ function Login() {
   };
   const fields = [
     {
-      name: 'nombre',
-      label: 'Usuario',
-      type: 'text',
-      validation: { required: '' },
+      name: 'email',
+      label: 'Correo',
+      type: 'email',
+      validation: { required: true },
       startIcon: null,
     },
     {
-      name: 'contrasena',
+      name: 'password',
       label: 'Contraseña',
       type: 'password',
-      validation: { required: '' },
+      validation: { required: true },
       startIcon: null,
     },
   ];

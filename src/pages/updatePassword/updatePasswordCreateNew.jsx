@@ -18,11 +18,15 @@ import {
 import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
 import { OnSubmit } from '../../components/form_components/form_submit/onSubmitForm';
 import { cacheKeyUpdatePassword } from '../../components/form_components/constantVariable';
+import { useNavigate } from 'react-router-dom';
 
 function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
+
+  const navigate = useNavigate();
+
   const cacheKey = cacheKeyUpdatePassword;
 
-  const {} = useContext(AppContext);
+  const { } = useContext(AppContext);
 
   const [loading, setLoad] = useState(false); //estado para activar el spinner del boton submit
   const [errorInit, setErrorInit] = useState(false);
@@ -41,6 +45,7 @@ function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
   //Funcion que se llama despues dpulsar el boton submit
 
   const onSubmit = async (data) => {
+    data.token = JSON.parse(window.localStorage.getItem(cacheKey)).token;
     if (chooseForm === 'a') {
       if (data.password !== data.password2) {
         setErrorInit(true);
@@ -50,12 +55,13 @@ function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
 
       await OnSubmit(
         data,
-        'auth/registro_post',
+        'update_pass/update_password',
         setLoad,
         setErrorInitMessage,
         setErrorInit,
         setDataOTP,
-        cacheKey
+        cacheKey,
+        navigate
       );
     }
   };
@@ -63,7 +69,7 @@ function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
   useEffect(() => {
     try {
       CacheDataOtp(cacheKey, setDataOTP);
-    } catch (error) {}
+    } catch (error) { }
   }, []);
 
   return (

@@ -53,7 +53,7 @@ function RegistreConfirmOTP({ dataOTP, setDataOTP }) {
     await onSubmitResendOTPF(
       setErrorInitOtp,
       setDataOTP,
-      setLoad,
+      setLoadOtp,
       setErrorInitMessageOtp,
       cacheKey
     );
