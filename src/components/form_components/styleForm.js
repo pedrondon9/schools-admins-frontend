@@ -18,7 +18,26 @@ export const stylesForm = {
   alignItems: 'center',
   flexDirection: 'column',
 };
+export const stylesForm2 = {
+  //height: "300px",
+  paddingBlock: '20px',
+  minHeight: 'auto',
+  width: {
+    xs: '95%',
+    sm: 300,
+    md: 300,
+    lg: 350,
+    xl: 350,
+  },
+  bgcolor: '#fff',
+  //borderRadius: 1,
+  display: 'flex',
+  justifyContent: 'center',
+  border: '1px solid #cac7c7ff',
 
+  alignItems: 'center',
+  flexDirection: 'column',
+};
 export const stylesFormOpt = {
   //height: "300px",
   paddingBlock: '20px',
@@ -39,6 +58,8 @@ export const stylesFormOpt = {
   alignItems: 'center',
   flexDirection: 'column',
 };
+
+
 
 export const textStyleP = {
   textAlign: 'left',

@@ -10,7 +10,7 @@ export const Users = () => {
 
   return (
     <div>
-      <Title title="Administracion" />
+      <Title title="Usuarios" />
 
       <ModalAdd />
       <DataCard />

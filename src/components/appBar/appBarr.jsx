@@ -9,6 +9,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import DrawerListt from './drawerListt';
 import AppContext from '../../contexts/ServiceContext';
+import { Button, Typography } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 const drawerWidth = 140;
 
 function MenuAppBars(props) {
@@ -16,6 +18,15 @@ function MenuAppBars(props) {
   let userId = dataUser.loginName;
   let userName = dataUser.loginId;
   let valideLogin = dataUser.login;
+  const pages = [
+    { name: 'Inicio', link: '/' },
+    { name: 'Usuario', link: '/users' },
+    { name: 'Cursos', link: '/course' },
+    { name: 'Eventos', link: '/events' },
+    { name: 'Perfiles', link: '/profil' },
+    { name: 'Configuracion', link: '/setting' },
+    //{ text: 'Cambiar contrasena', link: "/cambiar_password" },
+  ];
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -25,7 +36,7 @@ function MenuAppBars(props) {
   };
 
   const drawerToggle = <DrawerListt toggleDrawer={handleDrawerToggle} />;
-  const drawerStatic = <DrawerListt toggleDrawer={() => {}} />;
+  const drawerStatic = <DrawerListt toggleDrawer={() => { }} />;
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
@@ -39,20 +50,44 @@ function MenuAppBars(props) {
               width: { sm: `calc(100% - ${drawerWidth}px)` },
               ml: { sm: `${drawerWidth}px` },
               boxShadow: 0,
-              backgroundColor: '#eee',
+              backgroundColor: '#ffffff',
             }}
           >
             <Toolbar>
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="#app-bar-with-responsive-menu"
+                sx={{
+                  mr: 2,
+                  display: { xs: 'none', md: 'flex' },
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.3rem',
+                  color: '#212121',
+                  textDecoration: 'none',
+                }}
+              >
+                ESEG
+              </Typography>
               <IconButton
+
                 color="primary"
                 aria-label="open drawer"
-                edge="start"
+
+                edge="end"
+
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' }, color: '#212121' }}
+                sx={{ mr: 2, display: { sm: 'none' }, color: '#212121',bgcolor:"#e0e0e0" }}
               >
                 <MenuIcon />
               </IconButton>
+
+              
             </Toolbar>
+
+
           </AppBar>
 
           <Box
@@ -79,7 +114,7 @@ function MenuAppBars(props) {
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: drawerWidth,
-                  backgroundColor: '#eee',
+                  backgroundColor: '#6200ea',
                 },
               }}
             >
@@ -92,7 +127,7 @@ function MenuAppBars(props) {
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: drawerWidth,
-                  backgroundColor: '#eee',
+                  backgroundColor: '#6200ea',
                 },
               }}
               open

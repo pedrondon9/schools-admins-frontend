@@ -12,6 +12,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useSWRConfig } from 'swr';
 import { Add, CloudUpload, UploadFile, UploadSharp } from '@mui/icons-material';
 import AppContext from '../../contexts/ServiceContext';
+import RegistreForm from '../form_components/form/RegistreForm';
+import { fieldCreate } from '../form_components/arrayFields';
+import { NavLink } from 'react-router-dom';
+import RegistreForm2 from '../form_components/form/RegistreForm2';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -21,17 +25,26 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: { xs: '90%', sm: '70%', md: '500px' },
-  bgcolor: '#e0e0e0', //'background.paper',
+  width: { xs: '90%', sm: '70%', md: '400px' },
+  bgcolor: 'background.paper',
   boxShadow: 24,
   pb: 4,
   pt: 4,
   overflowY: 'scroll',
-  height: '500px',
+  height: 'auto',
 };
 
 export default function FormAdd() {
   const { userId, AxiosConfigsToken } = React.useContext(AppContext);
+
+  const [errorInit, setErrorInit] = React.useState(false);
+  const [errorInitMessage, setErrorInitMessage] = React.useState('');
+  const [arrayFiles, setArrayFiles] = React.useState('');
+
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [loading, setLoads] = React.useState(false); //estado para activar el spinner del boton submit
+  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
+
 
   const { mutate } = useSWRConfig();
 
@@ -62,7 +75,6 @@ export default function FormAdd() {
   const [previImage, setPreviImage] = React.useState(null);
   const [imagen, setImagen] = React.useState(null);
   const [active, setActive] = React.useState(false);
-  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
 
   //el useForm de react form hook
   const {
@@ -144,7 +156,7 @@ export default function FormAdd() {
       const data = res.data.data.docs;
 
       setPerfils(data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const getImgUser = (e) => {
@@ -207,7 +219,7 @@ export default function FormAdd() {
         justifyContent: 'end',
       }}
     >
-      <Button variant="contained" onClick={handleOpenM} size="small">
+      <Button variant="contained"  onClick={handleOpenM} size="small">
         <Add />
       </Button>
       <Modal
@@ -226,349 +238,36 @@ export default function FormAdd() {
               color: 'textColorTitle',
             }}
           >
-            registrar personal
+            Registrar usuario
           </Typography>
-          <Grid sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                }}
-              >
-                {perfils ? (
-                  <div
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <FormControl sx={{ mb: 2, width: '95%' }}>
-                      <InputLabel size="small" id="demo-simple-select-label">
-                        Elige el perfil
-                      </InputLabel>
-                      <Select
-                        size="small"
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Estado del curso"
-                        {...register('puesto', { required: true })}
-                      >
-                        {perfils.map((x) => (
-                          <MenuItem value={x.name}>{x.name}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </div>
-                ) : (
-                  <></>
-                )}
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <InputLabel size="small" id="demo-simple-select-label">
-                      Que tenga acceso en la plataforma
-                    </InputLabel>
-                    <Select
-                      size="small"
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Elige el sexo"
-                      {...register('sex', { required: true })}
-                    >
-                      <MenuItem value="true">Si </MenuItem>
-                      <MenuItem value="false">No</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <TextField
-                      size="small"
-                      id="outlined-basic"
-                      label="Nombre completo"
-                      variant="outlined"
-                      {...register('nombre', {
-                        required: 'Campo requerido',
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <TextField
-                      size="small"
-                      multiline
-                      id="outlined-basic"
-                      label="Estudios realizados"
-                      variant="outlined"
-                      {...register('educacion', {
-                        required: 'Campo requerido',
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <TextField
-                      size="small"
-                      id="outlined-basic"
-                      label="Telefono"
-                      variant="outlined"
-                      {...register('contact', {
-                        required: 'Campo requerido',
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <TextField
-                      size="small"
-                      id="outlined-basic"
-                      label="Correo"
-                      variant="outlined"
-                      {...register('email', {
-                        required: 'Campo requerido',
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <TextField
-                      size="small"
-                      id="outlined-basic"
-                      type="number"
-                      label="Su posicion en la galeria"
-                      variant="outlined"
-                      {...register('posGalery', {
-                        required: 'Campo requerido',
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <InputLabel size="small" id="demo-simple-select-label">
-                      Elige el sexo
-                    </InputLabel>
-                    <Select
-                      size="small"
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Elige el sexo"
-                      {...register('sex', { required: true })}
-                    >
-                      <MenuItem value="Hombre">Hombre</MenuItem>
-                      <MenuItem value="Mujer">Mujer</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="outlined"
-                      tabIndex={-1}
-                      startIcon={<CloudUpload />}
-                    >
-                      Elegir foto de perfil
-                      <VisuallyHiddenInput
-                        type="file"
-                        onChange={(e) => getImgUser(e.target.files)}
-                      />
-                    </Button>
-                  </FormControl>
-                </div>
-
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '40%' }}>
-                    {previImage ? <img src={previImage} alt="" /> : <></>}
-                  </FormControl>
-                </div>
-
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <InputLabel size="small" id="demo-simple-select-label">
-                      Que tenga acceso en la plataforma
-                    </InputLabel>
-                    <Select
-                      size="small"
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Que tenga acceso en la plataforma"
-                      onChange={(e) => {
-                        setActive(e.target.value);
-                      }}
-                      //{...register("active", { required: true })}
-                    >
-                      <MenuItem value="true">Si </MenuItem>
-                      <MenuItem value="false">No</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-
-                {active ? (
-                  <>
-                    <div
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <FormControl sx={{ mb: 2, width: '95%' }}>
-                        <TextField
-                          size="small"
-                          id="outlined-basic"
-                          label="Nombre de usuario"
-                          variant="outlined"
-                          {...register('username', {
-                            required: 'Campo requerido',
-                            minLength: 1,
-                          })}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <FormControl sx={{ mb: 2, width: '95%' }}>
-                        <TextField
-                          size="small"
-                          id="outlined-basic"
-                          label="Contrasena"
-                          variant="outlined"
-                          {...register('password', {
-                            required: 'Campo requerido',
-                            minLength: 1,
-                          })}
-                        />
-                      </FormControl>
-                    </div>
-                    <div
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <FormControl sx={{ mb: 2, width: '95%' }}>
-                        <TextField
-                          size="small"
-                          id="outlined-basic"
-                          label="Repite la contrasena"
-                          variant="outlined"
-                          {...register('password1', {
-                            required: 'Campo requerido',
-                            minLength: 1,
-                          })}
-                        />
-                      </FormControl>
-                    </div>
-                  </>
-                ) : (
-                  <></>
-                )}
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 1, width: '95%' }}>
-                    <LoadingButton
-                      loading={load}
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      sx={{ width: '100%' }}
-                      size="large"
-                    >
-                      <span>Registrar</span>
-                    </LoadingButton>
-                  </FormControl>
-                </div>
-              </Box>
-            </form>
-          </Grid>
+          
+          {
+            <RegistreForm2
+              onSubmit={onSubmit}
+              setArrayFiles={setArrayFiles}
+              handleSubmit={handleSubmit}
+              register={register}
+              errors={errors}
+              fields={fieldCreate}
+              showPassword={showPassword}
+              togglePasswordVisibility={() => setShowPassword(!showPassword)}
+              errorInit={errorInit}
+              errorInitMessage={errorInitMessage}
+              loading={loading}
+              buttonLabel="Registrar tu institución"
+              imageUrl=""
+              imageAlt="Global2a"
+              linkUrl=""
+              linkText=""
+            />
+            }          
         </Box>
+
+
+        
+
+      
+        
       </Modal>
     </Box>
   );

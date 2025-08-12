@@ -13,7 +13,7 @@ import AppContext from '../../contexts/ServiceContext';
 
 const listTextStyle = {
   fontWeight: '900',
-  color: 'textColorTitle2',
+  color: '#eeeeee',
 };
 
 function DrawerListt({ toggleDrawer }) {
@@ -40,9 +40,7 @@ function DrawerListt({ toggleDrawer }) {
   };
   const listePath = [
     { text: 'Inicio', link: '/' },
-    { text: 'Personal', link: '/users' },
-    { text: 'Profesores', link: '/profes' },
-    { text: 'Alumnos', link: '/students' },
+    { text: 'Usuario', link: '/users' },
     { text: 'Cursos', link: '/course' },
     { text: 'Eventos', link: '/events' },
     { text: 'Perfiles', link: '/profil' },
@@ -56,7 +54,7 @@ function DrawerListt({ toggleDrawer }) {
           <Toolbar
             title="TITLE"
             sx={{
-              backgroundColor: '#000000',
+              //backgroundColor: '#000000',
               display: 'flex',
               justifyContent: 'center',
             }}
@@ -66,11 +64,15 @@ function DrawerListt({ toggleDrawer }) {
                 {
                   <img
                     src={
-                      'https://res.cloudinary.com/mumbex/image/upload/v1670484249/logo_zlwjaf.jpg'
+                      'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'
                     }
                     alt={'globals'}
                     loading="lazy"
                     width={130}
+                    style={{
+                      filter: 'grayscale(100%)',
+                      display:'none'
+                    }}
                   />
                 }
               </div>
@@ -83,7 +85,7 @@ function DrawerListt({ toggleDrawer }) {
                 key={menu.text}
                 disablePadding
                 divider={true}
-                sx={{ color: '#212121', fontSize: '25px', fontWeight: '700px' }}
+                sx={{ color: '#eeeeee', fontSize: '25px', fontWeight: '700px' }}
               >
                 <ListItemButton component={NavLink} to={menu.link} onClick={toggleDrawer}>
                   <ListItemText primary={menu.text} sx={listTextStyle} />
@@ -100,7 +102,7 @@ function DrawerListt({ toggleDrawer }) {
                 marginTop: 3,
                 fontSize: '25px',
                 bgcolor: '#eee',
-                fontWeight: '700px',
+                
               }}
             >
               <ListItemButton
@@ -108,7 +110,7 @@ function DrawerListt({ toggleDrawer }) {
                   CloseSesion();
                 }}
               >
-                <ListItemText primary={'Salir'} sx={{ color: '#212121' }} />
+                <ListItemText primary={'Salir'} sx={{ color: '#212121',fontWeight: '1000px', }} />
               </ListItemButton>
             </ListItem>
           </List>

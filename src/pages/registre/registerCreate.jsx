@@ -84,7 +84,7 @@ function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
             errorInit={errorInit}
             errorInitMessage={errorInitMessage}
             loading={loading}
-            buttonLabel="Registrar"
+            buttonLabel="Registrar tu institución"
             imageUrl=""
             imageAlt="Global2a"
             linkUrl=""

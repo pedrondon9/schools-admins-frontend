@@ -24,6 +24,7 @@ import { Profes } from './pages/profe/profes';
 import Setting from './pages/setting/setting';
 import Registre from './pages/registre/registre';
 import UpdatePassword from './pages/updatePassword/updatePassword';
+import RegisterUsers from './pages/users/register.users';
 
 function App() {
   return (
@@ -86,6 +87,15 @@ function App() {
                 element={
                   <Protected>
                     <Users />
+                  </Protected>
+                }
+              />              
+              <Route
+                exact
+                path="/register-users"
+                element={
+                  <Protected>
+                    <RegisterUsers />
                   </Protected>
                 }
               />
