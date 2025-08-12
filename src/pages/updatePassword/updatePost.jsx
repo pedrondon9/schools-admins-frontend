@@ -74,6 +74,8 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
             imageAlt="Global2a"
             linkUrl=""
             linkText=""
+            text = 'Recuperar contraseña'
+
           />
           <ExternalLink
             url={'/signIn'}

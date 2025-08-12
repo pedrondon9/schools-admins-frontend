@@ -92,6 +92,8 @@ function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
             imageAlt="Global2a"
             linkUrl=""
             linkText=""
+            text = 'Crea una nueva contrasena'
+
           />
         </>
       ) : (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFieldInput from '../TextFieldInput';
 import FormAlert from '../FormAlert';
@@ -27,6 +27,7 @@ const RegistreForm = ({
   linkUrl,
   linkText,
   setArrayFiles,
+  text
 }) => {
   const { control } = useForm();
 
@@ -46,6 +47,20 @@ const RegistreForm = ({
           alt={imageAlt}
         />
       }
+
+      <Typography
+        sx={{
+          textAlign: 'center',
+          fontFamily: 'sans-serif',
+          //fontSize: '14px',
+          //color: "#3e2723",
+        }}
+        variant="h5"
+        component="h5"
+      >
+        {text}
+      </Typography>
+
 
       {fields.map((fld) => (
         <Box key={fld.name} sx={{ width: '95%', mt: 2 }}>

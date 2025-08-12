@@ -20,6 +20,7 @@ import { OnSubmitRegister } from '../../components/form_components/form_submit/o
 import { useNavigate } from 'react-router-dom';
 
 function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
+  
   const { dispatch } = useContext(AppContext);
 
   const [loading, setLoad] = useState(false); //estado para activar el spinner del boton submit
@@ -29,7 +30,7 @@ function RegisterCreate({ setDataOTP, dataOTP, chooseForm }) {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const cacheKey = cacheKeyRegister;
+  const cacheKey = cacheKeyRegister ;
 
   const navigate = useNavigate();
 

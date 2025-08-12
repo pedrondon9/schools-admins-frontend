@@ -169,6 +169,8 @@ function Login() {
           imageAlt="Global2a"
           linkUrl=""
           linkText=""
+          text = 'Inicia sesion'
+
         />
 
         <ExternalLink

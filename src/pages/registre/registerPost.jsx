@@ -86,11 +86,12 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
                         errorInit={errorInit}
                         errorInitMessage={errorInitMessage}
                         loading={loading}
-                        buttonLabel="Iniciar"
+                        buttonLabel="Registrarse"
                         imageUrl=""
                         imageAlt="Global2a"
                         linkUrl=""
                         linkText=""
+                        text = 'Crea tu cuenta'
                     />
                     <ExternalLink
                         url={'/signIn'}
