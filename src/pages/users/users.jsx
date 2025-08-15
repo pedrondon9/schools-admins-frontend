@@ -4,16 +4,49 @@ import { GetRoles } from '../../components/profil/getRoles';
 import AppContext from '../../contexts/ServiceContext';
 import DataCard from '../../components/users/dataCard';
 import { Title } from '../../components/textTitle/title';
+import DataTable from '../../components/users/dataTable';
+import FormAdd from '../../components/profes/formAdd';
+import { fieldCreate } from '../../components/form_components/arrayFields';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { Get } from '../../components/users/get';
 
 export const Users = () => {
   const { AxiosConfigsToken } = React.useContext(AppContext);
+  const [selected, setSelected] = React.useState('');
 
+
+  
+  React.useEffect(() => {
+  }, [])
   return (
     <div>
       <Title title="Usuarios" />
 
-      <ModalAdd />
-      <DataCard />
+      <ModalAdd  />
+      <FormControl sx={{ mb: 2, width: '100%' }}>
+        <InputLabel size="small" id="demo-simple-select-label">
+          Elige el perfil
+        </InputLabel>
+        <Select
+          value={selected}
+          sx={{bgcolor:"#fff"}}
+          size="small"
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          label="Estado del curso"
+          onChange={(e) => {
+            setSelected(e.target.value);
+          }
+          }
+        >
+
+          <MenuItem value={'admin'}>test</MenuItem>
+          <MenuItem value={'admin1'}>test1</MenuItem>
+
+        </Select>
+      </FormControl>
+      <DataTable typeUserSelected={selected} />
     </div>
   );
 };

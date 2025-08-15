@@ -90,17 +90,7 @@ function DataCard() {
           container
           sx={{ justifyContent: 'center', maxWidth: '1000px' }}
         >
-          {data ? (
-            <>
-              {data.map((x, y) => (
-                <Grid item xs={12} sm={6} md={4} lg={3.2} xl={3.2}>
-                  <CardAdmin x={x} modal={<ModalUpdate dataUp={x} />} />
-                </Grid>
-              ))}
-            </>
-          ) : (
-            <></>
-          )}
+
         </Grid>
       </div>
     </>

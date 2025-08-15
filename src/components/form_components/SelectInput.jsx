@@ -13,7 +13,7 @@ const SelectInput = ({ name, label, options = [], register, validation, error })
         {...register(name, validation)}
       >
         {options.map((opt) => (
-          <MenuItem key={opt.value} value={opt.value}>
+          <MenuItem key={opt.label} value={opt.value}>
             {opt.label}
           </MenuItem>
         ))}

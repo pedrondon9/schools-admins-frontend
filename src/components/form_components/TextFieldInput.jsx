@@ -12,13 +12,17 @@ const TextFieldInput = ({
   helperText,
   startIcon,
   showPassword = false,
+  onChange,
   togglePasswordVisibility,
 }) => {
   return (
     <TextField
       fullWidth
       label={label}
-      type={type === 'password' && !showPassword ? 'password' : type}
+      
+      InputLabelProps={{
+        shrink: true, // Mantiene el label arriba
+      }}
       {...register(name, validation)}
       error={!!error}
       sx={{ mb: 1 }}
@@ -26,16 +30,6 @@ const TextFieldInput = ({
       size="small"
       InputProps={{
         startAdornment: startIcon && <InputAdornment position="start">{startIcon}</InputAdornment>,
-        /*
-        endAdornment:
-          type === "password" ? (
-            <InputAdornment position="end">
-              <IconButton onClick={togglePasswordVisibility} edge="end">
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ) : null,
-        */
       }}
     />
   );

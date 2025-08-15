@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Box, Button, IconButton, Stack } from '@mui/material';
 import { DataGrid, esES, GridToolbar } from '@mui/x-data-grid';
 import useSWR from 'swr';
@@ -8,64 +8,73 @@ import ModalAddFormUpdateRoles from './modalUpdate';
 import SkeletonTable from '../skelholder/skelethonTable';
 import AppContext from '../../contexts/ServiceContext';
 
-const VISIBLE_FIELDS = ['name', 'Acciones', 'description', 'porcentageIntern'];
+const VISIBLE_FIELDS = ['email', 'roles'];
 
 const columns1 = [
   {
-    field: 'name',
-    headerName: 'Perfil',
-    width: 100,
-    editable: false,
-  },
-  {
-    field: 'description',
-    headerName: 'Descripcion del perfil',
+    field: 'email',
+    headerName: 'Email',
     width: 250,
     editable: false,
   },
-  {
-    field: 'Acciones',
-    headerName: 'Acciones',
-    width: 180,
-    editable: false,
-    renderCell: (params) => {
-      const currentRow = params.row;
 
-      return (
-        <>
-          {
-            <>
-              {params.row.name === 'super_admin' || params.row.name === 'Cajero' ? (
-                <></>
-              ) : (
-                <ModalAddFormUpdateRoles dataUser={currentRow} />
-              )}
-              {/*<ModalDeleteUser dataUser={currentRow} />*/}
-            </>
-          }
-        </>
-      );
+  {
+    field: 'roles',
+    headerName: 'Role',
+    width: 150,
+    editable: false,
+    valueGetter: (params) => {
+      return params.row.roles.map((role) => role.name).join(', ');
     },
   },
+
 ];
 
-function DataTable() {
-  const { userId, typeUser, acciones, AxiosConfigsToken } = React.useContext(AppContext);
+function DataTable({ typeUserSelected }) {
+  const { userId, typeUser, acciones, AxiosConfigsToken, loginToken } = React.useContext(AppContext);
 
   //SWR para hacer peticiones
 
   const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
+  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
+  const [data, setData] = React.useState(false);
 
-  const { data, error, isLoading } = useSWR('getAdminn', () => Get(AxiosConfigsToken), {});
+
+
+  const getUsers = async () => {
+    try {
+      setLoad(true)
+      const response = await Get(AxiosConfigsToken, `users/get/${typeUserSelected}`);
+      if (response.success) {
+        setData(response.response.docs)
+      }else{
+        setData([])
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }finally{
+      setLoad(false)
+    }
+  }
+
+
+
 
   const columns = React.useMemo(
     () => columns1.filter((column) => VISIBLE_FIELDS.includes(column.field)),
     [columns1]
   );
 
-  if (isLoading) return <SkeletonTable />;
+  useEffect(() => {
+    if (typeUserSelected) {
+      getUsers()
 
-  if (error) return <></>;
+    }
+  //console.log(typeUserSelected, 'typeUserSelected');
+
+  }, [typeUserSelected])
+
+  if (load) return <SkeletonTable />;
 
   return (
     <>

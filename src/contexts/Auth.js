@@ -11,9 +11,11 @@ export default (props) => {
   /********* Axios config que contiene el token en el header */
   const AxiosConfigsToken = axios.create({
     baseURL: URL_SERVER,
-    headers: {
-      'x-access-token': state.token,
-    },
+  });
+
+  AxiosConfigsToken.interceptors.request.use(config => {
+    config.headers['x-access-token'] = state.dataUser.loginToken;
+    return config;
   });
 
   /*

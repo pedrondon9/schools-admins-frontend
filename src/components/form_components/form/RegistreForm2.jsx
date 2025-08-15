@@ -27,9 +27,11 @@ const RegistreForm2 = ({
   linkUrl,
   linkText,
   setArrayFiles,
-  text
+  text,
 }) => {
   const { control } = useForm();
+
+
 
   return (
     <form
@@ -50,6 +52,7 @@ const RegistreForm2 = ({
             <>
               {fld.type === 'select' ? (
                 <SelectInput
+                key={fld.name}
                   name={fld.name}
                   label={fld.label}
                   options={fld.options}
@@ -57,6 +60,7 @@ const RegistreForm2 = ({
                   validation={fld.validation}
                   error={errors?.[fld.name]}
                 />
+              
               ) : (
                 <Controller
                   name="imagen1"
@@ -85,7 +89,7 @@ const RegistreForm2 = ({
               //startIcon={field?.startIcon}
               showPassword={showPassword}
               togglePasswordVisibility={togglePasswordVisibility}
-            />        
+            />
 
           )}
         </Box>

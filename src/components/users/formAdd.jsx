@@ -16,6 +16,7 @@ import RegistreForm from '../form_components/form/RegistreForm';
 import { fieldCreate } from '../form_components/arrayFields';
 import { NavLink } from 'react-router-dom';
 import RegistreForm2 from '../form_components/form/RegistreForm2';
+import { Get } from './get';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -35,7 +36,8 @@ const style = {
 };
 
 export default function FormAdd() {
-  const { userId, AxiosConfigsToken } = React.useContext(AppContext);
+  const { userId, AxiosConfigsToken, loginT } = React.useContext(AppContext);
+  const [roles, setRoles] = React.useState([]);
 
   const [errorInit, setErrorInit] = React.useState(false);
   const [errorInitMessage, setErrorInitMessage] = React.useState('');
@@ -70,8 +72,8 @@ export default function FormAdd() {
   };
   /*********************************** */
 
-  const theme = useTheme();
   const [perfils, setPerfils] = React.useState('');
+  const [typeUser, setTypeUser] = React.useState('');
   const [previImage, setPreviImage] = React.useState(null);
   const [imagen, setImagen] = React.useState(null);
   const [active, setActive] = React.useState(false);
@@ -81,83 +83,217 @@ export default function FormAdd() {
     register,
     handleSubmit,
     reset,
+    watch,
     control,
     formState: { errors },
   } = useForm();
 
+  let typerUsers = watch()
+
   //para enviar datos en el servidor
   const onSubmit = async (data) => {
-    for (let x in perfils) {
-      if (perfils[x].name === data.puesto) {
-        data.roles = [perfils[x]._id];
+    data.roles = [data.roles]
+    console.log(data,'data form')
+
+
+    console.log(arrayFiles,'data image')
+    if (false) {
+      for (let x in perfils) {
+        if (perfils[x].name === data.puesto) {
+          data.roles = [perfils[x]._id];
+        }
       }
-    }
 
-    console.log(data);
+      console.log(data);
 
-    if (data.password == data.password1) {
-      try {
-        setLoad(true);
-        const fs = new FormData();
-        fs.append('imagen1', imagen);
-        fs.append('puesto', data.puesto);
-        fs.append('sex', data.sex);
-        fs.append('educacion', data.educacion);
-        fs.append('contact', data.contact);
-        fs.append('posGalery', data.posGalery);
-        fs.append('email', data.email);
-        fs.append('nombre', data.nombre);
-        fs.append('username', data.username);
-        fs.append('password', data.password);
-        fs.append('active', active);
-        fs.append('userId', userId);
-        fs.append('nameAdminRegister', '');
-        fs.append('phoneAdminRegister', '');
-        fs.append('roles', data.roles);
-        fs.append('tipo', '');
+      if (data.password == data.password1) {
+        try {
+          setLoad(true);
+          const fs = new FormData();
+          fs.append('imagen1', imagen);
+          fs.append('puesto', data.puesto);
+          fs.append('sex', data.sex);
+          fs.append('educacion', data.educacion);
+          fs.append('contact', data.contact);
+          fs.append('posGalery', data.posGalery);
+          fs.append('email', data.email);
+          fs.append('nombre', data.nombre);
+          fs.append('username', data.username);
+          fs.append('password', data.password);
+          fs.append('active', active);
+          fs.append('userId', userId);
+          fs.append('nameAdminRegister', '');
+          fs.append('phoneAdminRegister', '');
+          fs.append('roles', data.roles);
+          fs.append('tipo', '');
 
-        const sendData = await axiosConfigs({
-          url: `/create_admin`,
-          method: 'post',
-          data: fs,
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-        if (sendData.data.verificar) {
-          toast.success(`${sendData.data.mens}`);
-          reset({
-            courseName: '',
-            courseCode: '',
-            description: '',
-            open: '',
-            posGalery: '',
+          const sendData = await axiosConfigs({
+            url: `/create_admin`,
+            method: 'post',
+            data: fs,
+            headers: { 'Content-Type': 'multipart/form-data' },
           });
-          setImagen(null);
-          setPreviImage(null);
-          setLoad(false);
-          mutate('getAdminn');
-          handleCloseM();
-        } else {
-          toast.error(`${sendData.data.mens}`);
+          if (sendData.data.verificar) {
+            toast.success(`${sendData.data.mens}`);
+            reset({
+              courseName: '',
+              courseCode: '',
+              description: '',
+              open: '',
+              posGalery: '',
+            });
+            setImagen(null);
+            setPreviImage(null);
+            setLoad(false);
+            mutate('getAdminn');
+            handleCloseM();
+          } else {
+            toast.error(`${sendData.data.mens}`);
+            setLoad(false);
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error(`Hay un problema front`);
           setLoad(false);
         }
-      } catch (error) {
-        console.log(error);
-        toast.error(`Hay un problema front`);
-        setLoad(false);
+      } else {
+        toast.error(`La contrasena no coinside`);
       }
-    } else {
-      toast.error(`La contrasena no coinside`);
     }
+
   };
 
-  const getPerfil = async () => {
+
+  const getRoles = async () => {
     try {
-      const res = await AxiosConfigsToken.get('/obtener_roles');
-      const data = res.data.data.docs;
+      const response = await Get(AxiosConfigsToken, `roles/get`);
+      console.log(response.response, 'rolessssssss')
+      if (response.success) {
+        setRoles(response.response)
+        console.log(roles, 'dddd')
 
-      setPerfils(data);
-    } catch (error) { }
-  };
+      } else {
+        setRoles([])
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    } finally {
+    }
+  }
+
+  let gender = [
+    {
+      name: 'sex',
+    },
+    { label: 'Introduce el genero' },
+    [
+      {
+        name: 'female',
+        _id: 'female',
+      },
+      {
+        name: "male",
+        _id: "male"
+      }
+
+    ]
+  ]
+
+  const fieldCreateUsers = [
+    {
+      name: 'fullname',
+      label: 'Nombre completo',
+      type: 'text',
+      validation: { required: true },
+      startIcon: null,
+    },
+    {
+      name: 'email',
+      label: 'Correo ',
+      type: 'email',
+      validation: { required: false },
+      startIcon: null,
+    },
+    {
+      name: 'phone',
+      label: 'Telefono',
+      type: 'text',
+      validation: { required: true },
+      startIcon: null,
+    },
+    {
+      name: 'roles',
+      label: 'Tipo de usuario',
+      type: 'select',
+      validation: { required: 'Selecciona un role' },
+      options: roles?.map((opt) => ({
+        label: opt.name,
+        value: opt._id
+      }))
+    },
+    ...(typeUser[0]?.name === 'admin'
+      ? [
+        {
+          name: 'info',
+          label: 'Breve descripcion del usuario',
+          type: 'textarea',
+          validation: { required: true },
+          startIcon: null
+        },
+        {
+          name: 'posGalery',
+          label: 'Posicion en la galeria',
+          type: 'number',
+          validation: { required: true },
+          startIcon: null
+        }
+      ]
+      : []),
+      ...(typeUser[0]?.name === 'student'
+        ? [
+          {
+            name: 'birthdate',
+            label: 'Fecha de nacimiento',
+            type: 'date',
+            validation: { required: true },
+            startIcon: null
+          },
+          {
+            name: 'dni',
+            label: 'Identidad o pasaporte',
+            type: 'text',
+            validation: { required: true },
+            startIcon: null
+          },
+          {
+            name: 'codeUser',
+            label: 'Crea el codigo del estudiante',
+            type: 'number',
+            validation: { required: true },
+            startIcon: null
+          }
+        ]
+        : []),
+
+    {
+      name: 'imagen1',
+      label: 'La foto del usuario',
+      type: 'file',
+      validation: { required: true },
+      startIcon: null,
+    },
+
+  ];
+
+
+  const onChangeTypeUser = (id)=>{
+    const roleSelected = roles.filter(role => role._id === id); 
+    
+    setTypeUser(roleSelected)
+
+    console.log(roleSelected,'dd dd  dd  dd ')
+  }
+
 
   const getImgUser = (e) => {
     const arrayImg = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
@@ -204,10 +340,16 @@ export default function FormAdd() {
   };
 
   React.useEffect(() => {
-    getPerfil();
     //setImagen(null)
     //setPreviImage(null)
+    getRoles()
   }, []);
+
+  React.useEffect(() => {
+    if (typerUsers?.roles) {
+      onChangeTypeUser(typerUsers.roles)
+    }
+  }, [typerUsers?.roles]);
 
   return (
     <Box
@@ -219,7 +361,7 @@ export default function FormAdd() {
         justifyContent: 'end',
       }}
     >
-      <Button variant="contained"  onClick={handleOpenM} size="small">
+      <Button variant="contained" onClick={handleOpenM} size="small">
         <Add />
       </Button>
       <Modal
@@ -230,44 +372,37 @@ export default function FormAdd() {
         disableScrollLock={true}
       >
         <Box sx={style}>
-          <Typography
-            variant="h6"
-            sx={{
-              textAlign: 'center',
-              marginBottom: 2,
-              color: 'textColorTitle',
-            }}
-          >
-            Registrar usuario
-          </Typography>
-          
+
+
           {
-            <RegistreForm2
-              onSubmit={onSubmit}
+            <RegistreForm
               setArrayFiles={setArrayFiles}
+              onSubmit={onSubmit}
               handleSubmit={handleSubmit}
               register={register}
               errors={errors}
-              fields={fieldCreate}
+              fields={fieldCreateUsers}
               showPassword={showPassword}
               togglePasswordVisibility={() => setShowPassword(!showPassword)}
               errorInit={errorInit}
               errorInitMessage={errorInitMessage}
               loading={loading}
-              buttonLabel="Registrar tu institución"
+              buttonLabel="Registrar"
               imageUrl=""
               imageAlt="Global2a"
               linkUrl=""
               linkText=""
+              text='Registrar usuario'
+
             />
-            }          
+          }
         </Box>
 
 
-        
 
-      
-        
+
+
+
       </Modal>
     </Box>
   );
