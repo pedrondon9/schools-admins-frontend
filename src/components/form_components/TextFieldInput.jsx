@@ -19,7 +19,7 @@ const TextFieldInput = ({
     <TextField
       fullWidth
       label={label}
-      
+      type={type}
       InputLabelProps={{
         shrink: true, // Mantiene el label arriba
       }}

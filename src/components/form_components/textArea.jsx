@@ -16,14 +16,16 @@ const TextArea = ({
 }) => {
     return (
         <>
+            <FormControl fullWidth error={!!error}>
 
                 <TextareaAutosize
-                    error={!!error}
+                
                     name={name} placeholder={label}
-                    style={{ width: '100%', padding: '8px', fontSize: '14px' }}
+                    style={{ width: '100%', padding: '8px', fontSize: '14px',marginBlock:'5px',height:'50px' }}
                     {...register(name, validation)}
 
                 />
+            </FormControl>
 
         </>
     )

@@ -14,23 +14,41 @@ import { Get } from '../../components/users/get';
 export const Users = () => {
   const { AxiosConfigsToken } = React.useContext(AppContext);
   const [selected, setSelected] = React.useState('');
+  const [roles, setRoles] = React.useState([]);
 
 
-  
+  const getRoles = async () => {
+    try {
+      const response = await Get(AxiosConfigsToken, `roles/get`);
+      console.log(response.response, 'rolessssssss')
+      if (response.success) {
+        setRoles(response.response)
+
+      } else {
+        setRoles([])
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    } finally {
+    }
+  }
+
+
   React.useEffect(() => {
+    getRoles()
   }, [])
   return (
     <div>
       <Title title="Usuarios" />
 
-      <ModalAdd  />
+      <ModalAdd typeUserSelected={selected}/>
       <FormControl sx={{ mb: 2, width: '100%' }}>
         <InputLabel size="small" id="demo-simple-select-label">
           Elige el perfil
         </InputLabel>
         <Select
           value={selected}
-          sx={{bgcolor:"#fff"}}
+          sx={{ bgcolor: "#fff" }}
           size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -40,10 +58,9 @@ export const Users = () => {
           }
           }
         >
-
-          <MenuItem value={'admin'}>test</MenuItem>
-          <MenuItem value={'admin1'}>test1</MenuItem>
-
+          {roles.map((role) =>
+            <MenuItem value={role.name}>{role.name}</MenuItem>
+          )}
         </Select>
       </FormControl>
       <DataTable typeUserSelected={selected} />

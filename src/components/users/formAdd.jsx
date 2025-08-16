@@ -1,25 +1,13 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { Box, Button, Grid, Modal, styled, TextField, Typography } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { Box, Button, Modal } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import axiosConfigs from '../axiosConfig';
-import toast, { Toaster } from 'react-hot-toast';
-import { useSWRConfig } from 'swr';
-import { Add, CloudUpload, UploadFile, UploadSharp } from '@mui/icons-material';
+import toast from 'react-hot-toast';
+import { Add } from '@mui/icons-material';
 import AppContext from '../../contexts/ServiceContext';
 import RegistreForm from '../form_components/form/RegistreForm';
-import { fieldCreate } from '../form_components/arrayFields';
-import { NavLink } from 'react-router-dom';
-import RegistreForm2 from '../form_components/form/RegistreForm2';
 import { Get } from './get';
+import { mutate } from 'swr';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
 
 const style = {
   position: 'absolute',
@@ -35,8 +23,8 @@ const style = {
   height: 'auto',
 };
 
-export default function FormAdd() {
-  const { userId, AxiosConfigsToken, loginT } = React.useContext(AppContext);
+export default function FormAdd({typeUserSelected}) {
+  const { AxiosConfigsToken,dataUser } = React.useContext(AppContext);
   const [roles, setRoles] = React.useState([]);
 
   const [errorInit, setErrorInit] = React.useState(false);
@@ -47,20 +35,10 @@ export default function FormAdd() {
   const [loading, setLoads] = React.useState(false); //estado para activar el spinner del boton submit
   const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
 
+  const [typeUser, setTypeUser] = React.useState('');
+  const [previImage, setPreviImage] = React.useState(null);
+  const [imagen, setImagen] = React.useState(null);
 
-  const { mutate } = useSWRConfig();
-
-  const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-  });
 
   //habrir y cerrar el modal
   const [openM, setOpenM] = React.useState(false);
@@ -71,12 +49,6 @@ export default function FormAdd() {
     //setPreviImage(null)
   };
   /*********************************** */
-
-  const [perfils, setPerfils] = React.useState('');
-  const [typeUser, setTypeUser] = React.useState('');
-  const [previImage, setPreviImage] = React.useState(null);
-  const [imagen, setImagen] = React.useState(null);
-  const [active, setActive] = React.useState(false);
 
   //el useForm de react form hook
   const {
@@ -90,76 +62,58 @@ export default function FormAdd() {
 
   let typerUsers = watch()
 
+
+
   //para enviar datos en el servidor
   const onSubmit = async (data) => {
     data.roles = [data.roles]
-    console.log(data,'data form')
 
+    try {
+      setLoad(true);
+      const fs = new FormData();
+      fs.append('arrayFiles', arrayFiles);
+      fs.append('fullname', data.fullname);
+      fs.append('sex', data.sex);
+      fs.append('contact', data.contact);
+      fs.append('phone', data.phone);
+      fs.append('posGalery', data.posGalery?Number(data.posGalery):0);
+      fs.append('email', data.email);
+      if (data?.birthdate) {
+        fs.append('birthdate', data.birthdate);
+      }else{
+        fs.append('birthdate', Date.now());
 
-    console.log(arrayFiles,'data image')
-    if (false) {
-      for (let x in perfils) {
-        if (perfils[x].name === data.puesto) {
-          data.roles = [perfils[x]._id];
-        }
       }
+      fs.append('info', data.info);
+      fs.append('codeUser', data.codeUser);
+      fs.append('roles', data.roles);
+      fs.append('dni', data.dni);
+      fs.append('isActive', true);
+      fs.append('isVerified', true);
+      fs.append('school', [dataUser.schoolTenant]);
 
-      console.log(data);
-
-      if (data.password == data.password1) {
-        try {
-          setLoad(true);
-          const fs = new FormData();
-          fs.append('imagen1', imagen);
-          fs.append('puesto', data.puesto);
-          fs.append('sex', data.sex);
-          fs.append('educacion', data.educacion);
-          fs.append('contact', data.contact);
-          fs.append('posGalery', data.posGalery);
-          fs.append('email', data.email);
-          fs.append('nombre', data.nombre);
-          fs.append('username', data.username);
-          fs.append('password', data.password);
-          fs.append('active', active);
-          fs.append('userId', userId);
-          fs.append('nameAdminRegister', '');
-          fs.append('phoneAdminRegister', '');
-          fs.append('roles', data.roles);
-          fs.append('tipo', '');
-
-          const sendData = await axiosConfigs({
-            url: `/create_admin`,
-            method: 'post',
-            data: fs,
-            headers: { 'Content-Type': 'multipart/form-data' },
-          });
-          if (sendData.data.verificar) {
-            toast.success(`${sendData.data.mens}`);
-            reset({
-              courseName: '',
-              courseCode: '',
-              description: '',
-              open: '',
-              posGalery: '',
-            });
-            setImagen(null);
-            setPreviImage(null);
-            setLoad(false);
-            mutate('getAdminn');
-            handleCloseM();
-          } else {
-            toast.error(`${sendData.data.mens}`);
-            setLoad(false);
-          }
-        } catch (error) {
-          console.log(error);
-          toast.error(`Hay un problema front`);
-          setLoad(false);
-        }
+      const sendData = await AxiosConfigsToken({
+        url: `/users/post`,
+        method: 'post',
+        data: fs,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      if (sendData.data.success) {
+        toast.success(`${sendData.data.message}`);
+        setPreviImage(null);
+        setLoad(false);
+        mutate(`users/get/${typeUserSelected}`)
+        handleCloseM();
       } else {
-        toast.error(`La contrasena no coinside`);
+        toast.error(`${sendData.data.message}`);
+        setLoad(false);
       }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response?.data?.message);
+      setLoad(false);
     }
+
 
   };
 
@@ -181,23 +135,6 @@ export default function FormAdd() {
     }
   }
 
-  let gender = [
-    {
-      name: 'sex',
-    },
-    { label: 'Introduce el genero' },
-    [
-      {
-        name: 'female',
-        _id: 'female',
-      },
-      {
-        name: "male",
-        _id: "male"
-      }
-
-    ]
-  ]
 
   const fieldCreateUsers = [
     {
@@ -220,6 +157,22 @@ export default function FormAdd() {
       type: 'text',
       validation: { required: true },
       startIcon: null,
+    },
+    {
+      name: 'sex',
+      label: 'Genero',
+      type: 'select',
+      validation: { required: 'Selecciona el genero' },
+      options: [
+        {
+          label: 'Hombre',
+          value: 'hombre'
+        },
+        {
+          label: 'Mujer',
+          value: 'mujer'
+        }
+      ]
     },
     {
       name: 'roles',
@@ -249,31 +202,49 @@ export default function FormAdd() {
         }
       ]
       : []),
-      ...(typeUser[0]?.name === 'student'
-        ? [
-          {
-            name: 'birthdate',
-            label: 'Fecha de nacimiento',
-            type: 'date',
-            validation: { required: true },
-            startIcon: null
-          },
-          {
-            name: 'dni',
-            label: 'Identidad o pasaporte',
-            type: 'text',
-            validation: { required: true },
-            startIcon: null
-          },
-          {
-            name: 'codeUser',
-            label: 'Crea el codigo del estudiante',
-            type: 'number',
-            validation: { required: true },
-            startIcon: null
-          }
-        ]
-        : []),
+    ...(typeUser[0]?.name === 'teacher'
+      ? [
+        {
+          name: 'info',
+          label: 'Breve descripcion del usuario',
+          type: 'textarea',
+          validation: { required: true },
+          startIcon: null
+        },
+        {
+          name: 'dni',
+          label: 'Identidad o pasaporte',
+          type: 'text',
+          validation: { required: true },
+          startIcon: null
+        },
+      ]
+      : []),
+    ...(typeUser[0]?.name === 'student'
+      ? [
+        {
+          name: 'birthdate',
+          label: 'Fecha de nacimiento',
+          type: 'date',
+          validation: { required: true },
+          startIcon: null
+        },
+        {
+          name: 'dni',
+          label: 'Identidad o pasaporte',
+          type: 'text',
+          validation: { required: true },
+          startIcon: null
+        },
+        {
+          name: 'codeUser',
+          label: 'Crea el codigo del estudiante',
+          type: 'number',
+          validation: { required: true },
+          startIcon: null
+        }
+      ]
+      : []),
 
     {
       name: 'imagen1',
@@ -286,58 +257,16 @@ export default function FormAdd() {
   ];
 
 
-  const onChangeTypeUser = (id)=>{
-    const roleSelected = roles.filter(role => role._id === id); 
-    
+  const onChangeTypeUser = (id) => {
+    const roleSelected = roles.filter(role => role._id === id);
+
     setTypeUser(roleSelected)
 
-    console.log(roleSelected,'dd dd  dd  dd ')
+    console.log(roleSelected, 'dd dd  dd  dd ')
   }
 
 
-  const getImgUser = (e) => {
-    const arrayImg = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
-    const WIDTH = 300;
-
-    if (e[0]) {
-      const imgExtension = e[0].name.split('.')[e[0].name.split('.').length - 1];
-
-      if (arrayImg.includes(imgExtension)) {
-        const reader = new FileReader();
-        reader.readAsDataURL(e[0]);
-        reader.onload = (event) => {
-          let img_url = event.target.result;
-          //console.log(img_url)
-          let image = document.createElement('img');
-          image.src = img_url;
-          image.onload = async (e) => {
-            //COMENZANDO CON LA REDUCCION DEL TAMAÑO DEL IMAGEN
-            let canvas = document.createElement('canvas');
-            let ratio = WIDTH / e.target.width;
-            canvas.width = WIDTH;
-            canvas.height = e.target.height * ratio;
-            //crear objeto canvas
-            const context = canvas.getContext('2d');
-            context.drawImage(image, 0, 0, canvas.width, canvas.height);
-            let new_img_url = context.canvas.toDataURL('image/png', 100); //obtencion del imagen en base64
-            setPreviImage(new_img_url);
-            console.log(new_img_url);
-
-            //VOLVER A CONVERTIR LA IMAGEN EN FORMATO BLOB ES DECIR PASMOS DE "base64 ----> blob"
-            const img_fetch = await fetch(`data:image/png;base64,${new_img_url.split(',')[1]}`);
-            const img_convert_to_blob = await img_fetch.blob('image/png');
-
-            setImagen(img_convert_to_blob);
-            console.log(img_convert_to_blob);
-          };
-        };
-      } else {
-        setImagen(null);
-      }
-    } else {
-      setImagen(null);
-    }
-  };
+  
 
   React.useEffect(() => {
     //setImagen(null)

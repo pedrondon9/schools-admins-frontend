@@ -9,6 +9,7 @@ import SelectInput from '../SelectInput';
 import FieldImageInput from '../fieldImage';
 import { Controller, useForm } from 'react-hook-form';
 import TextArea from '../textArea';
+import TextAreas from '../textArea';
 
 const RegistreForm = ({
   onSubmit,
@@ -82,7 +83,7 @@ const RegistreForm = ({
                   <>
 
                     {fld.type === 'textarea' ? (
-                      <TextArea
+                      <TextAreas
                         name={fld.name}
                         label={fld.label}
                         options={fld.options}

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Button, IconButton, Stack } from '@mui/material';
+import { Avatar, Box, Button, IconButton, Stack } from '@mui/material';
 import { DataGrid, esES, GridToolbar } from '@mui/x-data-grid';
 import useSWR from 'swr';
 
@@ -8,7 +8,7 @@ import ModalAddFormUpdateRoles from './modalUpdate';
 import SkeletonTable from '../skelholder/skelethonTable';
 import AppContext from '../../contexts/ServiceContext';
 
-const VISIBLE_FIELDS = ['email', 'roles'];
+const VISIBLE_FIELDS = ['email', 'roles','fullname','linkPhoto'];
 
 const columns1 = [
   {
@@ -17,15 +17,35 @@ const columns1 = [
     width: 250,
     editable: false,
   },
-
+  {
+    field: 'fullname',
+    headerName: 'Nombre completo',
+    width: 250,
+    editable: false,
+  },
   {
     field: 'roles',
     headerName: 'Role',
     width: 150,
     editable: false,
     valueGetter: (params) => {
-      return params.row.roles.map((role) => role.name).join(', ');
+      console.log(params,'hhhh')
+      return params.row.role.name;
     },
+  },
+  
+  {
+    field: 'linkPhoto',
+    headerName: 'La foto del usuario',
+    width: 150,
+    editable: false,
+    renderCell: (params) => (
+      <Avatar
+        alt="Foto"
+        src={params.row.linkPhoto}
+        sx={{ width: 40, height: 40 }}
+      />
+    ),
   },
 
 ];
@@ -37,27 +57,18 @@ function DataTable({ typeUserSelected }) {
 
   const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
   const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
-  const [data, setData] = React.useState(false);
+  const [datas, setData] = React.useState(false);
 
 
 
-  const getUsers = async () => {
-    try {
-      setLoad(true)
-      const response = await Get(AxiosConfigsToken, `users/get/${typeUserSelected}`);
-      if (response.success) {
-        setData(response.response.docs)
-      }else{
-        setData([])
-      }
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }finally{
-      setLoad(false)
-    }
-  }
 
+  const { data, error, isLoading } = useSWR(
+    typeUserSelected ? `users/get/${typeUserSelected}` : null,
+    (url) => Get(AxiosConfigsToken, url),
+    {}
+  );
 
+  console.log(data)
 
 
   const columns = React.useMemo(
@@ -67,20 +78,20 @@ function DataTable({ typeUserSelected }) {
 
   useEffect(() => {
     if (typeUserSelected) {
-      getUsers()
+      //getUsers()
 
     }
   //console.log(typeUserSelected, 'typeUserSelected');
 
   }, [typeUserSelected])
 
-  if (load) return <SkeletonTable />;
+  if (isLoading) return <SkeletonTable />;
 
   return (
     <>
       <Box sx={{ height: 600, width: '100%' }}>
         <DataGrid
-          rows={data}
+          rows={data?data.response.docs:[]}
           getRowId={(row) => row._id}
           disableColumnFilter
           disableColumnSelector
