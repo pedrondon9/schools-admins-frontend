@@ -110,6 +110,8 @@ export const OnSubmitRegister = async (
         ? JSON.parse(window.localStorage.getItem(cacheKey))
         : null;
 
+        console.log(cachedDataOtp,'cache otp')
+
     if (cachedDataOtp) {
         setErrorInit(false);
 
@@ -127,7 +129,10 @@ export const OnSubmitRegister = async (
                 url: `${URL_SERVER}/auth/create_first_admin_post`,
                 method: 'post',
                 data: fs,
-                headers: { 'Content-Type': 'multipart/form-data' },
+                headers:{
+                    'x-access-token':cachedDataOtp.token,
+                    'Content-Type': 'multipart/form-data'
+                },
             });
 
             console.log(registerPost.data);

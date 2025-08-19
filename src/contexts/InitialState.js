@@ -19,4 +19,6 @@ export const InitialState = {
         schoolCity: '',
         schoolCountry: '',
       },
+      dataEditUser:{},
+      typeUserSelected:''
 };

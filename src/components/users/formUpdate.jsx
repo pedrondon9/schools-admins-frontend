@@ -1,200 +1,169 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import { Box, Button, Grid, Modal, styled, TextField, Typography } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { useForm } from 'react-hook-form';
-import axiosConfigs from '../axiosConfig';
-import toast, { Toaster } from 'react-hot-toast';
-import { useSWRConfig } from 'swr';
-import { Add, CloudUpload, Edit, UploadFile, UploadSharp } from '@mui/icons-material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextareaAutosize, TextField, Typography } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import {  Edit } from '@mui/icons-material';
 import AppContext from '../../contexts/ServiceContext';
+import { Get } from './get';
+import { mutate } from 'swr';
+import FieldImageInput from '../form_components/fieldImage';
+import FormAlert from '../form_components/FormAlert';
+import { LoadingButton } from '@mui/lab';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: { xs: '90%', sm: '70%', md: '500px' },
-  bgcolor: '#e0e0e0', //'background.paper',
+  width: { xs: '90%', sm: '70%', md: '400px' },
+  bgcolor: 'background.paper',
   boxShadow: 24,
   pb: 4,
   pt: 4,
   overflowY: 'scroll',
-  height: '500px',
+  height: 'auto',
 };
 
-export default function FormUpdate({ dataUp }) {
-  const { userId, AxiosConfigsToken } = React.useContext(AppContext);
+export default function FormUpdate({ typeUserSelected,dataUserSelected }) {
+  const { AxiosConfigsToken } = React.useContext(AppContext);
 
-  const { mutate } = useSWRConfig();
+  const [roles, setRoles] = React.useState([]);
 
-  const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-  });
+  const [errorInit, setErrorInit] = React.useState(false);
+  const [errorInitMessage, setErrorInitMessage] = React.useState('');
+  const [userTypeSelected, setUserTypeSelected] = React.useState('');
+  const [arrayFiles, setArrayFiles] = React.useState('');
+
+  const [loading, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
+
+  const [typeUser, setTypeUser] = React.useState('');
+  const [previImageUsers, setPreviImageUsers] = React.useState(null);
+
 
   //habrir y cerrar el modal
   const [openM, setOpenM] = React.useState(false);
   const handleOpenM = () => setOpenM(true);
   const handleCloseM = () => {
     setOpenM(false);
-    setImagen(null);
-    setPreviImage(null);
-    setActive(false);
+    //setImagen(null)
+    //setPreviImage(null)
   };
   /*********************************** */
-
-  const theme = useTheme();
-  const [perfils, setPerfils] = React.useState('');
-  const [active, setActive] = React.useState(false);
-  const [previImage, setPreviImage] = React.useState(null);
-  const [imagen, setImagen] = React.useState(null);
-  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
-  const [defautValues, setDefautValues] = React.useState({});
 
   //el useForm de react form hook
   const {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm()
+
+  let typerUsers = watch()
+
+
 
   //para enviar datos en el servidor
-  const onSubmit = async (data) => {
-    for (let x in perfils) {
-      if (perfils[x].name === data.puesto) {
-        data.roles = [perfils[x]._id];
-      }
-    }
 
-    console.log(data);
+  const onSubmit = async (data) => {
+
+    console.log(data, 'data')
+    console.log(dataUserSelected, 'dataSelected')
+    console.log(arrayFiles, 'files')
+    console.log(data.roles ? [data.roles] : [dataUserSelected.role._id], 'roles')
+
+    if (false) {
+      return
+    }
 
     try {
       setLoad(true);
       const fs = new FormData();
-      fs.append('imagen1', imagen ? imagen : dataUp.imagen1);
-      fs.append('puesto', data.puesto);
+      fs.append('arrayFiles', arrayFiles ? arrayFiles : dataUserSelected?.linkPhoto);
+      fs.append('fullname', data.fullname);
       fs.append('sex', data.sex);
-      fs.append('contact', data.contact);
-      fs.append('posGalery', data.posGalery);
-      fs.append('educacion', data.educacion);
+      fs.append('id', dataUserSelected._id);
+      fs.append('phone', data.phone);
+      fs.append('posGalery', data.posGalery ? Number(data.posGalery) : 0);
       fs.append('email', data.email);
-      fs.append('nombre', data.nombre);
-      fs.append('userId', userId);
-      fs.append('username', data.username);
-      fs.append('password1', data.password);
-      fs.append('active', active);
-      fs.append('nameAdminRegister', '');
-      fs.append('phoneAdminRegister', '');
-      fs.append('roles', data.roles[0] !== dataUp.roles[0] ? data.roles[0] : dataUp.roles[0]);
-      fs.append('id', dataUp._id);
-      fs.append('tipo', '');
+      fs.append('birthdate', data.birthdate);
 
-      const sendData = await axiosConfigs({
-        url: `/update_admin`,
-        method: 'post',
+      fs.append('info', data.info);
+      fs.append('roles', data.roles ? [data.roles] : [dataUserSelected.role._id]);
+      fs.append('dni', data.dni);
+
+      const sendData = await AxiosConfigsToken({
+        url: `/users/put`,
+        method: 'put',
         data: fs,
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      if (sendData.data.verificar) {
-        toast.success(`${sendData.data.mens}`);
-        reset({
-          courseName: '',
-          courseCode: '',
-          description: '',
-          open: '',
-          posGalery: '',
-        });
-        setImagen(null);
-        setPreviImage(null);
-        setLoad(false);
-        mutate('getAdminn');
+      if (sendData.data.success) {
+        toast.success(`${sendData.data.message}`);
+        mutate(`users/get/typeUser`)
         handleCloseM();
       } else {
-        toast.error(`${sendData.data.mens}`);
-        setLoad(false);
+        toast.error(`${sendData.data.message}`);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(`Hay un problema front`);
+      console.log(error)
+      toast.error(error.response?.data?.message);
+    } finally {
       setLoad(false);
     }
+
+
+
   };
 
-  const getPerfil = async () => {
+
+  const getRoles = async () => {
     try {
-      const res = await AxiosConfigsToken.get('/obtener_roles');
-      const data = res.data.data.docs;
+      const response = await Get(AxiosConfigsToken, `roles/get`);
+      if (response.success) {
+        setRoles(response.response)
 
-      setPerfils(data);
-    } catch (error) {}
-  };
-
-  const getImgUser = (e) => {
-    const arrayImg = ['jpg', 'png', 'jpeg', 'JPG', 'PNG', 'JPEG'];
-    const WIDTH = 300;
-
-    if (e[0]) {
-      const imgExtension = e[0].name.split('.')[e[0].name.split('.').length - 1];
-
-      if (arrayImg.includes(imgExtension)) {
-        const reader = new FileReader();
-        reader.readAsDataURL(e[0]);
-        reader.onload = (event) => {
-          let img_url = event.target.result;
-          //console.log(img_url)
-          let image = document.createElement('img');
-          image.src = img_url;
-          image.onload = async (e) => {
-            //COMENZANDO CON LA REDUCCION DEL TAMAÑO DEL IMAGEN
-            let canvas = document.createElement('canvas');
-            let ratio = WIDTH / e.target.width;
-            canvas.width = WIDTH;
-            canvas.height = e.target.height * ratio;
-            //crear objeto canvas
-            const context = canvas.getContext('2d');
-            context.drawImage(image, 0, 0, canvas.width, canvas.height);
-            let new_img_url = context.canvas.toDataURL('image/png', 100); //obtencion del imagen en base64
-            setPreviImage(new_img_url);
-            console.log(new_img_url);
-
-            //VOLVER A CONVERTIR LA IMAGEN EN FORMATO BLOB ES DECIR PASMOS DE "base64 ----> blob"
-            const img_fetch = await fetch(`data:image/png;base64,${new_img_url.split(',')[1]}`);
-            const img_convert_to_blob = await img_fetch.blob('image/png');
-
-            setImagen(img_convert_to_blob);
-            console.log(img_convert_to_blob);
-          };
-        };
       } else {
-        setImagen(null);
+        setRoles([])
       }
-    } else {
-      setImagen(null);
+    } catch (error) {
+    } finally {
     }
-  };
+  }
+
+
+
+
+  const onChangeTypeUser = (id) => {
+    const roleSelected = roles.filter(role => role.name === id);
+
+    console.log(roleSelected)
+
+    setTypeUser(roleSelected)
+    setUserTypeSelected(roleSelected[0].name)
+
+  }
+
 
   React.useEffect(() => {
-    getPerfil();
-    setDefautValues(dataUp);
-    //setPreviImage(dataUp.imagen1)
+    //setImagen(null)
+    //setPreviImage(null)
+    getRoles()
+    setPreviImageUsers(dataUserSelected.linkPhoto)
   }, []);
+
+  React.useEffect(() => {
+    if (typerUsers?.roles) {
+      onChangeTypeUser(typerUsers.roles)
+      console.log(typerUsers.roles)
+    }
+    setUserTypeSelected(dataUserSelected.role.name)
+
+
+  }, [typerUsers?.roles]);
 
   return (
     <Box
@@ -203,10 +172,10 @@ export default function FormUpdate({ dataUp }) {
         width: '100%',
         marginBottom: '10px',
         display: 'flex',
-        justifyContent: 'end',
+        justifyContent: 'start',
       }}
     >
-      <Button variant="text" onClick={handleOpenM} size="small">
+      <Button variant="outlined" size="small" onClick={handleOpenM} >
         <Edit />
       </Button>
       <Modal
@@ -217,350 +186,273 @@ export default function FormUpdate({ dataUp }) {
         disableScrollLock={true}
       >
         <Box sx={style}>
-          <Typography
-            variant="h6"
-            sx={{
-              textAlign: 'center',
-              marginBottom: 2,
-              color: 'textColorTitle',
-            }}
-          >
-            registrar personal
-          </Typography>
-          <Grid sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
-              <Box
+
+          {dataUserSelected ?
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+
+
+              <Typography
                 sx={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
+                  textAlign: 'center',
+                  fontFamily: 'sans-serif',
+                  //fontSize: '14px',
+                  //color: "#3e2723",
                 }}
+                variant="h6"
+                component="h6"
               >
-                {perfils ? (
-                  <div
-                    style={{
-                      width: '100%',
-                      display: 'flex',
-                      justifyContent: 'center',
+                Actulizar {dataUserSelected?.fullname}
+              </Typography>
+
+
+              <Box sx={{ width: '95%', mt: 2 }}>
+                <FormControl fullWidth error={!!errors.fullname} sx={{ mb: 2, }}>
+                  <TextField
+                    name='fullname'
+                    size="small"
+                    defaultValue={dataUserSelected.fullname}
+                    type='text'
+                    id="outlined-basic"
+                    label="Nombre completo"
+                    variant="outlined"
+                    InputLabelProps={{
+                      shrink: true, // Mantiene el label arriba
                     }}
-                  >
-                    <FormControl sx={{ mb: 2, width: '95%' }}>
-                      <InputLabel size="small" id="demo-simple-select-label">
-                        Elige el perfil
-                      </InputLabel>
+                    {...register('fullname', {
+                      required: false,
+                      minLength: 1,
+                    })}
+                  />
+                </FormControl>
+                <FormControl error={!!errors.email} fullWidth sx={{ mb: 2, }}>
+                  <TextField
+                    name='email'
+                    defaultValue={dataUserSelected.email}
+                    type='email'
+                    size="small"
+                    id="outlined-basic"
+                    InputLabelProps={{
+                      shrink: true, // Mantiene el label arriba
+                    }}
+                    label="Correo"
+                    variant="outlined"
+                    {...register('email', {
+                      required: false,
+                      minLength: 1,
+                    })}
+                  />
+                </FormControl>
+                <FormControl error={!!errors.phone} fullWidth sx={{ mb: 2, }}>
+                  <TextField
+                    name='phone'
+                    defaultValue={dataUserSelected.phone}
+                    type='phone'
+                    size="small"
+                    id="outlined-basic"
+                    label="Telefono"
+                    variant="outlined"
+                    InputLabelProps={{
+                      shrink: true, // Mantiene el label arriba
+                    }}
+                    {...register('phone', {
+                      required: false,
+                      minLength: 1,
+                    })}
+                  />
+                </FormControl>
+
+                <FormControl error={!!errors.dni} fullWidth sx={{ mb: 2, }}>
+                  <TextField
+                    name='dni'
+                    defaultValue={dataUserSelected.dni}
+                    type='text'
+                    size="small"
+                    id="outlined-basic"
+                    label="DNI o pasaporte"
+                    InputLabelProps={{
+                      shrink: true, // Mantiene el label arriba
+                    }}
+                    variant="outlined"
+                    {...register('dni', {
+                      required: 'Campo requerido',
+                      minLength: 1,
+                    })}
+                  />
+                </FormControl>
+
+
+                <FormControl error={!!errors.birthdate} fullWidth sx={{ mb: 2, }}>
+                  <TextField
+                    name='birthdate'
+                    defaultValue={new Date(dataUserSelected?.birthdate).toISOString().split("T")[0]}
+                    InputLabelProps={{
+                      shrink: true, // Mantiene el label arriba
+                    }}
+                    type='date'
+                    size="small"
+                    id="outlined-basic"
+                    label="Fecha de nacimiento"
+                    variant="outlined"
+                    {...register('birthdate', {
+                      required: 'Campo requerido',
+                      minLength: 1,
+                    })}
+                  />
+                </FormControl>
+
+                <FormControl fullWidth size="small" sx={{ mt: 2 }}>
+                  <InputLabel id="roles-label">Tipo de usuario</InputLabel>
+                  <Controller
+                    name="roles"
+                    control={control}
+                    rules={{ required: false }}
+
+                    render={({ field }) => (
                       <Select
-                        size="small"
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Estado del curso"
-                        defaultValue={dataUp.roles[0]?.name}
-                        {...register('puesto', { required: true })}
+                        defaultValue={dataUserSelected.role._id}
+
+                        label={'Tipo de usuario'}
+                        labelId="roles-label"
+                        {...field}   // incluye value + onChange de RHF
                       >
-                        {perfils.map((x) => (
-                          <MenuItem value={x.name}>{x.name}</MenuItem>
+
+                        {roles.map((opt) => (
+                          <MenuItem key={opt._id} value={opt._id}>
+                            {opt.name}
+                          </MenuItem>
                         ))}
                       </Select>
-                    </FormControl>
-                  </div>
-                ) : (
-                  <></>
-                )}
+                    )}
+                  />
+                </FormControl>
 
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
+
+                {userTypeSelected === 'admin' ?
+                  <FormControl error={!!errors.posGalery} fullWidth sx={{ mt: 2, }}>
                     <TextField
+                      name='posGalery'
+                      defaultValue={dataUserSelected.posGalery}
+                      type='number'
                       size="small"
                       id="outlined-basic"
-                      label="Nombre completo"
-                      defaultValue={dataUp.nombre}
-                      variant="outlined"
-                      {...register('nombre', {
-                        required: 'Campo requerido',
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <TextField
-                      size="small"
-                      multiline
-                      id="outlined-basic"
-                      label="Estudios realizados"
-                      defaultValue={dataUp.educacion}
-                      variant="outlined"
-                      {...register('educacion', {
-                        required: 'Campo requerido',
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <TextField
-                      size="small"
-                      id="outlined-basic"
-                      label="Telefono"
-                      defaultValue={dataUp.contact}
-                      variant="outlined"
-                      {...register('contact', {
-                        required: 'Campo requerido',
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <TextField
-                      size="small"
-                      id="outlined-basic"
-                      label="Correo"
-                      variant="outlined"
-                      defaultValue={dataUp.email}
-                      {...register('email', {
-                        required: 'Campo requerido',
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <TextField
-                      size="small"
-                      id="outlined-basic"
-                      type="number"
-                      label="Su posicion en la galeria"
-                      defaultValue={dataUp.posGalery}
+                      InputLabelProps={{
+                        shrink: true, // Mantiene el label arriba
+                      }}
+                      label="Posicion en la galeria"
                       variant="outlined"
                       {...register('posGalery', {
-                        required: 'Campo requerido',
+                        required: false,
                         minLength: 1,
                       })}
                     />
                   </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <InputLabel size="small" id="demo-simple-select-label">
-                      Elige el sexo
-                    </InputLabel>
-                    <Select
-                      size="small"
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Elige el sexo"
-                      defaultValue={dataUp.sex}
-                      {...register('sex', { required: true })}
-                    >
-                      <MenuItem value="Hombre">Hombre</MenuItem>
-                      <MenuItem value="Mujer">Mujer</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="outlined"
-                      tabIndex={-1}
-                      startIcon={<CloudUpload />}
-                    >
-                      Elegir foto de perfil
-                      <VisuallyHiddenInput
-                        type="file"
-                        onChange={(e) => getImgUser(e.target.files)}
-                      />
-                    </Button>
-                  </FormControl>
-                </div>
-
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '40%' }}>
-                    {previImage || dataUp.imagen1 ? (
-                      <img src={previImage ? previImage : dataUp.imagen1} alt="" />
-                    ) : (
-                      <></>
-                    )}
-                  </FormControl>
-                </div>
-
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 2, width: '95%' }}>
-                    <InputLabel size="small" id="demo-simple-select-label">
-                      Que tenga acceso en la plataforma
-                    </InputLabel>
-                    <Select
-                      size="small"
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Que tenga acceso en la plataforma"
-                      defaultValue={dataUp.active}
-                      onChange={(e) => {
-                        setActive(e.target.value);
-                      }}
-                      //{...register("active", { required: true })}
-                    >
-                      <MenuItem value="true">Si </MenuItem>
-                      <MenuItem value="false">No</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-
-                {active == 'true' && !dataUp.active ? (
-                  <>
-                    <div
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <FormControl sx={{ mb: 2, width: '95%' }}>
-                        <TextField
-                          size="small"
-                          id="outlined-basic"
-                          label="Nombre de usuario"
-                          variant="outlined"
-                          defaultValue={dataUp.username}
-                          {...register('username', {
-                            required: 'Campo requerido',
-                            minLength: 1,
-                          })}
-                        />
-                      </FormControl>
-                    </div>
-
-                    <div
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <FormControl sx={{ mb: 2, width: '95%' }}>
-                        <TextField
-                          size="small"
-                          id="outlined-basic"
-                          label="Contrasena"
-                          variant="outlined"
-                          defaultValue={dataUp.password}
-                          {...register('password', {
-                            required: 'Campo requerido',
-                            minLength: 1,
-                          })}
-                        />
-                      </FormControl>
-                    </div>
-                    <div
-                      style={{
-                        width: '100%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <FormControl sx={{ mb: 2, width: '95%' }}>
-                        <TextField
-                          size="small"
-                          id="outlined-basic"
-                          label="Repite la contrasena"
-                          variant="outlined"
-                          defaultValue={dataUp.password}
-                          {...register('password1', {
-                            required: 'Campo requerido',
-                            minLength: 1,
-                          })}
-                        />
-                      </FormControl>
-                    </div>
-                  </>
-                ) : (
+                  :
                   <></>
+                }
+                <FormControl fullWidth size="small" sx={{ mt: 2 }}>
+                  <InputLabel id="roles-label">Genero del usuario</InputLabel>
+                  <Controller
+                    name="sex"
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field }) => (
+                      <Select
+                        defaultValue={dataUserSelected.sex}
+                        label={'Genero del usuario'}
+                        labelId="roles-label"
+                        {...field}   // incluye value + onChange de RHF
+
+                      >
+                        <MenuItem key={'hombre'} value={'hombre'}>
+                          Hombre
+                        </MenuItem>
+                        <MenuItem key={'mujer'} value={'mujer'}>
+                          Mujer
+                        </MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+                <FormControl fullWidth error={!!errors.info} sx={{ mt: 2, mb: 2 }}>
+
+                  <TextareaAutosize
+                    defaultValue={dataUserSelected.info}
+
+                    name={'info'} placeholder={''}
+                    style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
+                    {...register('info', { required: false })}
+
+                  />
+                </FormControl>
+
+                <Controller
+                  name="imagen1"
+                  control={control}
+                  render={({ }) => (
+                    <FieldImageInput
+                      label={'Foto del usuario'}
+                      onFileChange={(file) => {
+                        setArrayFiles(file);
+                      }}
+                    />
+                  )}
+                />
+
+                {!arrayFiles ?
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FormControl sx={{ mt: 1, width: '20%', justifyItems: 'center' }} size="small">
+                      <img src={previImageUsers} alt="" />
+                    </FormControl></div> : <></>}
+                {errorInit && (
+                  <Box sx={{ width: '95%', mt: 2 }}>
+                    <FormAlert message={errorInitMessage} />
+                  </Box>
                 )}
 
-                <div
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <FormControl sx={{ mb: 1, width: '95%' }}>
-                    <LoadingButton
-                      loading={load}
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      sx={{ width: '100%' }}
-                      size="large"
-                    >
-                      <span>Registrar</span>
-                    </LoadingButton>
-                  </FormControl>
-                </div>
+                <Box sx={{ width: '95%', mt: 2 }}>
+                  <LoadingButton
+                    loading={loading}
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    fullWidth
+                    size="small"
+                  >
+                    Actualizar
+                  </LoadingButton>
+                </Box>
               </Box>
+
+
+
+
             </form>
-          </Grid>
+            :
+            <></>
+          }
+
+
         </Box>
+
+
+
+
+
+
       </Modal>
     </Box>
   );

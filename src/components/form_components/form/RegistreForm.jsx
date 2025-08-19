@@ -27,6 +27,7 @@ const RegistreForm = ({
   imageUrl,
   imageAlt,
   linkUrl,
+  defaultValue,
   linkText,
   setArrayFiles,
   text
@@ -57,8 +58,8 @@ const RegistreForm = ({
           //fontSize: '14px',
           //color: "#3e2723",
         }}
-        variant="h5"
-        component="h5"
+        variant="h6"
+        component="h6"
       >
         {text}
       </Typography>
@@ -95,7 +96,6 @@ const RegistreForm = ({
                       <Controller
                         name="imagen1"
                         control={control}
-                        defaultValue={null}
                         render={({ field }) => (
                           <FieldImageInput
                             label={fld.label}

@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-const TextFieldInput = ({
+const TextFieldInputDate = ({
   name,
   label,
   type = 'text',
@@ -14,14 +14,12 @@ const TextFieldInput = ({
   showPassword = false,
   onChange,
   togglePasswordVisibility,
-  defaultValue
 }) => {
   return (
     <TextField
       fullWidth
       label={label}
-      defaultValue={defaultValue}
-      type={type}
+      
       InputLabelProps={{
         shrink: true, // Mantiene el label arriba
       }}
@@ -37,4 +35,4 @@ const TextFieldInput = ({
   );
 };
 
-export default TextFieldInput;
+export default TextFieldInputDate;

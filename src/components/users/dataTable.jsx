@@ -7,51 +7,15 @@ import { Get } from './get';
 import ModalAddFormUpdateRoles from './modalUpdate';
 import SkeletonTable from '../skelholder/skelethonTable';
 import AppContext from '../../contexts/ServiceContext';
+import FormUpdate from './formUpdate';
+import { DATA_EDIT_USER } from '../../contexts/constantesVar';
 
-const VISIBLE_FIELDS = ['email', 'roles','fullname','linkPhoto'];
+const VISIBLE_FIELDS = ['email', 'roles', 'fullname', 'linkPhoto', 'phone', 'acciones'];
 
-const columns1 = [
-  {
-    field: 'email',
-    headerName: 'Email',
-    width: 250,
-    editable: false,
-  },
-  {
-    field: 'fullname',
-    headerName: 'Nombre completo',
-    width: 250,
-    editable: false,
-  },
-  {
-    field: 'roles',
-    headerName: 'Role',
-    width: 150,
-    editable: false,
-    valueGetter: (params) => {
-      console.log(params,'hhhh')
-      return params.row.role.name;
-    },
-  },
-  
-  {
-    field: 'linkPhoto',
-    headerName: 'La foto del usuario',
-    width: 150,
-    editable: false,
-    renderCell: (params) => (
-      <Avatar
-        alt="Foto"
-        src={params.row.linkPhoto}
-        sx={{ width: 40, height: 40 }}
-      />
-    ),
-  },
 
-];
 
 function DataTable({ typeUserSelected }) {
-  const { userId, typeUser, acciones, AxiosConfigsToken, loginToken } = React.useContext(AppContext);
+  const { userId, typeUser, acciones, AxiosConfigsToken, loginToken,dispatch } = React.useContext(AppContext);
 
   //SWR para hacer peticiones
 
@@ -59,16 +23,79 @@ function DataTable({ typeUserSelected }) {
   const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
   const [datas, setData] = React.useState(false);
 
+  const columns1 = [
+    {
+      field: 'email',
+      headerName: 'Email',
+      width: 200,
+      editable: false,
+    },
+    {
+      field: 'phone',
+      headerName: 'Telefono',
+      width: 200,
+      editable: false,
+    },
+    {
+      field: 'fullname',
+      headerName: 'Nombre completo',
+      width: 250,
+      editable: false,
+    },
+    {
+      field: 'roles',
+      headerName: 'Role',
+      width: 100,
+      editable: false,
+      valueGetter: (params) => {
+        return params.row.role.name;
+      },
+    },
+  
+    {
+      field: 'linkPhoto',
+      headerName: 'La foto del usuario',
+      width: 100,
+      editable: false,
+      renderCell: (params) => (
+        <Avatar
+          alt="Foto"
+          src={params.row.linkPhoto}
+          sx={{ width: 40, height: 40 }}
+        />
+      ),
+    },
+  
+    {
+      field: 'acciones',
+      headerName: 'Acciones',
+      width: 180,
+      editable: false,
+  
+      renderCell: (params) => {
+        const currentRow = params.row;
+        
+        return (
+          <>
+            {
+              <>
+  
+                <FormUpdate dataUsers={'hh'} dataUserSelected={currentRow} />
+  
+              </>
+            }
+          </>
+        );
+      },
+    },
+  
+  ];
 
 
 
-  const { data, error, isLoading } = useSWR(
-    typeUserSelected ? `users/get/${typeUserSelected}` : null,
-    (url) => Get(AxiosConfigsToken, url),
-    {}
-  );
+  const { data, error, isLoading } = useSWR('users/get/typeUser', () => Get(AxiosConfigsToken,`users/get/${typeUserSelected}`), {});
 
-  console.log(data)
+
 
 
   const columns = React.useMemo(
@@ -81,7 +108,7 @@ function DataTable({ typeUserSelected }) {
       //getUsers()
 
     }
-  //console.log(typeUserSelected, 'typeUserSelected');
+    //console.log(typeUserSelected, 'typeUserSelected');
 
   }, [typeUserSelected])
 
@@ -91,7 +118,7 @@ function DataTable({ typeUserSelected }) {
     <>
       <Box sx={{ height: 600, width: '100%' }}>
         <DataGrid
-          rows={data?data.response.docs:[]}
+          rows={data ? data.response.docs : []}
           getRowId={(row) => row._id}
           disableColumnFilter
           disableColumnSelector

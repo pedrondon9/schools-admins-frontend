@@ -10,9 +10,10 @@ import { fieldCreate } from '../../components/form_components/arrayFields';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Get } from '../../components/users/get';
+import { TYPE_USER_SELECTED } from '../../contexts/constantesVar';
 
 export const Users = () => {
-  const { AxiosConfigsToken } = React.useContext(AppContext);
+  const { AxiosConfigsToken,dispatch } = React.useContext(AppContext);
   const [selected, setSelected] = React.useState('');
   const [roles, setRoles] = React.useState([]);
 
@@ -20,7 +21,6 @@ export const Users = () => {
   const getRoles = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `roles/get`);
-      console.log(response.response, 'rolessssssss')
       if (response.success) {
         setRoles(response.response)
 
@@ -28,7 +28,6 @@ export const Users = () => {
         setRoles([])
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
     } finally {
     }
   }
@@ -55,11 +54,15 @@ export const Users = () => {
           label="Estado del curso"
           onChange={(e) => {
             setSelected(e.target.value);
+            dispatch({
+              type:TYPE_USER_SELECTED,
+              payload:e.target.value
+            })
           }
           }
         >
           {roles.map((role) =>
-            <MenuItem value={role.name}>{role.name}</MenuItem>
+            <MenuItem key={role.name} value={role.name}>{role.name}</MenuItem>
           )}
         </Select>
       </FormControl>

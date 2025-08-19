@@ -11,6 +11,7 @@ export const handleSubmitOptF = async (
     cacheKey
 ) => {
     const Otp = JSON.parse(window.localStorage.getItem(cacheKey));
+    console.log(Otp,'dddssss   ddddd')
 
     setErrorInitOtp(false);
     setLoadOtp(true);
@@ -20,6 +21,9 @@ export const handleSubmitOptF = async (
             url: `${URL_SERVER}/auth/confir_opt_register_post`,
             method: 'post',
             data: { otp: otpCode, token: Otp.token },
+            headers:{
+                'x-access-token':Otp.token
+            }
         });
 
         console.log(confirmOpt.data, 'verify otp');
@@ -66,6 +70,9 @@ export const onSubmitResendOTPF = async (
             url: `${URL_SERVER}/auth/resend_otp`,
             method: 'post',
             data: {token: Otp.token },
+            headers:{
+                'x-access-token':Otp.token
+            }
         });
 
         if (registerPost.data.verify) {

@@ -71,7 +71,11 @@ export default function FormUpdate({ dataUp }) {
     reset,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      roles: "admin",
+    },
+  });
 
   //para enviar datos en el servidor
   const onSubmit = async (data) => {

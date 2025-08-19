@@ -72,7 +72,7 @@ export default (props) => {
 
         AxiosConfigsToken,
         dataUser: state.dataUser,
-
+        dataEditUser:state.dataEditUser,
         userId: state.dataUser.loginName,
         userName: state.dataUser.loginId,
         valideLogin: state.dataUser.login,

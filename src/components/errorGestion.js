@@ -2,15 +2,12 @@
 
 const ErrorG = (error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInitOtp) => {
     console.log(error)
-
+    
     if (error.response?.status === 400) {
-
-        setErrorInitMessage(error.response?.data.dataErrors[0]?.msg);
+        setErrorInitMessage(error.response?.data?.message);
+        setErrorInitOtp(true)
 
         return
-
-        
-
     }
 
     if (error.response?.status === 403) {

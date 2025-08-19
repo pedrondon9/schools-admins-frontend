@@ -23,8 +23,8 @@ const style = {
   height: 'auto',
 };
 
-export default function FormAdd({typeUserSelected}) {
-  const { AxiosConfigsToken,dataUser } = React.useContext(AppContext);
+export default function FormAdd({ typeUserSelected }) {
+  const { AxiosConfigsToken, dataUser } = React.useContext(AppContext);
   const [roles, setRoles] = React.useState([]);
 
   const [errorInit, setErrorInit] = React.useState(false);
@@ -32,12 +32,10 @@ export default function FormAdd({typeUserSelected}) {
   const [arrayFiles, setArrayFiles] = React.useState('');
 
   const [showPassword, setShowPassword] = React.useState(false);
-  const [loading, setLoads] = React.useState(false); //estado para activar el spinner del boton submit
-  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
+  const [loading, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
 
   const [typeUser, setTypeUser] = React.useState('');
   const [previImage, setPreviImage] = React.useState(null);
-  const [imagen, setImagen] = React.useState(null);
 
 
   //habrir y cerrar el modal
@@ -69,28 +67,22 @@ export default function FormAdd({typeUserSelected}) {
     data.roles = [data.roles]
 
     try {
+
       setLoad(true);
       const fs = new FormData();
-      fs.append('arrayFiles', arrayFiles);
       fs.append('fullname', data.fullname);
       fs.append('sex', data.sex);
-      fs.append('contact', data.contact);
-      fs.append('phone', data.phone);
-      fs.append('posGalery', data.posGalery?Number(data.posGalery):0);
-      fs.append('email', data.email);
-      if (data?.birthdate) {
-        fs.append('birthdate', data.birthdate);
-      }else{
-        fs.append('birthdate', Date.now());
-
-      }
-      fs.append('info', data.info);
-      fs.append('codeUser', data.codeUser);
-      fs.append('roles', data.roles);
       fs.append('dni', data.dni);
+      fs.append('phone', data.phone);
+      fs.append('posGalery', data.posGalery ? Number(data.posGalery) : 0);
+      fs.append('email', data.email);
+      fs.append('roles', data.roles);
       fs.append('isActive', true);
       fs.append('isVerified', true);
       fs.append('school', [dataUser.schoolTenant]);
+      fs.append('arrayFiles', arrayFiles);
+      fs.append('birthdate', data.birthdate);
+      fs.append('info', data.info);
 
       const sendData = await AxiosConfigsToken({
         url: `/users/post`,
@@ -101,16 +93,16 @@ export default function FormAdd({typeUserSelected}) {
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
         setPreviImage(null);
-        setLoad(false);
-        mutate(`users/get/${typeUserSelected}`)
+        setArrayFiles([])
+        reset()
+        mutate(`users/get/typeUser`)
         handleCloseM();
       } else {
         toast.error(`${sendData.data.message}`);
-        setLoad(false);
       }
     } catch (error) {
-      console.log(error)
       toast.error(error.response?.data?.message);
+    } finally {
       setLoad(false);
     }
 
@@ -121,16 +113,13 @@ export default function FormAdd({typeUserSelected}) {
   const getRoles = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `roles/get`);
-      console.log(response.response, 'rolessssssss')
       if (response.success) {
         setRoles(response.response)
-        console.log(roles, 'dddd')
 
       } else {
         setRoles([])
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
     } finally {
     }
   }
@@ -148,7 +137,7 @@ export default function FormAdd({typeUserSelected}) {
       name: 'email',
       label: 'Correo ',
       type: 'email',
-      validation: { required: false },
+      validation: { required: true },
       startIcon: null,
     },
     {
@@ -157,6 +146,13 @@ export default function FormAdd({typeUserSelected}) {
       type: 'text',
       validation: { required: true },
       startIcon: null,
+    },
+    {
+      name: 'dni',
+      label: 'Identidad o pasaporte',
+      type: 'text',
+      validation: { required: true },
+      startIcon: null
     },
     {
       name: 'sex',
@@ -175,6 +171,13 @@ export default function FormAdd({typeUserSelected}) {
       ]
     },
     {
+      name: 'birthdate',
+      label: 'Fecha de nacimiento',
+      type: 'date',
+      validation: { required: true },
+      startIcon: null
+    },
+    {
       name: 'roles',
       label: 'Tipo de usuario',
       type: 'select',
@@ -186,13 +189,7 @@ export default function FormAdd({typeUserSelected}) {
     },
     ...(typeUser[0]?.name === 'admin'
       ? [
-        {
-          name: 'info',
-          label: 'Breve descripcion del usuario',
-          type: 'textarea',
-          validation: { required: true },
-          startIcon: null
-        },
+
         {
           name: 'posGalery',
           label: 'Posicion en la galeria',
@@ -202,50 +199,6 @@ export default function FormAdd({typeUserSelected}) {
         }
       ]
       : []),
-    ...(typeUser[0]?.name === 'teacher'
-      ? [
-        {
-          name: 'info',
-          label: 'Breve descripcion del usuario',
-          type: 'textarea',
-          validation: { required: true },
-          startIcon: null
-        },
-        {
-          name: 'dni',
-          label: 'Identidad o pasaporte',
-          type: 'text',
-          validation: { required: true },
-          startIcon: null
-        },
-      ]
-      : []),
-    ...(typeUser[0]?.name === 'student'
-      ? [
-        {
-          name: 'birthdate',
-          label: 'Fecha de nacimiento',
-          type: 'date',
-          validation: { required: true },
-          startIcon: null
-        },
-        {
-          name: 'dni',
-          label: 'Identidad o pasaporte',
-          type: 'text',
-          validation: { required: true },
-          startIcon: null
-        },
-        {
-          name: 'codeUser',
-          label: 'Crea el codigo del estudiante',
-          type: 'number',
-          validation: { required: true },
-          startIcon: null
-        }
-      ]
-      : []),
-
     {
       name: 'imagen1',
       label: 'La foto del usuario',
@@ -266,7 +219,7 @@ export default function FormAdd({typeUserSelected}) {
   }
 
 
-  
+
 
   React.useEffect(() => {
     //setImagen(null)
