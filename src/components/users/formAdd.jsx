@@ -95,7 +95,7 @@ export default function FormAdd({ typeUserSelected }) {
         setPreviImage(null);
         setArrayFiles([])
         reset()
-        mutate(`users/get/typeUser`)
+        await mutate(`users/get/${typeUserSelected}`)
         handleCloseM();
       } else {
         toast.error(`${sendData.data.message}`);

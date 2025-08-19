@@ -23,6 +23,18 @@ function DataTable({ typeUserSelected }) {
   const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
   const [datas, setData] = React.useState(false);
 
+ 
+
+
+
+  //const { data, error, isLoading } = useSWR('users/get/typeUser', () => Get(AxiosConfigsToken,`users/get/${typeUserSelected}`), {});
+
+  const { data, error, isLoading,mutate } = useSWR(
+    typeUserSelected ? `users/get/${typeUserSelected}` : null,
+    (url) => Get(AxiosConfigsToken, `users/get/${typeUserSelected}`),
+    {}
+  );
+
   const columns1 = [
     {
       field: 'email',
@@ -73,6 +85,7 @@ function DataTable({ typeUserSelected }) {
       editable: false,
   
       renderCell: (params) => {
+
         const currentRow = params.row;
         
         return (
@@ -80,7 +93,7 @@ function DataTable({ typeUserSelected }) {
             {
               <>
   
-                <FormUpdate dataUsers={'hh'} dataUserSelected={currentRow} />
+                <FormUpdate typeUserSelected={typeUserSelected} mutateLocal = {mutate}  dataUserSelected={currentRow} />
   
               </>
             }
@@ -90,14 +103,6 @@ function DataTable({ typeUserSelected }) {
     },
   
   ];
-
-
-
-  const { data, error, isLoading } = useSWR('users/get/typeUser', () => Get(AxiosConfigsToken,`users/get/${typeUserSelected}`), {});
-
-
-
-
   const columns = React.useMemo(
     () => columns1.filter((column) => VISIBLE_FIELDS.includes(column.field)),
     [columns1]

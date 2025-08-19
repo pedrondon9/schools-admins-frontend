@@ -25,8 +25,8 @@ const style = {
   height: 'auto',
 };
 
-export default function FormUpdate({ typeUserSelected,dataUserSelected }) {
-  const { AxiosConfigsToken } = React.useContext(AppContext);
+export default function FormUpdate({ dataUserSelected,mutateLocal }) {
+  const { AxiosConfigsToken,typeUserSelected } = React.useContext(AppContext);
 
   const [roles, setRoles] = React.useState([]);
 
@@ -103,7 +103,7 @@ export default function FormUpdate({ typeUserSelected,dataUserSelected }) {
       });
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
-        mutate(`users/get/typeUser`)
+        await mutateLocal()
         handleCloseM();
       } else {
         toast.error(`${sendData.data.message}`);

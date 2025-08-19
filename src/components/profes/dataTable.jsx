@@ -38,7 +38,7 @@ const columns1 = [
               {params.row.name === 'super_admin' || params.row.name === 'Cajero' ? (
                 <></>
               ) : (
-                <ModalAddFormUpdateRoles dataUser={currentRow} />
+                <ModalAddFormUpdateRoles dataUser={currentRow} mutateLocal = {mutate} />
               )}
               {/*<ModalDeleteUser dataUser={currentRow} />*/}
             </>
@@ -58,6 +58,10 @@ function DataTable() {
 
   const { data, error, isLoading } = useSWR('getRoles', () => Get(AxiosConfigsToken), {});
 
+
+
+  mutate(`users/get/${typeUserSelected}`);
+  
   const columns = React.useMemo(
     () => columns1.filter((column) => VISIBLE_FIELDS.includes(column.field)),
     [columns1]
