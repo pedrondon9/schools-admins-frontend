@@ -6,18 +6,19 @@ import ListItemText from '@mui/material/ListItemText';
 
 import Toolbar from '@mui/material/Toolbar';
 
-import { NavLink } from 'react-router-dom';
-import { Box, Button } from '@mui/material';
+import { NavLink,useLocation } from 'react-router-dom';
+import { Box, Button, Typography } from '@mui/material';
 import { DATA_USER } from '../../contexts/constantesVar';
 import AppContext from '../../contexts/ServiceContext';
 
 const listTextStyle = {
-  fontWeight: '900',
+  fontWeight: 900,
   color: '#eeeeee',
 };
 
 function DrawerListt({ toggleDrawer }) {
   const { dispatch, dataUser, userId, userName, valideLogin } = React.useContext(AppContext);
+  const location = useLocation();
 
   const CloseSesion = () => {
     let dataUsers = {
@@ -41,7 +42,7 @@ function DrawerListt({ toggleDrawer }) {
   const listePath = [
     { text: 'Inicio', link: '/' },
     { text: 'Usuario', link: '/users' },
-    { text: 'Cursos', link: '/course' },
+    { text: 'Cursos', link: '/cursos' },
     { text: 'Eventos', link: '/events' },
     { text: 'Perfiles', link: '/profil' },
     { text: 'Configuracion', link: '/setting' },
@@ -71,7 +72,7 @@ function DrawerListt({ toggleDrawer }) {
                     width={130}
                     style={{
                       filter: 'grayscale(100%)',
-                      display:'none'
+                      display: 'none'
                     }}
                   />
                 }
@@ -85,10 +86,26 @@ function DrawerListt({ toggleDrawer }) {
                 key={menu.text}
                 disablePadding
                 divider={true}
-                sx={{ color: '#eeeeee', fontSize: '25px', fontWeight: '700px' }}
+                //disableGutters={true}
+                
+                
               >
-                <ListItemButton component={NavLink} to={menu.link} onClick={toggleDrawer}>
-                  <ListItemText primary={menu.text} sx={listTextStyle} />
+                <ListItemButton sx={{ fontWeight: 9000,bgcolor:location.pathname == menu.link?"#fff":"#eee" }} component={NavLink} to={menu.link} onClick={toggleDrawer}>
+
+                  <Typography
+                    variant="p"
+                    component="p"
+                    sx={{
+                      textAlign: 'center',
+                      whiteSpace: 'normal',
+                      fontSize: 17,
+                      color:location.pathname == menu.link?"#6200ea":"#212121",
+                      fontWeight:600
+
+                    }}
+                  >
+                    {menu.text}
+                  </Typography>
                 </ListItemButton>
               </ListItem>
             ))}
@@ -102,7 +119,7 @@ function DrawerListt({ toggleDrawer }) {
                 marginTop: 3,
                 fontSize: '25px',
                 bgcolor: '#eee',
-                
+
               }}
             >
               <ListItemButton
@@ -110,7 +127,7 @@ function DrawerListt({ toggleDrawer }) {
                   CloseSesion();
                 }}
               >
-                <ListItemText primary={'Salir'} sx={{ color: '#212121',fontWeight: '1000px', }} />
+                <ListItemText primary={'Salir'} sx={{ color: '#212121', fontWeight: '1000px', }} />
               </ListItemButton>
             </ListItem>
           </List>

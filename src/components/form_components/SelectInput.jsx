@@ -7,6 +7,7 @@ const SelectInput = ({ name, label, options = [], register, validation, error })
     <FormControl fullWidth error={!!error} size="small" sx={{mb:2}}>
       <InputLabel id={`${name}-label`}>{label}</InputLabel>
       <Select
+        defaultValue={''}
         labelId={`${name}-label`}
         label={label}
         {...register(name, validation)}

@@ -406,6 +406,7 @@ export default function FormUpdate({ dataUp }) {
                     justifyContent: 'center',
                   }}
                 >
+                  
                   <FormControl sx={{ mb: 2, width: '40%' }}>
                     {previImage || dataUp.imagen1 ? (
                       <img src={previImage ? previImage : dataUp.imagen1} alt="" />

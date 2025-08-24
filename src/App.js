@@ -25,7 +25,8 @@ import Setting from './pages/setting/setting';
 import Registre from './pages/registre/registre';
 import UpdatePassword from './pages/updatePassword/updatePassword';
 import RegisterUsers from './pages/users/register.users';
-import EditUsers from './pages/editUsers/editUsers';
+import { Cursos } from './pages/formations/cursos';
+import EditCourse from './pages/editCourse/editCourse';
 
 function App() {
   return (
@@ -84,10 +85,10 @@ function App() {
 
               <Route
                 exact
-                path="/edit_users"
+                path="/edit_course/:id"
                 element={
                   <Protected>
-                    <EditUsers />
+                    <EditCourse />
                   </Protected>
                 }
               />
@@ -131,10 +132,10 @@ function App() {
               />
               <Route
                 exact
-                path="/course"
+                path="/cursos"
                 element={
                   <Protected>
-                    <Course />
+                    <Cursos />
                   </Protected>
                 }
               />

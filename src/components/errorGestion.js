@@ -36,8 +36,6 @@ const ErrorG = (error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInitOt
         setErrorInitOtp(true)
         return
 
-
-
     }
 
     if (error.request) {

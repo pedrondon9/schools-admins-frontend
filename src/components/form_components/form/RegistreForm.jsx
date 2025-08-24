@@ -95,6 +95,7 @@ const RegistreForm = ({
                     ) : (
                       <Controller
                         name="imagen1"
+                        
                         control={control}
                         render={({ field }) => (
                           <FieldImageInput

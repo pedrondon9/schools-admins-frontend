@@ -127,7 +127,7 @@ function MenuAppBars(props) {
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: drawerWidth,
-                  backgroundColor: '#6200ea',
+                  backgroundColor: '#eee',
                 },
               }}
               open
