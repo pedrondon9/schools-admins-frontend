@@ -20,5 +20,6 @@ export const InitialState = {
         schoolCountry: '',
       },
       dataEditUser:{},
-      typeUserSelected:''
+      typeUserSelected:'',
+      editCourseId:null
 };

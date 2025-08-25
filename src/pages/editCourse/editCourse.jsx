@@ -11,7 +11,7 @@ import FormImage from '../../components/form_components/FormImage';
 import FieldImageInput from '../../components/form_components/fieldImage';
 import FormAlert from '../../components/form_components/FormAlert';
 import { LoadingButton } from '@mui/lab';
-import { DATA_EDIT_USER } from '../../contexts/constantesVar';
+import { DATA_EDIT_COURSE, DATA_EDIT_USER } from '../../contexts/constantesVar';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { Title } from '../../components/textTitle/title';
 import SkeletonTable from '../../components/skelholder/skelethonTable';
@@ -29,12 +29,14 @@ const style = {
 };
 
 export default function EditCourse({ }) {
-    const { AxiosConfigsToken, dataUser, dataEditUser } = React.useContext(AppContext);
+    const { AxiosConfigsToken, dataUser, dataEditUser,dispatch,editCourseId,getCourseId } = React.useContext(AppContext);
     const { id } = useParams();
     const navigate = useNavigate();
 
     let dataUserSelected = dataEditUser
-    const [courseId, setCourseId] = React.useState(null);
+
+  const [courseId, setCourseId] = React.useState(null);
+  const [loadingCourseId, setLoadingCourseId] = React.useState(false);
 
     const [errorInit, setErrorInit] = React.useState(false);
     const [errorInitMessage, setErrorInitMessage] = React.useState('');
@@ -43,7 +45,6 @@ export default function EditCourse({ }) {
 
     const [showPassword, setShowPassword] = React.useState(false);
     const [loading, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
-    const [loadingCourseId, setLoadingCourseId] = React.useState(false);
 
     const [typeUser, setTypeUser] = React.useState('');
     const [previImage, setPreviImage] = React.useState(null);
@@ -128,22 +129,33 @@ export default function EditCourse({ }) {
     };
 
 
-    const getCourseId = async () => {
-        setLoadingCourseId(true)
-        try {
-            const response = await Get(AxiosConfigsToken, `course/get/${id}`);
-            if (response.success) {
-                setCourseId(response.response?.docs[0])
+  const getCourseIds = async (id) => {
+    setLoadingCourseId(true)
+    try {
+      const response = await Get(AxiosConfigsToken, `course/get/${id}`);
+      if (response.success) {
+        console.log(response, 'response courseId');
+        setCourseId(response.response?.docs[0])
+        dispatch({
+          type: DATA_EDIT_COURSE,
+          payload: response.response?.docs[0]
+        })
 
-            } else {
-                setCourseId(null)
-            }
-        } catch (error) {
-            setCourseId(null)
-        } finally {
-            setLoadingCourseId(false)
-        }
+      } else {
+        dispatch({
+          type: DATA_EDIT_COURSE,
+          payload: null
+        })
+      }
+    } catch (error) {S
+      dispatch({
+        type: DATA_EDIT_COURSE,
+        payload: null
+      })
+    } finally {
+      setLoadingCourseId(false)
     }
+  }
 
 
 
@@ -152,7 +164,7 @@ export default function EditCourse({ }) {
     React.useEffect(() => {
         //setImagen(null)
         //setPreviImage(null)
-        getCourseId()
+        getCourseId(id)
         setPreviImageUsers(dataUserSelected?.linkPhoto)
     }, []);
 
@@ -191,7 +203,7 @@ export default function EditCourse({ }) {
                     </Box>
 
                   
-                    <NavTab id = {id} courseId={courseId}/>
+                    <NavTab id = {id} courseId={editCourseId}/>
                 </>
                 :
                 <SkeletonTable />

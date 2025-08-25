@@ -1,4 +1,4 @@
-import { TITLEPAGE, DATA_USER, DATA_EDIT_USER, TYPE_USER_SELECTED } from './constantesVar';
+import { TITLEPAGE, DATA_USER, DATA_EDIT_USER, TYPE_USER_SELECTED, DATA_EDIT_COURSE } from './constantesVar';
 
 const AppReducer = (state, action) => {
   const { payload, type } = action;
@@ -20,13 +20,17 @@ const AppReducer = (state, action) => {
           typeUserSelected: payload,
         };
     case DATA_USER:
-      console.log(payload);
       return {
         ...state,
         dataUser: {
           ...state.dataApp,
           ...payload,
         },
+      };
+    case DATA_EDIT_COURSE:
+      return {
+        ...state,
+        editCourseId: payload,
       };
     default:
       return state;

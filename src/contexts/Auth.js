@@ -3,11 +3,13 @@ import AppContext from './ServiceContext';
 import { InitialState } from './InitialState';
 import AppReducer from './AppReducer';
 import axios from 'axios';
-import { URL_SERVER } from './constantesVar';
+import { DATA_EDIT_COURSE, URL_SERVER } from './constantesVar';
+import { Get } from '../components/users/get';
 
 export default (props) => {
   const [state, dispatch, token] = useReducer(AppReducer, InitialState);
-
+  const [courseId, setCourseId] = React.useState(null);
+  const [loadingCourseId, setLoadingCourseId] = React.useState(false);
   /********* Axios config que contiene el token en el header */
   const AxiosConfigsToken = axios.create({
     baseURL: URL_SERVER,
@@ -17,6 +19,35 @@ export default (props) => {
     config.headers['x-access-token'] = state.dataUser.loginToken;
     return config;
   });
+
+
+  const getCourseId = async (id) => {
+    setLoadingCourseId(true)
+    try {
+      const response = await Get(AxiosConfigsToken, `course/get/${id}`);
+      if (response.success) {
+        console.log(response, 'response courseId');
+        setCourseId(response.response?.docs[0])
+        dispatch({
+          type: DATA_EDIT_COURSE,
+          payload: response.response?.docs[0]
+        })
+
+      } else {
+        dispatch({
+          type: DATA_EDIT_COURSE,
+          payload: null
+        })
+      }
+    } catch (error) {
+      dispatch({
+        type: DATA_EDIT_COURSE,
+        payload: null
+      })
+    } finally {
+      setLoadingCourseId(false)
+    }
+  }
 
   /*
         AxiosConfigsToken.interceptors.response.use(
@@ -72,7 +103,7 @@ export default (props) => {
 
         AxiosConfigsToken,
         dataUser: state.dataUser,
-        dataEditUser:state.dataEditUser,
+        dataEditUser: state.dataEditUser,
         userId: state.dataUser.loginName,
         userName: state.dataUser.loginId,
         valideLogin: state.dataUser.login,
@@ -83,6 +114,10 @@ export default (props) => {
         schoolTenant: state.dataUser.schoolTenant,
         schoolName: state.dataUser.schoolName,
         schoolLogo: state.dataUser.schoolLogo,
+
+        editCourseId:state.editCourseId,// data del curso seleccionado
+        loadingCourseId,// estado de carga del curso seleccionado
+        getCourseId,// funcion para obtener el curso seleccionado
       }}
     >
       {props.children}

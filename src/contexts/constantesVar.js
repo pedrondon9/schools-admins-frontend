@@ -5,3 +5,4 @@ export const DATA_EDIT_USER = 'dataEditUser';
 export const DATA_USER = 'dataUser';
 export const TYPE_USER_SELECTED = 'typeUserSelected'
 export const TITLEPAGE = 'titlePage';
+export const DATA_EDIT_COURSE = 'editCourseId';
