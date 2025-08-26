@@ -9,8 +9,8 @@ import toast from 'react-hot-toast';
 import { putCourse } from "../put";
 import { set } from "date-fns";
 
-export default function MyEditor({ id ,courseId}) {
-    const { AxiosConfigsToken, dataUser,editCourseId,getCourseId,getWithId } = React.useContext(AppContext);
+export default function MyEditor({ id, courseId }) {
+    const { AxiosConfigsToken, dataUser, editCourseId, getCourseId, getWithId } = React.useContext(AppContext);
 
     const [value, setValue] = useState("");
     const [loading, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
@@ -100,7 +100,7 @@ export default function MyEditor({ id ,courseId}) {
 
     const onSubmit = async () => {
         // Aquí puedes manejar el envío del contenido del editor
-        await putCourse(AxiosConfigsToken,setLoad,value,id,toast)
+        await putCourse(AxiosConfigsToken, setLoad, value, id, toast)
         //await getCourseId(id)
         await getWithId(`course/get/${id}`, 'course')
 
@@ -112,12 +112,12 @@ export default function MyEditor({ id ,courseId}) {
         }
     }
         , [editCourseId])
-    
+
 
     return (
         <Box sx={{ width: { xs: '90%', sm: '70%', md: '1180px' }, margin: "auto" }}>
-            <h2>La descripcion del curso</h2>
-            <Box>
+            <h2>Agrega o modifca la descripcion</h2>
+            <Box sx={{ display: "none" }}>
                 <div
                     style={{
                         border: "1px solid #ccc",

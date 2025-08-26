@@ -116,8 +116,8 @@ export default function MyEditor({ id ,courseId}) {
 
     return (
         <Box sx={{ width: { xs: '100%', sm: '100%', md: '1200px' }, margin: "auto" }}>
-            <h2>La descripcion del curso</h2>
-            <Box>
+            <h2>Agrega o modifca la descripcion</h2>
+            <Box sx={{display:"none"}}>
                 <div
                     style={{
                         border: "1px solid #ccc",

@@ -138,7 +138,7 @@ export default function FormUpdate({ dataUserSelected,mutateLocal }) {
 
 
   const onChangeTypeUser = (id) => {
-    const roleSelected = roles.filter(role => role.name === id);
+    const roleSelected = roles.filter(role => role._id === id);
 
     console.log(roleSelected)
 
