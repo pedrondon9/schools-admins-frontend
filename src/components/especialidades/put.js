@@ -9,7 +9,7 @@ export const putCourse = async (AxiosConfigsToken,setLoad,value,id,toast) => {
     }
     try {
         const sendData = await AxiosConfigsToken({
-            url: `/course/put`,
+            url: `/especialities/put`,
             method: 'put',
             data: { description: value, id: id },
         });

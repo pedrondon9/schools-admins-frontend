@@ -22,7 +22,7 @@ const style = {
 };
 
 export default function FormUpdate({ courseId, id }) {
-  const { AxiosConfigsToken, typeUserSelected, editCourseId, getCourseId, courseCategory,getWithId } = React.useContext(AppContext);
+  const { AxiosConfigsToken, typeUserSelected, editEspecialitiesId, getCourseId, courseCategory,getWithId } = React.useContext(AppContext);
 
   const [errorInit, setErrorInit] = React.useState(false);
   const [errorInitMessage, setErrorInitMessage] = React.useState('');
@@ -75,14 +75,15 @@ export default function FormUpdate({ courseId, id }) {
       setLoad(true);
 
       const sendData = await AxiosConfigsToken({
-        url: `/course/put`,
+        url: `/especialities/put`,
         method: 'put',
         data,
       });
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
         //await getCourseId(id)
-        await getWithId(`course/get/${id}`, 'course')
+        await getWithId(`especialities/get/${id}`, 'especialities')
+
 
 
       } else {
@@ -143,7 +144,7 @@ export default function FormUpdate({ courseId, id }) {
 
       <Box sx={style}>
 
-        {editCourseId ?
+        {editEspecialitiesId ?
           <form
             onSubmit={handleSubmit(onSubmit)}
             style={{
@@ -174,7 +175,7 @@ export default function FormUpdate({ courseId, id }) {
                 <TextField
                   name='title'
                   size="small"
-                  defaultValue={editCourseId?.title}
+                  defaultValue={editEspecialitiesId?.title}
                   type='text'
                   id="outlined-basic"
                   label="Modificar nombre del curso"
@@ -194,7 +195,7 @@ export default function FormUpdate({ courseId, id }) {
                   name="category"
                   control={control}
                   rules={{ required: false }}
-                  defaultValue={editCourseId?.category?._id||""}
+                  defaultValue={editEspecialitiesId?.category?._id||""}
 
                   render={({ field }) => (
                     <Select
@@ -213,46 +214,11 @@ export default function FormUpdate({ courseId, id }) {
                   )}
                 />
               </FormControl>
-              <FormControl error={!!errors.startDate} fullWidth sx={{ mb: 3 }}>
-                <TextField
-                  name='startDate'
-                  defaultValue={new Date(editCourseId?.startDate).toISOString().split("T")[0]}
-                  InputLabelProps={{
-                    shrink: true, // Mantiene el label arriba
-                  }}
-                  type='date'
-                  size="small"
-                  id="outlined-basic"
-                  label="Modificar fecha de Inicio"
-                  variant="outlined"
-                  {...register('startDate', {
-                    required: 'Campo requerido',
-                    minLength: 1,
-                  })}
-                />
-              </FormControl>
-              <FormControl error={!!errors.endDate} fullWidth sx={{ mb: 3 }}>
-                <TextField
-                  name='endDate'
-                  defaultValue={new Date(editCourseId?.endDate).toISOString().split("T")[0]}
-                  InputLabelProps={{
-                    shrink: true, // Mantiene el label arriba
-                  }}
-                  type='date'
-                  size="small"
-                  id="outlined-basic"
-                  label="Modificar fecha de finalizacion"
-                  variant="outlined"
-                  {...register('endDate', {
-                    required: 'Campo requerido',
-                    minLength: 1,
-                  })}
-                />
-              </FormControl>
+              
               <FormControl error={!!errors.price} fullWidth sx={{ mb: 3, }}>
                 <TextField
                   name='price'
-                  defaultValue={editCourseId?.price}
+                  defaultValue={editEspecialitiesId?.price}
                   type='number'
                   size="small"
                   id="outlined-basic"
@@ -273,7 +239,7 @@ export default function FormUpdate({ courseId, id }) {
                   name="format"
                   control={control}
                   rules={{ required: false }}
-                  defaultValue={editCourseId?.format||""}
+                  defaultValue={editEspecialitiesId?.format||""}
 
                   render={({ field }) => (
                     <Select

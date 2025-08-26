@@ -9,7 +9,7 @@ export const Course = () => {
 
   return (
     <div>
-      <Title title="Cursos" />
+      <Title title="Cursosss" />
       <ModalAdd />
       <DataCard />
     </div>

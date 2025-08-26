@@ -141,12 +141,20 @@ function MenuAppBars(props) {
               minHeight: '100vh',
               paddingInline: '5px',
               paddingTop: '10px',
+              flexGrow: 1,
+              justifyContent:"center",
+              //display: 'flex',
               width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
               backgroundColor: 'backgroundColorPage',
             }}
           >
             <Toolbar />
+            <Box sx={{width:"100%", display:"flex", justifyContent:"center"}}>
+            <Box sx={{width:{ xs: '100%', sm: '95%', md: '1200px' } }}>
             {props.children}
+
+            </Box>
+            </Box>
           </Box>
         </Box>
       ) : (

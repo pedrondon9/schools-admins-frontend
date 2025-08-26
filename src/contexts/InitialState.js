@@ -21,5 +21,7 @@ export const InitialState = {
       },
       dataEditUser:{},
       typeUserSelected:'',
-      editCourseId:null
+      editCourseId:null,
+      editEspecialitiesId:null,
+      courseCategory:null
 };

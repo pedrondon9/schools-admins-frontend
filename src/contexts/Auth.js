@@ -3,13 +3,14 @@ import AppContext from './ServiceContext';
 import { InitialState } from './InitialState';
 import AppReducer from './AppReducer';
 import axios from 'axios';
-import { DATA_EDIT_COURSE, URL_SERVER } from './constantesVar';
+import { DATA_EDIT_COURSE, ESPECILITIES_EDIT_ID, URL_SERVER } from './constantesVar';
 import { Get } from '../components/users/get';
 
 export default (props) => {
   const [state, dispatch, token] = useReducer(AppReducer, InitialState);
   const [courseId, setCourseId] = React.useState(null);
   const [loadingCourseId, setLoadingCourseId] = React.useState(false);
+  const [loadingEspecilitiesId, setLoadingEspecilitiesId] = React.useState(false);
   /********* Axios config que contiene el token en el header */
   const AxiosConfigsToken = axios.create({
     baseURL: URL_SERVER,
@@ -21,33 +22,77 @@ export default (props) => {
   });
 
 
-  const getCourseId = async (id) => {
-    setLoadingCourseId(true)
+
+
+  const getWithId = async (url, select) => {
+    //let id = url.split('/')[2]
+    if (select === 'especialities') {
+      setLoadingEspecilitiesId(true)
+      
+    }
+    if (select === 'course') {
+      setLoadingCourseId(true)
+
+    }
     try {
-      const response = await Get(AxiosConfigsToken, `course/get/${id}`);
+      const response = await Get(AxiosConfigsToken, url);
       if (response.success) {
-        console.log(response, 'response courseId');
-        setCourseId(response.response?.docs[0])
-        dispatch({
-          type: DATA_EDIT_COURSE,
-          payload: response.response?.docs[0]
-        })
+        console.log(response, 'response especialitiesId');
+        if (select === 'especialities') {
+          dispatch({
+            type: ESPECILITIES_EDIT_ID,
+            payload: response.response?.docs[0]
+          })
+        }
+        if (select === 'course') {
+          dispatch({
+            type: DATA_EDIT_COURSE,
+            payload: response.response?.docs[0]
+          })
+        }
+
 
       } else {
+        if (select === 'especialities') {
+          dispatch({
+            type: ESPECILITIES_EDIT_ID,
+            payload: null
+          })
+        }
+        if (select === 'course') {
+          dispatch({
+            type: DATA_EDIT_COURSE,
+            payload: null
+          })
+        }
+      }
+    } catch (error) {
+      if (select === 'especialities') {
+        dispatch({
+          type: ESPECILITIES_EDIT_ID,
+          payload: null
+        })
+      }
+      if (select === 'course') {
         dispatch({
           type: DATA_EDIT_COURSE,
           payload: null
         })
       }
-    } catch (error) {
-      dispatch({
-        type: DATA_EDIT_COURSE,
-        payload: null
-      })
     } finally {
-      setLoadingCourseId(false)
+      if (select === 'especialities') {
+        setLoadingEspecilitiesId(false)
+
+      }
+      if (select === 'course') {
+        setLoadingCourseId(false)
+
+      }
+
     }
   }
+
+ 
 
   /*
         AxiosConfigsToken.interceptors.response.use(
@@ -114,10 +159,13 @@ export default (props) => {
         schoolTenant: state.dataUser.schoolTenant,
         schoolName: state.dataUser.schoolName,
         schoolLogo: state.dataUser.schoolLogo,
+        courseCategory: state.courseCategory,
 
-        editCourseId:state.editCourseId,// data del curso seleccionado
+        editCourseId: state.editCourseId,// data del curso seleccionado
         loadingCourseId,// estado de carga del curso seleccionado
-        getCourseId,// funcion para obtener el curso seleccionado
+        loadingEspecilitiesId,
+        editEspecialitiesId: state.editEspecialitiesId,
+        getWithId,
       }}
     >
       {props.children}

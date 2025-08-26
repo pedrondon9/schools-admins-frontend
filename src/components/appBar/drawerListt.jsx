@@ -6,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 import Toolbar from '@mui/material/Toolbar';
 
-import { NavLink,useLocation } from 'react-router-dom';
+import { NavLink, useLocation,matchPath } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 import { DATA_USER } from '../../contexts/constantesVar';
 import AppContext from '../../contexts/ServiceContext';
@@ -43,11 +43,14 @@ function DrawerListt({ toggleDrawer }) {
     { text: 'Inicio', link: '/' },
     { text: 'Usuario', link: '/users' },
     { text: 'Cursos', link: '/cursos' },
-    { text: 'Eventos', link: '/events' },
+    { text: 'Especialidades', link: '/especialidades' },
     { text: 'Perfiles', link: '/profil' },
     { text: 'Configuracion', link: '/setting' },
     //{ text: 'Cambiar contrasena', link: "/cambiar_password" },
   ];
+
+  const currentSegment = "/" + location.pathname.split("/")[1];
+
   return (
     <div>
       {valideLogin ? (
@@ -86,11 +89,13 @@ function DrawerListt({ toggleDrawer }) {
                 key={menu.text}
                 disablePadding
                 divider={true}
-                //disableGutters={true}
-                
-                
+              //disableGutters={true}
+
+
               >
-                <ListItemButton sx={{ fontWeight: 9000,bgcolor:location.pathname == menu.link?"#fff":"#eee" }} component={NavLink} to={menu.link} onClick={toggleDrawer}>
+                <ListItemButton sx={{
+                  fontWeight: 9000, bgcolor: currentSegment === ("/" + menu.link.split("/")[1])? "#fff" : "#eee"
+                }} component={NavLink} to={menu.link} onClick={toggleDrawer}>
 
                   <Typography
                     variant="p"
@@ -99,8 +104,8 @@ function DrawerListt({ toggleDrawer }) {
                       textAlign: 'center',
                       whiteSpace: 'normal',
                       fontSize: 17,
-                      color:location.pathname == menu.link?"#6200ea":"#212121",
-                      fontWeight:600
+                      color: location.pathname == menu.link ? "#6200ea" : "#212121",
+                      fontWeight: 600
 
                     }}
                   >

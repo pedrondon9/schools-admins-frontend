@@ -1,21 +1,16 @@
 import * as React from 'react';
-import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Modal, Select, TextareaAutosize, TextField, Typography } from '@mui/material';
+import { Box, Button,} from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Add, ArrowBack, AssignmentReturned, AssignmentReturnSharp, Edit, KeyboardReturnOutlined } from '@mui/icons-material';
+import { Add, ArrowBack } from '@mui/icons-material';
 import AppContext from '../../contexts/ServiceContext';
-import RegistreForm from '../../components/form_components/form/RegistreForm';
 import { Get } from '../../components/users/get';
-import { mutate } from 'swr';
-import FormImage from '../../components/form_components/FormImage';
-import FieldImageInput from '../../components/form_components/fieldImage';
-import FormAlert from '../../components/form_components/FormAlert';
-import { LoadingButton } from '@mui/lab';
+
 import { DATA_EDIT_COURSE, DATA_EDIT_USER } from '../../contexts/constantesVar';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Title } from '../../components/textTitle/title';
 import SkeletonTable from '../../components/skelholder/skelethonTable';
-import NavTab from '../../components/cursos/navTab/navTab';
+import NavTab from '../../components/especialidades/navTab/navTab';
 
 
 const style = {
@@ -28,8 +23,9 @@ const style = {
 
 };
 
-export default function EditCourse({ }) {
-    const { AxiosConfigsToken, dataUser, dataEditUser, dispatch, editCourseId, getCourseId,getWithId } = React.useContext(AppContext);
+export default function EditEspecialities({ }) {
+    const { AxiosConfigsToken, dataUser, dataEditUser, dispatch, editCourseId,getWithId,  loadingEspecilitiesId,editEspecialitiesId,
+        getEspecialitieseId } = React.useContext(AppContext);
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -163,11 +159,8 @@ export default function EditCourse({ }) {
 
 
     React.useEffect(() => {
-        //setImagen(null)
-        //setPreviImage(null)
-        //getCourseId(id)
-        getWithId(`course/get/${id}`, 'course')
-        setPreviImageUsers(dataUserSelected?.linkPhoto)
+        //getEspecialitieseId(id)
+        getWithId(`especialities/get/${id}`, 'especialities')
     }, []);
 
 
@@ -198,14 +191,14 @@ export default function EditCourse({ }) {
                     <ArrowBack />
                 </Button>
             </Box>
-            {editCourseId ?
+            {editEspecialitiesId ?
                 <>
                     <Box sx={{ mt: -2, mb: 4 }}>
-                        <Title title={editCourseId?.title} />
+                        <Title title={editEspecialitiesId?.title} />
                     </Box>
 
                     <Box sx={{ display: 'flex',justifyContent:'center' }}>
-                    <Box sx={{ width:{  xs: '100%' }}}>
+                    <Box sx={{ width:{  xs: '90%', sm: '70%', md: '900px' }}}>
                         <div
                             style={{
                                 border: "1px solid #ccc",
@@ -213,13 +206,13 @@ export default function EditCourse({ }) {
                                 borderRadius: "8px",
                                 background: "#fafafa",
                             }}
-                            dangerouslySetInnerHTML={{ __html: editCourseId?.description }}
+                            dangerouslySetInnerHTML={{ __html: editEspecialitiesId?.description }}
                         />
                     </Box>
                     </Box>
 
 
-                    <NavTab id={id} courseId={editCourseId} />
+                    <NavTab id={id} courseId={editEspecialitiesId} />
                 </>
                 :
                 <SkeletonTable />

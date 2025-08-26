@@ -75,13 +75,11 @@ export default function FormAdd({ typeUserSelected }) {
       fs.append('arrayFiles', arrayFiles ? arrayFiles:'');
       fs.append('title', data.title);
       fs.append('category', data.category);
-      fs.append('startDate', data.startDate);
-      fs.append('endDate', data.endDate);
       fs.append('price', data.price);
       fs.append('format', data.format);
 
       const sendData = await AxiosConfigsToken({
-        url: `/course/post`,
+        url: `/especialities/post`,
         method: 'post',
         data:fs,
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -90,7 +88,7 @@ export default function FormAdd({ typeUserSelected }) {
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
         reset()
-        await mutate(`course/get`)
+        await mutate(`especialities/get`)
         handleCloseM();
       } else {
         toast.error(`${sendData.data.message}`);
@@ -147,20 +145,6 @@ export default function FormAdd({ typeUserSelected }) {
         label: opt.name,
         value: opt._id
       }))
-    },
-    {
-      name: 'startDate',
-      label: 'Fecha de inicio',
-      type: 'date',
-      validation: { required: true },
-      startIcon: null,
-    },
-    {
-      name: 'endDate',
-      label: 'Fecha a',
-      type: 'date',
-      validation: { required: true },
-      startIcon: null,
     },
     
     {

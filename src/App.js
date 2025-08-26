@@ -27,6 +27,9 @@ import UpdatePassword from './pages/updatePassword/updatePassword';
 import RegisterUsers from './pages/users/register.users';
 import { Cursos } from './pages/formations/cursos';
 import EditCourse from './pages/editCourse/editCourse';
+import { Especialidades } from './pages/especialidades/especialidades';
+import NavTab from './components/especialidades/navTab/navTab';
+import EditEspecialities from './pages/editEspecialities/editEspecialities';
 
 function App() {
   return (
@@ -85,13 +88,32 @@ function App() {
 
               <Route
                 exact
-                path="/edit_course/:id"
+                path="/cursos/:id"
                 element={
                   <Protected>
                     <EditCourse />
                   </Protected>
                 }
               />
+              <Route
+                exact
+                path="/especialidades"
+                element={
+                  <Protected>
+                    <Especialidades/>
+                  </Protected>
+                }
+              />
+                            <Route
+                exact
+                path="/especialidades/:id"
+                element={
+                  <Protected>
+                    <EditEspecialities/>
+                  </Protected>
+                }
+              />
+
               <Route
                 exact
                 path="/users"

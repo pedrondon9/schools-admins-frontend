@@ -30,7 +30,7 @@ function DataTable({ }) {
 
 
 
-  const { data, error, isLoading } = useSWR('course/get', () => Get(AxiosConfigsToken, `course/get`), {});
+  const { data, error, isLoading } = useSWR('especialities/get', () => Get(AxiosConfigsToken, `especialities/get`), {});
 
 
   const columns1 = [
@@ -133,10 +133,10 @@ function DataTable({ }) {
               }}
               variant="contained"
               component={NavLink}
-              to={`/cursos/${params.row._id}`}
+              to={`/especialidades/${params.row._id}`}
               size="small"
             >
-              Ir al curso
+              ver especialidad
             </Button>
           </Box>
         </Box>
@@ -225,8 +225,6 @@ function DataTable({ }) {
 
   return (
     <>
-
-
       <Box sx={{ height: 'auto', width: '100%' }}>
         <DataGrid
           rows={data ? data.response.docs : []}

@@ -18,7 +18,7 @@ const NavTab = ({id,courseId}) => {
         spacing={2}
         //bgcolor="backgroundColorPage"
         container
-        sx={{ justifyContent: 'center',width:{ xs: '100%'} }}
+        sx={{ justifyContent: 'center', maxWidth: '1000px' }}
       >
         <TabContext value={`${value}`}>
           <Box sx={{}}>

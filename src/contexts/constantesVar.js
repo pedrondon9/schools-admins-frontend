@@ -6,3 +6,5 @@ export const DATA_USER = 'dataUser';
 export const TYPE_USER_SELECTED = 'typeUserSelected'
 export const TITLEPAGE = 'titlePage';
 export const DATA_EDIT_COURSE = 'editCourseId';
+export const COURSE_CATEGORY = 'courseCategory';
+export const ESPECILITIES_EDIT_ID = 'editEspecialitiesId';
