@@ -29,7 +29,7 @@ const style = {
 };
 
 export default function EditCourse({ }) {
-    const { AxiosConfigsToken, dataUser, dataEditUser, dispatch, editCourseId, getCourseId,getWithId } = React.useContext(AppContext);
+    const { AxiosConfigsToken, dataUser, dataEditUser, dispatch, editCourseId, getCourseId, getWithId } = React.useContext(AppContext);
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -200,22 +200,35 @@ export default function EditCourse({ }) {
             </Box>
             {editCourseId ?
                 <>
+                    {/* Imagen del curso */}
+                    <Box sx={{ display: "flex", justifyContent: { xs: "center", sm: 'auto' }, width: { xs: "100%", },mt:2 }}>
+                        <Box
+                            component="img"
+                            src={editCourseId?.courseImg} // URL de la imagen
+                            alt={editCourseId.title}
+                            sx={{
+                                height:{ xs: 150, sm: 200, md: 250 },
+                                objectFit: "cover", // ajusta la imagen sin deformar
+                                borderRadius: 1,    // esquinas redondeadas
+                            }}
+                        />
+                    </Box>
                     <Box sx={{ mt: -2, mb: 4 }}>
                         <Title title={editCourseId?.title} />
                     </Box>
 
-                    <Box sx={{ display: 'flex',justifyContent:'center' }}>
-                    <Box sx={{ width:{  xs: '100%' }}}>
-                        <div
-                            style={{
-                                border: "1px solid #ccc",
-                                paddingInline: "10px",
-                                borderRadius: "8px",
-                                background: "#fafafa",
-                            }}
-                            dangerouslySetInnerHTML={{ __html: editCourseId?.description }}
-                        />
-                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <Box sx={{ width: { xs: '100%' } }}>
+                            <div
+                                style={{
+                                    border: "1px solid #ccc",
+                                    paddingInline: "10px",
+                                    borderRadius: "8px",
+                                    background: "#fafafa",
+                                }}
+                                dangerouslySetInnerHTML={{ __html: editCourseId?.description }}
+                            />
+                        </Box>
                     </Box>
 
 

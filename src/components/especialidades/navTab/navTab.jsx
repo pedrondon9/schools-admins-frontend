@@ -18,7 +18,7 @@ const NavTab = ({id,courseId}) => {
         spacing={2}
         //bgcolor="backgroundColorPage"
         container
-        sx={{ justifyContent: 'center', maxWidth: '1000px' }}
+        sx={{ justifyContent: 'center', width:{ xs: '100%'} }}
       >
         <TabContext value={`${value}`}>
           <Box sx={{}}>
@@ -31,8 +31,8 @@ const NavTab = ({id,courseId}) => {
             >
               <Tab value={'1'} component={NavLink} to="" label="Descripcion del curso" />
               <Tab value={'2'} component={NavLink} to="" label="Actualizar datos del curso" />
-              <Tab value={'3'} component={NavLink} to="" label="Configurar modulos del curso" />
-              <Tab value={'4'} component={NavLink} to="" label="Alumnos matriculados" />
+              <Tab value={'3'} component={NavLink} to="" label="Agregar curso" />
+              <Tab value={'4'} component={NavLink} to="" label="Alumnos" />
               <Tab value={'5'} component={NavLink} to="" label="Profesores" />
             </Tabs>
           </Box>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button,} from '@mui/material';
+import { Box, Button, } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Add, ArrowBack } from '@mui/icons-material';
@@ -24,7 +24,7 @@ const style = {
 };
 
 export default function EditEspecialities({ }) {
-    const { AxiosConfigsToken, dataUser, dataEditUser, dispatch, editCourseId,getWithId,  loadingEspecilitiesId,editEspecialitiesId,
+    const { AxiosConfigsToken, dataUser, dataEditUser, dispatch, editCourseId, getWithId, loadingEspecilitiesId, editEspecialitiesId,
         getEspecialitieseId } = React.useContext(AppContext);
     const { id } = useParams();
     const navigate = useNavigate();
@@ -193,22 +193,35 @@ export default function EditEspecialities({ }) {
             </Box>
             {editEspecialitiesId ?
                 <>
+                    {/* Imagen del curso */}
+                    <Box sx={{ display: "flex", justifyContent: { xs: "center", sm: 'auto' }, width: { xs: "100%", }, mt: 2 }}>
+                        <Box
+                            component="img"
+                            src={editEspecialitiesId?.linkPhoto} // URL de la imagen
+                            alt={editEspecialitiesId.title}
+                            sx={{
+                                height: { xs: 150, sm: 200, md: 250 },
+                                objectFit: "cover", // ajusta la imagen sin deformar
+                                borderRadius: 1,    // esquinas redondeadas
+                            }}
+                        />
+                    </Box>
                     <Box sx={{ mt: -2, mb: 4 }}>
                         <Title title={editEspecialitiesId?.title} />
                     </Box>
 
-                    <Box sx={{ display: 'flex',justifyContent:'center' }}>
-                    <Box sx={{ width:{  xs: '90%', sm: '70%', md: '900px' }}}>
-                        <div
-                            style={{
-                                border: "1px solid #ccc",
-                                paddingInline: "10px",
-                                borderRadius: "8px",
-                                background: "#fafafa",
-                            }}
-                            dangerouslySetInnerHTML={{ __html: editEspecialitiesId?.description }}
-                        />
-                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <Box sx={{ width: { xs: '100%' } }}>
+                            <div
+                                style={{
+                                    border: "1px solid #ccc",
+                                    paddingInline: "10px",
+                                    borderRadius: "8px",
+                                    background: "#fafafa",
+                                }}
+                                dangerouslySetInnerHTML={{ __html: editEspecialitiesId?.description }}
+                            />
+                        </Box>
                     </Box>
 
 

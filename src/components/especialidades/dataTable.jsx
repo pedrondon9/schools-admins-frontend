@@ -56,13 +56,13 @@ function DataTable({ }) {
           }}
         >
           {/* Imagen del curso */}
-          <Box sx={{ display: "flex", justifyContent: { xs: "center", sm: 'auto' }, width: { xs: "100%", sm: 100 }, paddingBlock: 1 }}>
+          <Box sx={{ display: "flex", justifyContent: { xs: "center", sm: 'auto' }, width: { xs: "100%", sm: 120 }, paddingBlock: 1 }}>
             <Box
               component="img"
-              src={params.row.courseImg ? params.row.courseImg : 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'} // URL de la imagen
+              src={params.row.linkPhoto ? params.row.linkPhoto : 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'} // URL de la imagen
               alt={params.row.title}
               sx={{
-                height: 100,
+                width: 120,
                 objectFit: "cover", // ajusta la imagen sin deformar
                 borderRadius: 1,    // esquinas redondeadas
               }}
@@ -258,6 +258,10 @@ function DataTable({ }) {
               //py: 1, // padding vertical para que haya espacio
               alignItems: 'flex-start', // para que el contenido quede arriba si es multilinea
 
+            },
+            '& .MuiDataGrid-row': {
+              fontWeight: 'bold',   //  hace todas las filas bold
+              bgcolor:'rgba(255, 255, 255, 0.38)'
             },
           }}
 

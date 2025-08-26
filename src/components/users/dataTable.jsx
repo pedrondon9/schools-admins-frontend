@@ -141,6 +141,12 @@ function DataTable({ typeUserSelected }) {
           options={{
             responsive: 'scroll',
           }}
+          sx={{
+            '& .MuiDataGrid-row': {
+              fontWeight: 'bold',   //  hace todas las filas bold
+              bgcolor:'rgba(255, 255, 255, 0.38)'
+            },
+          }}
           initialState={{
             columns: {
               columnVisibilityModel: {
