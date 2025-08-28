@@ -1,0 +1,91 @@
+import React, { useState, useMemo, useEffect } from 'react';
+import { Avatar, Box, Button, Card, CardContent, IconButton, Stack, Typography } from '@mui/material';
+import { DataGrid, esES, GridToolbar } from '@mui/x-data-grid';
+import useSWR from 'swr';
+
+import { Get } from './get';
+import SkeletonTable from '../skelholder/skelethonTable';
+import AppContext from '../../contexts/ServiceContext';
+import { NavLink } from 'react-router-dom';
+
+const VISIBLE_FIELDS = ['title'];
+
+//'startDate', 'endDate', 'price', 'format'
+
+function DataTable({url,columns1,sx,VISIBLE_FIELDS }) {
+  const { userId, typeUser, acciones, AxiosConfigsToken, loginToken, dispatch,typeUserSelected } = React.useContext(AppContext);
+
+  //SWR para hacer peticiones
+
+  const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
+  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
+  const [datas, setData] = React.useState(false);
+
+
+
+  const { data, error, isLoading } = useSWR(url, () => Get(AxiosConfigsToken, url), {});
+
+
+
+  const columns = React.useMemo(
+    () => columns1.filter((column) => VISIBLE_FIELDS.includes(column.field)),
+    [columns1]
+  );
+
+
+
+  if (isLoading) return <SkeletonTable />;
+
+  return (
+    <>
+
+
+      <Box sx={{ height: 'auto', width: '100%' }}>
+        <DataGrid
+          rows={data ? data.response.docs : []}
+          getRowId={(row) => row._id}
+          disableColumnFilter
+          disableColumnSelector
+          disableDensitySelector
+          columns={columns}
+          slots={{ toolbar: GridToolbar }}
+          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          disableRowSelectionOnClick
+          autoHeight
+          //rowHeight={100}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+              quickFilterProps: { debounceMs: 500 },
+            },
+          }}
+          options={{
+            responsive: 'scroll',
+          }}
+          onRowClick={(params) => {
+            console.log('Fila clickeada:', params.row);
+          }}
+          
+          getRowHeight={() => 'auto'} // filas con altura dinámica según contenido
+          sx={sx}
+
+          initialState={{
+            columns: {
+              columnVisibilityModel: {
+                // Hide columns status and traderName, the other columns will remain visible
+                createdAt: false,
+                fechaA: false,
+              },
+            },
+            pagination: { paginationModel: { pageSize: 8 } },
+          }}
+          pagination={true}
+        />
+      </Box>
+
+
+    </>
+  );
+}
+
+export default DataTable;

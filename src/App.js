@@ -16,7 +16,6 @@ import { Events } from './pages/events/events';
 import { Students } from './pages/students/students';
 import { Users } from './pages/users/users';
 import { Profil } from './pages/profil/profil';
-import { Course } from './pages/course/course';
 import { CourseInfo } from './pages/courseInfo/courseInfo';
 import { InfoStudent } from './pages/infoStudent/infoStudent';
 import { Profes } from './pages/profe/profes';
