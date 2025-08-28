@@ -115,7 +115,7 @@ export default function MyEditor({ id ,courseId}) {
     
 
     return (
-        <Box sx={{ width: { xs: '100%', sm: '100%', md: '1000px' }, margin: "auto" }}>
+        <Box sx={{ width: { xs: '100%', sm: '100%', md: '900px' }, margin: "auto" }}>
             <h2>Agrega o modifica el contenido de la publicacion</h2>
             <Box sx={{display:"none"}}>
                 <div

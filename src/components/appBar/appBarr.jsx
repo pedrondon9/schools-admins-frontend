@@ -150,7 +150,7 @@ function MenuAppBars(props) {
           >
             <Toolbar />
             <Box sx={{width:"100%", display:"flex", justifyContent:"center"}}>
-            <Box sx={{width:{ xs: '100%', sm: '95%', md: '1000px' } }}>
+            <Box sx={{width:{ xs: '100%', sm: '95%', md: '900px' } }}>
             {props.children}
 
             </Box>

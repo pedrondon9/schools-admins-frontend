@@ -62,7 +62,8 @@ function DataTable({ }) {
               src={params.row.courseImg ? params.row.courseImg : 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'} // URL de la imagen
               alt={params.row.title}
               sx={{
-                width: 120,
+                width: 100,
+                height: 100,
                 objectFit: "cover", // ajusta la imagen sin deformar
                 borderRadius: 1,    // esquinas redondeadas
               }}
@@ -70,7 +71,7 @@ function DataTable({ }) {
           </Box>
 
           {/* Título */}
-          <Box sx={{ textAlign: { xs: "auto", sm: "auto" }, width: { xs: "100%", sm: "500px" } }}>
+          <Box sx={{ textAlign: { xs: "auto", sm: "auto" }, width: { xs: "100%", sm: "600px" } }}>
             <Box>
               <Typography
                 variant="h6"
@@ -80,6 +81,8 @@ function DataTable({ }) {
                   whiteSpace: 'normal',
                   fontWeight: 500,
                   wordBreak: 'break-word',
+                  //backgroundColor:"#1976d2",
+                  //width: { xs: "100%", sm: "600px" },
                   flexGrow: 1,  // Ocupa todo el espacio disponible
                 }}
               >
@@ -122,13 +125,14 @@ function DataTable({ }) {
           </Box>
           {/* Botón Edit */}
           <Box sx={{
-            display: "flex", justifyContent: "center", width: { xs: "100%", sm: "auto" },
+             
+            width: { xs: "100%", sm: "120px" },
             marginBlock: { xs: "4px", sm: "auto" }
           }}>
 
             <Button
               sx={{
-                display: "flex", justifyContent: "center", width: { xs: "100%", sm: "auto" },
+                 width: { xs: "100%", sm: "120px" },
                 marginRight: { xs: 0, sm: 0, md: 10, lg: 40 },
               }}
               variant="contained"

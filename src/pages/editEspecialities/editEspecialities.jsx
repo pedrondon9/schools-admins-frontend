@@ -200,7 +200,7 @@ export default function EditEspecialities({ }) {
                             src={editEspecialitiesId?.linkPhoto} // URL de la imagen
                             alt={editEspecialitiesId.title}
                             sx={{
-                                height: { xs: 150, sm: 200, md: 250 },
+                                height: { xs: 100, sm: 150, md: 150 },
                                 objectFit: "cover", // ajusta la imagen sin deformar
                                 borderRadius: 1,    // esquinas redondeadas
                             }}
