@@ -19,7 +19,6 @@ import { Profil } from './pages/profil/profil';
 import { Course } from './pages/course/course';
 import { CourseInfo } from './pages/courseInfo/courseInfo';
 import { InfoStudent } from './pages/infoStudent/infoStudent';
-import { EventId } from './pages/events/eventId';
 import { Profes } from './pages/profe/profes';
 import Setting from './pages/setting/setting';
 import Registre from './pages/registre/registre';
@@ -30,6 +29,8 @@ import EditCourse from './pages/editCourse/editCourse';
 import { Especialidades } from './pages/especialidades/especialidades';
 import NavTab from './components/especialidades/navTab/navTab';
 import EditEspecialities from './pages/editEspecialities/editEspecialities';
+import { Eventos } from './pages/eventos/eventos';
+import EventId from './pages/eventId/eventId';
 
 function App() {
   return (
@@ -100,16 +101,34 @@ function App() {
                 path="/especialidades"
                 element={
                   <Protected>
-                    <Especialidades/>
+                    <Especialidades />
                   </Protected>
                 }
               />
-                            <Route
+              <Route
+                exact
+                path="/eventos"
+                element={
+                  <Protected>
+                    <Eventos />
+                  </Protected>
+                }
+              />
+              <Route
+                exact
+                path="/eventos/:id"
+                element={
+                  <Protected>
+                    <EventId />
+                  </Protected>
+                }
+              />
+              <Route
                 exact
                 path="/especialidades/:id"
                 element={
                   <Protected>
-                    <EditEspecialities/>
+                    <EditEspecialities />
                   </Protected>
                 }
               />

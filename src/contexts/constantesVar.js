@@ -8,3 +8,4 @@ export const TITLEPAGE = 'titlePage';
 export const DATA_EDIT_COURSE = 'editCourseId';
 export const COURSE_CATEGORY = 'courseCategory';
 export const ESPECILITIES_EDIT_ID = 'editEspecialitiesId';
+export const EVENT_EDIT_ID = 'editEventId';

@@ -1,4 +1,4 @@
-import { TITLEPAGE, DATA_USER, DATA_EDIT_USER, TYPE_USER_SELECTED, DATA_EDIT_COURSE, COURSE_CATEGORY, ESPECILITIES_EDIT_ID } from './constantesVar';
+import { TITLEPAGE, DATA_USER, DATA_EDIT_USER, TYPE_USER_SELECTED, DATA_EDIT_COURSE, COURSE_CATEGORY, ESPECILITIES_EDIT_ID, EVENT_EDIT_ID } from './constantesVar';
 
 const AppReducer = (state, action) => {
   const { payload, type } = action;
@@ -36,6 +36,11 @@ const AppReducer = (state, action) => {
       return {
         ...state,
         courseCategory: payload,
+      };
+    case EVENT_EDIT_ID:
+      return {
+        ...state,
+        editEventId: payload,
       };
     case ESPECILITIES_EDIT_ID:
       return {

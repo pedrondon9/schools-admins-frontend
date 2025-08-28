@@ -23,5 +23,6 @@ export const InitialState = {
       typeUserSelected:'',
       editCourseId:null,
       editEspecialitiesId:null,
+      editEventId:null,
       courseCategory:null
 };

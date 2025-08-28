@@ -3,13 +3,14 @@ import AppContext from './ServiceContext';
 import { InitialState } from './InitialState';
 import AppReducer from './AppReducer';
 import axios from 'axios';
-import { DATA_EDIT_COURSE, ESPECILITIES_EDIT_ID, URL_SERVER } from './constantesVar';
+import { DATA_EDIT_COURSE, ESPECILITIES_EDIT_ID, EVENT_EDIT_ID, URL_SERVER } from './constantesVar';
 import { Get } from '../components/users/get';
 
 export default (props) => {
   const [state, dispatch, token] = useReducer(AppReducer, InitialState);
   const [courseId, setCourseId] = React.useState(null);
   const [loadingCourseId, setLoadingCourseId] = React.useState(false);
+  const [loadingEventId, setLoadingEventId] = React.useState(false);
   const [loadingEspecilitiesId, setLoadingEspecilitiesId] = React.useState(false);
   /********* Axios config que contiene el token en el header */
   const AxiosConfigsToken = axios.create({
@@ -34,9 +35,14 @@ export default (props) => {
       setLoadingCourseId(true)
 
     }
+    if (select === 'events') {
+      setLoadingEventId(true)
+
+    }
     try {
       const response = await Get(AxiosConfigsToken, url);
       if (response.success) {
+        
         console.log(response, 'response especialitiesId');
         if (select === 'especialities') {
           dispatch({
@@ -47,6 +53,12 @@ export default (props) => {
         if (select === 'course') {
           dispatch({
             type: DATA_EDIT_COURSE,
+            payload: response.response?.docs[0]
+          })
+        }
+        if (select === 'events') {
+          dispatch({
+            type: EVENT_EDIT_ID,
             payload: response.response?.docs[0]
           })
         }
@@ -65,6 +77,12 @@ export default (props) => {
             payload: null
           })
         }
+        if (select === 'events') {
+          dispatch({
+            type: EVENT_EDIT_ID,
+            payload: null
+          })
+        }
       }
     } catch (error) {
       if (select === 'especialities') {
@@ -79,6 +97,12 @@ export default (props) => {
           payload: null
         })
       }
+      if (select === 'events') {
+        dispatch({
+          type: EVENT_EDIT_ID,
+          payload: null
+        })
+      }
     } finally {
       if (select === 'especialities') {
         setLoadingEspecilitiesId(false)
@@ -86,6 +110,10 @@ export default (props) => {
       }
       if (select === 'course') {
         setLoadingCourseId(false)
+
+      }
+      if (select === 'events') {
+        setLoadingEventId(false)
 
       }
 
@@ -164,6 +192,7 @@ export default (props) => {
         editCourseId: state.editCourseId,// data del curso seleccionado
         loadingCourseId,// estado de carga del curso seleccionado
         loadingEspecilitiesId,
+        editEventId: state.editEventId,
         editEspecialitiesId: state.editEspecialitiesId,
         getWithId,
       }}

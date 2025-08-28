@@ -44,6 +44,7 @@ function DrawerListt({ toggleDrawer }) {
     { text: 'Usuario', link: '/users' },
     { text: 'Cursos', link: '/cursos' },
     { text: 'Especialidades', link: '/especialidades' },
+    { text: 'Eventos', link: '/eventos' },
     { text: 'Perfiles', link: '/profil' },
     { text: 'Configuracion', link: '/setting' },
     //{ text: 'Cambiar contrasena', link: "/cambiar_password" },
