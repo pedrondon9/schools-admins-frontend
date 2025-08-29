@@ -110,7 +110,7 @@ export const Users = () => {
     <div>
       <Title title="Usuarios" />
 
-      <ModalAdd typeUserSelected={selected} />
+      <ModalAdd typeUserSelected={selected} url={`users/get/${selected}`} />
       <FormControl sx={{ mb: 2, width: '100%' }}>
         <InputLabel size="small" id="demo-simple-select-label">
           Elige el perfil
