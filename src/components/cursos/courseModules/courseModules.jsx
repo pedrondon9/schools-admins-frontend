@@ -2,11 +2,11 @@ import * as React from 'react';
 import AppContext from '../../contexts/ServiceContext';
 import { Title } from '../../components/textTitle/title';
 import DataTable from '../../components/dataGrid/dataTable';
-import FormAdd from '../../components/users/formAdd';
+import FormAdd from './components/users/formAdd';
 import { Avatar, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Get } from '../../components/users/get';
 import { TYPE_USER_SELECTED } from '../../contexts/constantesVar';
-import FormUpdate from '../../components/users/formUpdate';
+import FormUpdate from './formUpdate';
 
 export const Users = () => {
   const { AxiosConfigsToken, dispatch } = React.useContext(AppContext);

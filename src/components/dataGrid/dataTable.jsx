@@ -34,7 +34,7 @@ function DataTable({url,columns1,sx,VISIBLE_FIELDS }) {
     <>
 
 
-      <Box sx={{ height: 'auto', width: '100%'}}>
+      <Box sx={{ height: 'auto', width: '100%',border:"1px solid rgba(0, 0, 0, 0.12)",borderRadius:2 }}>
         <DataGrid
           rows={data ? data.response.docs : []}
           getRowId={(row) => row._id}

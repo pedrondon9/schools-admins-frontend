@@ -84,7 +84,7 @@ export const Eventos = () => {
                   flexGrow: 1,  // Ocupa todo el espacio disponible
                 }}
               >
-                Curso de {params.row.title}
+                {params.row.title}
               </Typography>
               
 
@@ -100,7 +100,7 @@ export const Eventos = () => {
                   flexGrow: 1,  // Ocupa todo el espacio disponible
                 }}
               >
-                Inicia el {new Date(params.row.createdAt).toLocaleDateString('es-ES', {
+                Publicado el {new Date(params.row.createdAt).toLocaleDateString('es-ES', {
                   day: 'numeric',
                   month: 'numeric',
                   year: 'numeric'
@@ -122,7 +122,7 @@ export const Eventos = () => {
               }}
               variant="contained"
               component={NavLink}
-              to={`/especialidades/${params.row._id}`}
+              to={`/eventos/${params.row._id}`}
               size="small"
             >
               Ir al curso
