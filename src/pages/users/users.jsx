@@ -1,14 +1,9 @@
 import * as React from 'react';
-import ModalAdd from '../../components/users/modalAdd';
-import { GetRoles } from '../../components/profil/getRoles';
 import AppContext from '../../contexts/ServiceContext';
-import DataCard from '../../components/users/dataCard';
 import { Title } from '../../components/textTitle/title';
 import DataTable from '../../components/dataGrid/dataTable';
-import FormAdd from '../../components/profes/formAdd';
-import { fieldCreate } from '../../components/form_components/arrayFields';
+import FormAdd from '../../components/users/formAdd';
 import { Avatar, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { useForm } from 'react-hook-form';
 import { Get } from '../../components/users/get';
 import { TYPE_USER_SELECTED } from '../../contexts/constantesVar';
 import FormUpdate from '../../components/users/formUpdate';
@@ -59,7 +54,7 @@ export const Users = () => {
       width: 100,
       editable: false,
       valueGetter: (params) => {
-        return params.row.role.name;
+        return params.row.roles?.map((role) => role.name).join(', ');
       },
     },
 
@@ -92,7 +87,7 @@ export const Users = () => {
             {
               <>
 
-                <FormUpdate typeUserSelected={selected}  dataUserSelected={currentRow} />
+                <FormUpdate typeUserSelected={selected}  dataUserSelected={currentRow} url={`users/get`} />
 
               </>
             }
@@ -110,8 +105,8 @@ export const Users = () => {
     <div>
       <Title title="Usuarios" />
 
-      <ModalAdd typeUserSelected={selected} url={`users/get/${selected}`} />
-      <FormControl sx={{ mb: 2, width: '100%' }}>
+      <FormAdd typeUserSelected={selected} url={`users/get/${selected}`} />
+      <FormControl sx={{ mb: 2, width: '100%',display:"none" }}>
         <InputLabel size="small" id="demo-simple-select-label">
           Elige el perfil
         </InputLabel>
@@ -136,7 +131,7 @@ export const Users = () => {
           )}
         </Select>
       </FormControl>
-      <DataTable typeUserSelected={selected} VISIBLE_FIELDS={VISIBLE_FIELDS} columns1={columns1} url={`users/get/${selected}`}
+      <DataTable typeUserSelected={selected} VISIBLE_FIELDS={VISIBLE_FIELDS} columns1={columns1} url={`users/get`}
         sx={{
           '& .MuiDataGrid-row': {
             fontWeight: 'bold',   //  hace todas las filas bold

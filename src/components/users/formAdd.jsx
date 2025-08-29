@@ -41,18 +41,7 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
+
 
 function getStyles(name, personName, theme) {
   return {
@@ -122,6 +111,8 @@ export default function FormAdd({ typeUserSelected, url }) {
 
     let rolesSelected = personName.map(n => roles.find(r => r.name === n)?._id)
 
+    //console.log(Array.from(rolesSelected), 'data')
+
     try {
       if (false) {
         return
@@ -134,10 +125,10 @@ export default function FormAdd({ typeUserSelected, url }) {
       fs.append('phone', data.phone);
       fs.append('posGalery', data.posGalery ? Number(data.posGalery) : 0);
       fs.append('email', data.email);
-      fs.append('roles', rolesSelected);
+      fs.append('roles', JSON.stringify(rolesSelected));
       fs.append('isActive', true);
       fs.append('isVerified', true);
-      fs.append('school', [dataUser.schoolTenant]);
+      fs.append('school', dataUser.schoolTenant);
       fs.append('arrayFiles', arrayFiles);
       fs.append('birthdate', data.birthdate);
       fs.append('info', data.info);
@@ -153,7 +144,7 @@ export default function FormAdd({ typeUserSelected, url }) {
         setPreviImage(null);
         setArrayFiles([])
         //reset()
-        await mutate(url)
+        await mutate('users/get');
         handleCloseM();
       } else {
         toast.error(`${sendData.data.message}`);

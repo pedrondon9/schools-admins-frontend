@@ -2,14 +2,15 @@ import * as React from 'react';
 import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextareaAutosize, TextField, Typography } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import {  Edit } from '@mui/icons-material';
+import { Edit } from '@mui/icons-material';
 import AppContext from '../../contexts/ServiceContext';
 import { Get } from './get';
 import { mutate } from 'swr';
 import FieldImageInput from '../form_components/fieldImage';
 import FormAlert from '../form_components/FormAlert';
 import { LoadingButton } from '@mui/lab';
-
+import { useTheme } from '@mui/material/styles';
+import { OutlinedInput, Chip } from '@mui/material';
 
 const style = {
   position: 'absolute',
@@ -25,8 +26,30 @@ const style = {
   height: 'auto',
 };
 
-export default function FormUpdate({ dataUserSelected,mutateLocal }) {
-  const { AxiosConfigsToken,typeUserSelected } = React.useContext(AppContext);
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight: personName.includes(name)
+      ? theme.typography.fontWeightMedium
+      : theme.typography.fontWeightRegular,
+  };
+}
+
+export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
+  const theme = useTheme();
+
+  const { AxiosConfigsToken, typeUserSelected } = React.useContext(AppContext);
 
   const [roles, setRoles] = React.useState([]);
 
@@ -40,6 +63,17 @@ export default function FormUpdate({ dataUserSelected,mutateLocal }) {
   const [typeUser, setTypeUser] = React.useState('');
   const [previImageUsers, setPreviImageUsers] = React.useState(null);
 
+  const [personName, setPersonName] = React.useState([]);
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value,
+    );
+  };
 
   //habrir y cerrar el modal
   const [openM, setOpenM] = React.useState(false);
@@ -70,10 +104,7 @@ export default function FormUpdate({ dataUserSelected,mutateLocal }) {
 
   const onSubmit = async (data) => {
 
-    console.log(data, 'data')
-    console.log(dataUserSelected, 'dataSelected')
-    console.log(arrayFiles, 'files')
-    console.log(data.roles ? [data.roles] : [dataUserSelected.role._id], 'roles')
+    let rolesSelected = personName.map(n => roles.find(r => r.name === n)?._id)
 
     if (false) {
       return
@@ -90,9 +121,8 @@ export default function FormUpdate({ dataUserSelected,mutateLocal }) {
       fs.append('posGalery', data.posGalery ? Number(data.posGalery) : 0);
       fs.append('email', data.email);
       fs.append('birthdate', data.birthdate);
-
       fs.append('info', data.info);
-      fs.append('roles', data.roles ? [data.roles] : [dataUserSelected.role._id]);
+      fs.append('roles', JSON.stringify(rolesSelected));
       fs.append('dni', data.dni);
 
       const sendData = await AxiosConfigsToken({
@@ -103,8 +133,9 @@ export default function FormUpdate({ dataUserSelected,mutateLocal }) {
       });
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
-        await mutateLocal()
         handleCloseM();
+        await mutate(url);
+
       } else {
         toast.error(`${sendData.data.message}`);
       }
@@ -160,7 +191,7 @@ export default function FormUpdate({ dataUserSelected,mutateLocal }) {
       onChangeTypeUser(typerUsers.roles)
       console.log(typerUsers.roles)
     }
-    setUserTypeSelected(dataUserSelected.role.name)
+    //setUserTypeSelected(dataUserSelected.role.name)
 
 
   }, [typerUsers?.roles]);
@@ -175,7 +206,10 @@ export default function FormUpdate({ dataUserSelected,mutateLocal }) {
         justifyContent: 'start',
       }}
     >
-      <Button variant="outlined" size="small" onClick={handleOpenM} >
+      <Button variant="outlined" size="small" onClick={() => {
+        handleOpenM()
+        setPersonName(dataUserSelected.roles?.map(r => r.name))
+      }} >
         <Edit />
       </Button>
       <Modal
@@ -308,30 +342,36 @@ export default function FormUpdate({ dataUserSelected,mutateLocal }) {
                   />
                 </FormControl>
 
-                <FormControl fullWidth size="small" sx={{ mt: 2 }}>
-                  <InputLabel id="roles-label">Tipo de usuario</InputLabel>
-                  <Controller
-                    name="roles"
-                    control={control}
-                    rules={{ required: false }}
 
-                    render={({ field }) => (
-                      <Select
-                        defaultValue={dataUserSelected.role._id}
 
-                        label={'Tipo de usuario'}
-                        labelId="roles-label"
-                        {...field}   // incluye value + onChange de RHF
-                      >
-
-                        {roles.map((opt) => (
-                          <MenuItem key={opt._id} value={opt._id}>
-                            {opt.name}
-                          </MenuItem>
+                <FormControl fullWidth size="small" sx={{ mt: 2.5 }}>
+                  <InputLabel id="demo-multiple-chip-label">Tipo de usuario</InputLabel>
+                  <Select
+                    labelId="demo-multiple-chip-label"
+                    id="demo-multiple-chip"
+                    multiple
+                    value={personName}
+                    onChange={handleChange}
+                    input={<OutlinedInput id="select-multiple-chip" label="Tipo de usuario" />}
+                    renderValue={(selected) => (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {selected.map((value) => (
+                          <Chip key={value} label={value} />
                         ))}
-                      </Select>
+                      </Box>
                     )}
-                  />
+                    MenuProps={MenuProps}
+                  >
+                    {roles.map((role) => (
+                      <MenuItem
+                        key={role.name}
+                        value={role.name}
+                        style={getStyles(role, personName, theme)}
+                      >
+                        {role.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </FormControl>
 
 

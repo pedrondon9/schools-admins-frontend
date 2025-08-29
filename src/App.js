@@ -12,7 +12,6 @@ import { Toaster } from 'react-hot-toast';
 import MenuAppBars from './components/appBar/appBarr';
 import Homes from './pages/home/home';
 
-import { Events } from './pages/events/events';
 import { Students } from './pages/students/students';
 import { Users } from './pages/users/users';
 import { Profil } from './pages/profil/profil';
@@ -188,15 +187,7 @@ function App() {
                   </Protected>
                 }
               />
-              <Route
-                exact
-                path="/profes"
-                element={
-                  <Protected>
-                    <Profes />
-                  </Protected>
-                }
-              />
+            
               <Route
                 exact
                 path="/info_event/:id"
@@ -206,24 +197,8 @@ function App() {
                   </Protected>
                 }
               />
-              <Route
-                exact
-                path="/course/:id"
-                element={
-                  <Protected>
-                    <CourseInfo />
-                  </Protected>
-                }
-              />
-              <Route
-                exact
-                path="/events"
-                element={
-                  <Protected>
-                    <Events />
-                  </Protected>
-                }
-              />
+             
+              
             </Routes>
           </MenuAppBars>
         </HashRouter>

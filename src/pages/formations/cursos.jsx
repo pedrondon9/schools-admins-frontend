@@ -1,14 +1,12 @@
 import * as React from 'react';
-import ModalAdd from '../../components/cursos/modalAdd';
-import { GetRoles } from '../../components/profil/getRoles';
 import AppContext from '../../contexts/ServiceContext';
-import DataCard from '../../components/cursos/dataCard';
 import { Title } from '../../components/textTitle/title';
 import DataTable from '../../components/dataGrid/dataTable';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { Get } from '../../components/cursos/get';
 import { TYPE_USER_SELECTED } from '../../contexts/constantesVar';
 import { NavLink } from 'react-router-dom';
+import FormAdd from '../../components/cursos/formAdd';
 
 export const Cursos = () => {
   const { AxiosConfigsToken, dispatch } = React.useContext(AppContext);
@@ -158,7 +156,7 @@ export const Cursos = () => {
     <div>
       <Title title="Cursos" />
 
-      <ModalAdd typeUserSelected={selected} />
+      <FormAdd typeUserSelected={selected} />
       <FormControl sx={{ mb: 2, width: '100%' }}>
         <InputLabel size="small" id="demo-simple-select-label">
           Elige el perfil

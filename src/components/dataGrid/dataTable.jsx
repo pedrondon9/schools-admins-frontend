@@ -8,22 +8,16 @@ import SkeletonTable from '../skelholder/skelethonTable';
 import AppContext from '../../contexts/ServiceContext';
 import { NavLink } from 'react-router-dom';
 
-const VISIBLE_FIELDS = ['title'];
 
 //'startDate', 'endDate', 'price', 'format'
 
 function DataTable({url,columns1,sx,VISIBLE_FIELDS }) {
-  const { userId, typeUser, acciones, AxiosConfigsToken, loginToken, dispatch,typeUserSelected } = React.useContext(AppContext);
-
-  //SWR para hacer peticiones
-
-  const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
-  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
-  const [datas, setData] = React.useState(false);
+  const {  AxiosConfigsToken } = React.useContext(AppContext);
 
 
+  const { data, isLoading } = useSWR(url, () => Get(AxiosConfigsToken, url), {});
 
-  const { data, error, isLoading } = useSWR(url, () => Get(AxiosConfigsToken, url), {});
+  console.log('data en datatable:', data);
 
 
 
@@ -40,7 +34,7 @@ function DataTable({url,columns1,sx,VISIBLE_FIELDS }) {
     <>
 
 
-      <Box sx={{ height: 'auto', width: '100%' }}>
+      <Box sx={{ height: 'auto', width: '100%'}}>
         <DataGrid
           rows={data ? data.response.docs : []}
           getRowId={(row) => row._id}
