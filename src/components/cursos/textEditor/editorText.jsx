@@ -115,7 +115,7 @@ export default function MyEditor({ id, courseId }) {
 
 
     return (
-        <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column", width: { xs: '100%', sm: '100%', md: '700px' }}}>
+        <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column", width: { xs: '100%', sm: '100%', md: '900px' }}}>
             <Typography variant="h6" component="h6" sx={{ mb: 2, mt: 2, textAlign: "center", fontFamily: 'sans-serif', }}>
                 Agrega o modifca la descripcion
             </Typography>

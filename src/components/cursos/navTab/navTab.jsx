@@ -28,17 +28,19 @@ const NavTab = ({ id, courseId }) => {
       >
 
         {editCourseId.description &&
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Box sx={{ width: { xs: '100%' } }}>
+          <Box sx={{ display: 'flex', }}>
+            <Box sx={{ width: { xs: '100%' },justifyContent:"center"}}>
               <Box sx={{ mt: -4, mb: 2 }}>
                 <Title title={editCourseId?.title} />
               </Box>
 
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Box sx={{ width: { xs: '100%' } }}>
+              <Box sx={{ display: 'flex'}}>
+                <Box sx={{ width: { xs: '100%',md: '870px' }, }}>
                   <div
                     style={{
-
+                      backgroundColor: '#f5f5f5',
+                      padding: '5px',
+                      borderRadius: '5px',
                     }}
 
                     dangerouslySetInnerHTML={expanded ? { __html: editCourseId?.description } : { __html: editCourseId?.description.substring(0, 120) + "..."  }}
