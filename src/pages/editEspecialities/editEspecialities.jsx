@@ -193,38 +193,6 @@ export default function EditEspecialities({ }) {
             </Box>
             {editEspecialitiesId ?
                 <>
-                    {/* Imagen del curso */}
-                    <Box sx={{ display: "flex", justifyContent: { xs: "center", sm: 'auto' }, width: { xs: "100%", }, mt: 2 }}>
-                        <Box
-                            component="img"
-                            src={editEspecialitiesId?.linkPhoto} // URL de la imagen
-                            alt={editEspecialitiesId.title}
-                            sx={{
-                                height: { xs: 100, sm: 150, md: 150 },
-                                objectFit: "cover", // ajusta la imagen sin deformar
-                                borderRadius: 1,    // esquinas redondeadas
-                            }}
-                        />
-                    </Box>
-                    <Box sx={{ mt: -2, mb: 2 }}>
-                        <Title title={editEspecialitiesId?.title} />
-                    </Box>
-
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <Box sx={{ width: { xs: '100%' } }}>
-                            <div
-                                style={{
-                                    border: "1px solid #ccc",
-                                    paddingInline: "10px",
-                                    borderRadius: "8px",
-                                    background: "#fafafa",
-                                }}
-                                dangerouslySetInnerHTML={{ __html: editEspecialitiesId?.description }}
-                            />
-                        </Box>
-                    </Box>
-
-
                     <NavTab id={id} courseId={editEspecialitiesId} />
                 </>
                 :

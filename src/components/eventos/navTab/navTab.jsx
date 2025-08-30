@@ -3,9 +3,12 @@ import { Box, Grid, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import FormUpdate from '../formUpdate';
-import MyEditor from '../textEditor/editorText';
+import MyEditor from '../../textEditor/editorText';
+import AppContext from '../../../contexts/ServiceContext';
+import DescriptionComponent from '../../descriptionComponent';
 
-const NavTab = ({id,courseId}) => {
+const NavTab = ({ id, courseId }) => {
+  const { AxiosConfigsToken, dataUser, dataEditUser, dispatch, editEventId, getCourseId, getWithId } = React.useContext(AppContext);
   const [value, setValue] = useState('1');
 
   const handleChange = (event, newValue) => {
@@ -18,8 +21,11 @@ const NavTab = ({id,courseId}) => {
         spacing={2}
         //bgcolor="backgroundColorPage"
         container
-        sx={{ justifyContent: 'center', width:{ xs: '100%'} }}
+        sx={{ justifyContent: 'center', width: { xs: '100%' } }}
       >
+          
+        <DescriptionComponent dataId={editEventId} description = {editEventId.content} />
+        
         <TabContext value={`${value}`}>
           <Box sx={{}}>
             <Tabs
@@ -34,8 +40,8 @@ const NavTab = ({id,courseId}) => {
               <Tab value={'3'} disabled component={NavLink} to="" label="" />
             </Tabs>
           </Box>
-          <TabPanel value={'1'} sx={{ paddingInline: '0px' }}><MyEditor id = {id} courseId ={courseId}/></TabPanel>
-          <TabPanel value={'2'} sx={{ paddingInline: '0px' }}><FormUpdate id = {id} courseId ={courseId}/></TabPanel>
+          <TabPanel value={'1'} sx={{ paddingInline: '0px' }}><MyEditor url = {`events/get/${id}`} selected={ 'events'} id={id} courseId={editEventId} description = {editEventId.content} /></TabPanel>
+          <TabPanel value={'2'} sx={{ paddingInline: '0px' }}><FormUpdate id={id} courseId={courseId} /></TabPanel>
 
         </TabContext>
       </Grid>

@@ -1,16 +1,16 @@
 import { LoadingButton } from "@mui/lab";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { use, useEffect, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "katex/dist/katex.min.css";
 import AppContext from "../../contexts/ServiceContext";
 import toast from 'react-hot-toast';
-import { putCourse } from "../cursos/put";
+import { Put } from "./put";
 import { set } from "date-fns";
 
-export default function MyEditor({ id ,courseId}) {
-    const { AxiosConfigsToken, dataUser,editCourseId,getCourseId } = React.useContext(AppContext);
+export default function MyEditor({ id, dataId,description,url,selected }) {
+    const { AxiosConfigsToken, dataUser, editCourseId, getCourseId, getWithId } = React.useContext(AppContext);
 
     const [value, setValue] = useState("");
     const [loading, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
@@ -100,42 +100,54 @@ export default function MyEditor({ id ,courseId}) {
 
     const onSubmit = async () => {
         // Aquí puedes manejar el envío del contenido del editor
-        await putCourse(AxiosConfigsToken,setLoad,value,id,toast)
-        await getCourseId(id)
+        if(selected === 'course'|| selected === 'especialities'){
+            await Put(AxiosConfigsToken, setLoad,{description:value,id: id} , id, toast,selected)
+        }
+        if(selected === 'events'){
+            await Put(AxiosConfigsToken, setLoad,{content:value,id: id} , id, toast,selected)
+        }
+        //await getCourseId(id)
+        await getWithId(url, selected)
 
     }
 
     useEffect(() => {
-        if (editCourseId?.description) {
-            setValue(editCourseId.description)
+        if (description) {
+            setValue(description)
         }
     }
-        , [editCourseId])
-    
+        , [dataId])
+
 
     return (
-        <Box sx={{ width: { xs: '90%', sm: '70%', md: '900px' }, margin: "auto" }}>
-            <h2>La descripcion del curso</h2>
-            <Box>
+        <Box sx={{ display: "flex", justifyContent: "center", flexDirection: "column", width: { xs: '100%', sm: '100%', md: '900px' }}}>
+            <Typography variant="h6" component="h6" sx={{ mb: 2, mt: 2, textAlign: "center", fontFamily: 'sans-serif', }}>
+                Agrega o modifca la descripcion
+            </Typography>
+            <Box sx={{ display: "none" }}>
                 <div
                     style={{
                         border: "1px solid #ccc",
                         marginBottom: "10px",
-                        paddingInline: "10px",
+                        //paddingInline: "10px",
                         borderRadius: "8px",
-                        background: "#fafafa",
+                        //background: "#fafafa",
                     }}
                     dangerouslySetInnerHTML={{ __html: value }}
                 />
             </Box>
-            <ReactQuill
-                modules={modules}
-                theme="snow"
-                value={value}
-                onChange={setValue}
-                placeholder="Escribe algo aquí..."
-                style={{ marginBottom: "50px", backgroundColor: "#fafafa" }}
-            />
+            <Box sx={{ width: "100%"}}>
+
+                <ReactQuill
+                    modules={modules}
+                    theme="snow"
+                    value={value}
+                    onChange={setValue}
+                    placeholder="Escribe algo aquí..."
+                    style={{ marginBottom: "50px",  width: "100%",backgroundColor: "#fafafa"}}
+                />
+            </Box>
+
             <Box sx={{ mt: 2 }}>
                 <LoadingButton
                     loading={loading}
