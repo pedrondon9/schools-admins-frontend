@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { use, useEffect, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -9,8 +9,8 @@ import toast from 'react-hot-toast';
 import { putCourse } from "../put";
 import { set } from "date-fns";
 
-export default function MyEditor({ id ,courseId}) {
-    const { AxiosConfigsToken, dataUser,editCourseId,getEspecialitieseId,editEspecialitiesId,getWithId } = React.useContext(AppContext);
+export default function MyEditor({ id, courseId }) {
+    const { AxiosConfigsToken, dataUser, editCourseId, getEspecialitieseId, editEspecialitiesId, getWithId } = React.useContext(AppContext);
 
     const [value, setValue] = useState("");
     const [loading, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
@@ -100,7 +100,7 @@ export default function MyEditor({ id ,courseId}) {
 
     const onSubmit = async () => {
         // Aquí puedes manejar el envío del contenido del editor
-        await putCourse(AxiosConfigsToken,setLoad,value,id,toast)
+        await putCourse(AxiosConfigsToken, setLoad, value, id, toast)
         //await getEspecialitieseId(id)
         await getWithId(`events/get/${id}`, 'events')
 
@@ -112,12 +112,14 @@ export default function MyEditor({ id ,courseId}) {
         }
     }
         , [editEspecialitiesId])
-    
+
 
     return (
         <Box sx={{ width: { xs: '100%', sm: '100%', md: '900px' }, margin: "auto" }}>
-            <h2>Agrega o modifica el contenido de la publicacion</h2>
-            <Box sx={{display:"none"}}>
+            <Typography variant="p" component="p" sx={{ mb: 1, fontWeight: "500px" }}>
+                Agrega o modifca la descripcion
+            </Typography>            
+            <Box sx={{ display: "none" }}>
                 <div
                     style={{
                         border: "1px solid #ccc",

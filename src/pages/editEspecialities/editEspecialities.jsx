@@ -206,7 +206,7 @@ export default function EditEspecialities({ }) {
                             }}
                         />
                     </Box>
-                    <Box sx={{ mt: -2, mb: 4 }}>
+                    <Box sx={{ mt: -2, mb: 2 }}>
                         <Title title={editEspecialitiesId?.title} />
                     </Box>
 
