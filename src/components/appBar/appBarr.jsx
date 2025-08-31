@@ -50,7 +50,7 @@ function MenuAppBars(props) {
               width: { sm: `calc(100% - ${drawerWidth}px)` },
               ml: { sm: `${drawerWidth}px` },
               boxShadow: 0,
-              backgroundColor: '#ffffff',
+              backgroundColor: '#5022C3',
             }}
           >
             <Toolbar>
@@ -65,7 +65,7 @@ function MenuAppBars(props) {
                   fontFamily: 'monospace',
                   fontWeight: 700,
                   letterSpacing: '.3rem',
-                  color: '#212121',
+                  color: '#EEE',
                   textDecoration: 'none',
                 }}
               >
@@ -127,7 +127,7 @@ function MenuAppBars(props) {
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: drawerWidth,
-                  backgroundColor: '#eee',
+                  backgroundColor: '#f5f5f5',
                 },
               }}
               open
@@ -145,7 +145,7 @@ function MenuAppBars(props) {
               justifyContent:"center",
               //display: 'flex',
               width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
-              backgroundColor: 'backgroundColorPage',
+              backgroundColor: '#E9EAF2',
             }}
           >
             <Toolbar />

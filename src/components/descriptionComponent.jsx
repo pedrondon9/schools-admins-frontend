@@ -30,6 +30,7 @@ const DescriptionComponent = ({dataId,description}) => {
                                 backgroundColor: '#f5f5f5',
                                 padding: '5px',
                                 borderRadius: '5px',
+                                border:"0.5px solid rgba(0, 0, 0, 1)"
                             }}
 
                             dangerouslySetInnerHTML={expanded ? { __html: description } : { __html:description.substring(0, 120) }}
