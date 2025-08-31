@@ -95,7 +95,7 @@ function DrawerListt({ toggleDrawer }) {
 
               >
                 <ListItemButton sx={{
-                  fontWeight: 9000, bgcolor: currentSegment === ("/" + menu.link.split("/")[1])? "#fff" : "#eee"
+                  fontWeight: 9000, bgcolor: currentSegment === ("/" + menu.link.split("/")[1])? "#fff" : "'#E9EAF2'"
                 }} component={NavLink} to={menu.link} onClick={toggleDrawer}>
 
                   <Typography

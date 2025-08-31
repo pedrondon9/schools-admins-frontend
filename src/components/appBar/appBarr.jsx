@@ -11,7 +11,7 @@ import DrawerListt from './drawerListt';
 import AppContext from '../../contexts/ServiceContext';
 import { Button, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-const drawerWidth = 140;
+const drawerWidth = 230;
 
 function MenuAppBars(props) {
   const { titlePage, dataUser } = React.useContext(AppContext);
@@ -127,7 +127,8 @@ function MenuAppBars(props) {
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: drawerWidth,
-                  backgroundColor: '#f5f5f5',
+                  backgroundColor: '#E9EAF2',
+                  borderRight:"1px solid rgba(0, 0, 0, 0.3)"
                 },
               }}
               open
