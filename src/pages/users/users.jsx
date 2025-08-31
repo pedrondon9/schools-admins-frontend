@@ -136,7 +136,7 @@ export const Users = () => {
           '& .MuiDataGrid-row': {
             fontWeight: 600,   //  hace todas las filas bold
             fontFamily: 'sans-serif',
-            bgcolor: 'rgba(255, 255, 255, 0.38)',
+            bgcolor: '#FFFFFF',
             height: 80,
           },
         }} />

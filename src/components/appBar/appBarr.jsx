@@ -127,7 +127,7 @@ function MenuAppBars(props) {
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: drawerWidth,
-                  backgroundColor: '#E9EAF2',
+                  backgroundColor: '#FCF5EB',
                   borderRight:"0.5px solid #00c853"
                 },
               }}
@@ -146,7 +146,7 @@ function MenuAppBars(props) {
               justifyContent:"center",
               //display: 'flex',
               width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
-              backgroundColor: '#E9EAF2',
+              backgroundColor: '#FCF5EB',
             }}
           >
             <Toolbar />

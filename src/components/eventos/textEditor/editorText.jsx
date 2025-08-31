@@ -126,7 +126,7 @@ export default function MyEditor({ id, courseId }) {
                         marginBottom: "10px",
                         paddingInline: "10px",
                         borderRadius: "8px",
-                        //background: "#fafafa",
+                        background: "#FFFFFF",
                     }}
                     dangerouslySetInnerHTML={{ __html: value }}
                 />
@@ -137,7 +137,7 @@ export default function MyEditor({ id, courseId }) {
                 value={value}
                 onChange={setValue}
                 placeholder="Escribe algo aquí..."
-                style={{ marginBottom: "50px", backgroundColor: "#fafafa" }}
+                style={{ marginBottom: "50px", backgroundColor: "#FFFFFF" }}
             />
             <Box sx={{ mt: 2 }}>
                 <LoadingButton

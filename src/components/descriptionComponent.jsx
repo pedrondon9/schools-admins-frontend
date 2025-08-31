@@ -27,7 +27,7 @@ const DescriptionComponent = ({dataId,description}) => {
                     <Box sx={{ width: { xs: '100%', md: '870px' }, }}>
                         <div
                             style={{
-                                backgroundColor: '#f5f5f5',
+                                backgroundColor: '#FFFFFF',
                                 padding: '5px',
                                 borderRadius: '5px',
                                 border:"0.5px solid #00c853"
