@@ -206,7 +206,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
         justifyContent: 'start',
       }}
     >
-      <Button variant="outlined" size="small" onClick={() => {
+      <Button variant="contained" size="small" onClick={() => {
         handleOpenM()
         setPersonName(dataUserSelected.roles?.map(r => r.name))
       }} >

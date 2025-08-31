@@ -134,7 +134,8 @@ export const Users = () => {
       <DataTable typeUserSelected={selected} VISIBLE_FIELDS={VISIBLE_FIELDS} columns1={columns1} url={`users/get`}
         sx={{
           '& .MuiDataGrid-row': {
-            fontWeight: 'bold',   //  hace todas las filas bold
+            fontWeight: 600,   //  hace todas las filas bold
+            fontFamily: 'sans-serif',
             bgcolor: 'rgba(255, 255, 255, 0.38)',
             height: 80,
           },
