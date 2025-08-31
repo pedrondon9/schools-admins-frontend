@@ -50,7 +50,7 @@ function MenuAppBars(props) {
               width: { sm: `calc(100% - ${drawerWidth}px)` },
               ml: { sm: `${drawerWidth}px` },
               boxShadow: 0,
-              backgroundColor: '#5022C3',
+              backgroundColor: 'transparent',
             }}
           >
             <Toolbar>
@@ -65,7 +65,7 @@ function MenuAppBars(props) {
                   fontFamily: 'monospace',
                   fontWeight: 700,
                   letterSpacing: '.3rem',
-                  color: '#EEE',
+                  color: '#212121',
                   textDecoration: 'none',
                 }}
               >

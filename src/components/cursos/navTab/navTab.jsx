@@ -40,11 +40,11 @@ const NavTab = ({ id, courseId }) => {
               aria-label="scrollable auto tabs example"
               backgroundColor={"#1976d2"}
             >
-              <Tab sx={{color:"#eee"}} value={'1'} component={NavLink} to="" label="Descripcion del curso" />
-              <Tab sx={{color:"#eee"}} value={'2'} component={NavLink} to="" label="Actualizar datos del curso" />
-              <Tab sx={{color:"#eee"}} value={'3'} component={NavLink} to="" label="Configurar modulos del curso" />
-              <Tab sx={{color:"#eee"}} value={'4'} component={NavLink} to="" label="Alumnos" />
-              <Tab sx={{color:"#eee"}} value={'5'} component={NavLink} to="" label="Profesores" />
+              <Tab  value={'1'} component={NavLink} to="" label="Descripcion del curso" />
+              <Tab  value={'2'} component={NavLink} to="" label="Actualizar datos del curso" />
+              <Tab  value={'3'} component={NavLink} to="" label="Configurar modulos del curso" />
+              <Tab  value={'4'} component={NavLink} to="" label="Alumnos" />
+              <Tab  value={'5'} component={NavLink} to="" label="Profesores" />
             </Tabs>
           </Box>
           <TabPanel value={'1'} sx={{ paddingInline: '0px' }}>
