@@ -31,6 +31,19 @@ export const Users = () => {
 
   const columns1 = [
     {
+      field: 'linkPhoto',
+      headerName: 'Foto',
+      width: 110,
+      editable: false,
+      renderCell: (params) => (
+        <Avatar
+          alt="Foto"
+          src={params.row.linkPhoto}
+          sx={{ width: 40, height: 40 }}
+        />
+      ),
+    },
+    {
       field: 'email',
       headerName: 'Email',
       width: 180,
@@ -58,19 +71,6 @@ export const Users = () => {
       },
     },
 
-    {
-      field: 'linkPhoto',
-      headerName: 'La foto del usuario',
-      width: 100,
-      editable: false,
-      renderCell: (params) => (
-        <Avatar
-          alt="Foto"
-          src={params.row.linkPhoto}
-          sx={{ width: 40, height: 40 }}
-        />
-      ),
-    },
 
     {
       field: 'acciones',

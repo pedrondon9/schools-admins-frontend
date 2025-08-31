@@ -128,7 +128,7 @@ function MenuAppBars(props) {
                   boxSizing: 'border-box',
                   width: drawerWidth,
                   backgroundColor: '#E9EAF2',
-                  borderRight:"1px solid rgba(0, 0, 0, 0.3)"
+                  borderRight:"0.5px solid #00c853"
                 },
               }}
               open
