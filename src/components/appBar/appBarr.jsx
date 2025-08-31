@@ -79,7 +79,7 @@ function MenuAppBars(props) {
                 edge="end"
 
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' }, color: '#212121',bgcolor:"#e0e0e0" }}
+                sx={{ mr: 2, display: { sm: 'none' }, color: '#212121',bgcolor:"#212121" }}
               >
                 <MenuIcon />
               </IconButton>
