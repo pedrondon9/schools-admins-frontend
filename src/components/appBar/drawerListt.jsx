@@ -6,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 import Toolbar from '@mui/material/Toolbar';
 
-import { NavLink, useLocation,matchPath } from 'react-router-dom';
+import { NavLink, useLocation, matchPath } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 import { DATA_USER } from '../../contexts/constantesVar';
 import AppContext from '../../contexts/ServiceContext';
@@ -76,7 +76,7 @@ function DrawerListt({ toggleDrawer }) {
                     width={130}
                     style={{
                       filter: 'grayscale(100%)',
-                      display: 'none'
+                      display:"none"
                     }}
                   />
                 }
@@ -90,12 +90,13 @@ function DrawerListt({ toggleDrawer }) {
                 key={menu.text}
                 disablePadding
                 divider={true}
+                sx={{borderBottom: '1px solid rgb(121, 121, 121)'}}
               //disableGutters={true}
-
+ 
 
               >
                 <ListItemButton sx={{
-                  fontWeight: 9000, bgcolor: currentSegment === ("/" + menu.link.split("/")[1])? "#fff" : "'#E9EAF2'"
+                  fontWeight: 9000, bgcolor: currentSegment === ("/" + menu.link.split("/")[1]) ? "#fff" : "'#E9EAF2'"
                 }} component={NavLink} to={menu.link} onClick={toggleDrawer}>
 
                   <Typography
@@ -104,8 +105,8 @@ function DrawerListt({ toggleDrawer }) {
                     sx={{
                       textAlign: 'center',
                       whiteSpace: 'normal',
-                      fontSize: 17,
-                      color: currentSegment === ("/" + menu.link.split("/")[1])? "#212121" : "#212121",
+                      fontSize: 19,
+                      color: currentSegment === ("/" + menu.link.split("/")[1]) ? "#000000" : "#000000",
                       fontWeight: 500
 
                     }}
@@ -121,10 +122,12 @@ function DrawerListt({ toggleDrawer }) {
               disablePadding
               divider={true}
               sx={{
-                color: '#212121',
+                color: '#000000',
                 marginTop: 3,
                 fontSize: '25px',
-                bgcolor: '#eee',
+                bgcolor: '#fff',
+                fontWeight: 500
+
 
               }}
             >
@@ -133,8 +136,21 @@ function DrawerListt({ toggleDrawer }) {
                   CloseSesion();
                 }}
               >
-                <ListItemText primary={'Salir'} sx={{ color: '#212121', fontWeight: '1000px', }} />
-              </ListItemButton>
+                <Typography
+                  variant="p"
+                  component="p"
+                  sx={{
+                    textAlign: 'center',
+                    whiteSpace: 'normal',
+                    fontSize: 19,
+                    color: "#000000",
+                    fontWeight: 500
+
+                  }}
+                >
+                  Salir
+                </Typography>              
+                </ListItemButton>
             </ListItem>
           </List>
         </div>

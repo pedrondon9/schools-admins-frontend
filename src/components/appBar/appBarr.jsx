@@ -11,7 +11,7 @@ import DrawerListt from './drawerListt';
 import AppContext from '../../contexts/ServiceContext';
 import { Button, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-const drawerWidth = 230;
+const drawerWidth = 250;
 
 function MenuAppBars(props) {
   const { titlePage, dataUser } = React.useContext(AppContext);
@@ -51,7 +51,7 @@ function MenuAppBars(props) {
               ml: { sm: `${drawerWidth}px` },
               boxShadow: 0,
               backgroundColor: '#FCF5EB',
-              borderBottom: '2px solid #e0e0e0',
+              borderBottom: '1px solid rgb(172, 172, 172)',
             }}
           >
             <Toolbar>
@@ -80,7 +80,7 @@ function MenuAppBars(props) {
                 edge="end"
 
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' }, color: '#212121',border:"1px solid #212121",borderRadius:"4px" }}
+                sx={{ mr: 2, display: { sm: 'none' }, color: '#212121',border:"2px solid #212121",borderRadius:"4px" }}
               >
                 <MenuIcon />
               </IconButton>

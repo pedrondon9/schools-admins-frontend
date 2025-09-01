@@ -5,7 +5,7 @@ const TemaGlobals = createTheme(
   {
     palette: {
       primary: {
-        main: '#25D366',
+        main: '#ffab00',
       },
       textColorTitle: '#5900d6',
       textColorTitle2: '#212121',

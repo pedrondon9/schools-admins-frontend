@@ -17,41 +17,41 @@ export const CardEvents = ({ x, modal }) => {
     <Box sx={{ width: '100%' }}>
       <Card
         sx={{
-          bgcolor: 'transparent',
-          boxShadow: 'none',
-          borderBottom: '1px #e0e0e0 solid',
-          borderRadius: '0px',
+          //bgcolor: '#',
+          //boxShadow: 'none',
+          //borderBottom: '1px #e0e0e0 solid',
+          //borderRadius: '0px',
+          border: '1px solid rgb(63, 63, 63)',
+          padding: "10px"
         }}
       >
         <CardMedia
           //variant='outlined'
           component="img"
           sx={{ objectFit: 'contain' }}
-          image={x.imagenURL}
-          title={x.titulo}
+          image={x?.courseImg ? x?.courseImg : 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'}
+          title={x?.title}
         />
         <CardContent sx={{ padding: '0px', marginTop: '10px' }}>
           <Typography
             className="title-event"
-            sx={{ marginBlock: 2 }}
+            sx={{ marginBlock: 2,fontSize: { xs: "2rem", md: "1.5rem" }, fontWeight: '700' }}
             gutterBottom
-            variant="h5"
             component="div"
+
           >
-            {x.titulo.slice(0, 70)}...
+            {x?.title?.slice(0, 70)}...
           </Typography>
-          <Typography
-            className="content-event"
-            sx={{ mb: 1 }}
-            gutterBottom
-            variant="p"
-            component="div"
-          >
-            {x.contenido.slice(0, 100)}...
-          </Typography>
+          <div
+            style={{
+              fontWeight: '600',
+            }}
+
+            dangerouslySetInnerHTML={ { __html: x.description?.substring(0, 80) }}
+          />
         </CardContent>
         <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button size="small" component={NavLink} to={`/info_event/${x._id}`}>
+          <Button size="small" component={NavLink} to={`/info_event/${x?._id}`}>
             Mas
           </Button>
         </CardActions>

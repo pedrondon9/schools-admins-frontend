@@ -112,3 +112,48 @@ function CardStadoSaldo({ select }) {
 }
 
 export default CardStadoSaldo;
+
+
+
+<Box sx={{ height: 'auto', width: '100%', border: "2px solid #212121", borderRadius: 2, bgcolor: "#FFFFFF" }}>
+<DataGrid
+  rows={data ? data.response.docs : []}
+  getRowId={(row) => row._id}
+  disableColumnFilter
+  disableColumnSelector
+  disableDensitySelector
+  columns={columns}
+  slots={{ toolbar: GridToolbar }}
+  localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+  disableRowSelectionOnClick
+  autoHeight
+  //rowHeight={100}
+  slotProps={{
+    toolbar: {
+      showQuickFilter: false,
+      quickFilterProps: { debounceMs: 500 },
+    },
+  }}
+  options={{
+    responsive: 'scroll',
+  }}
+  onRowClick={(params) => {
+    console.log('Fila clickeada:', params.row);
+  }}
+
+  getRowHeight={() => 'auto'} // filas con altura dinámica según contenido
+  sx={sx}
+
+  initialState={{
+    columns: {
+      columnVisibilityModel: {
+        // Hide columns status and traderName, the other columns will remain visible
+        createdAt: false,
+        fechaA: false,
+      },
+    },
+    pagination: { paginationModel: { pageSize: 8 } },
+  }}
+  pagination={true}
+/>
+</Box>

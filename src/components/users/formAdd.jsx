@@ -24,7 +24,8 @@ const style = {
   pb: 4,
   pt: 4,
   overflowY: 'scroll',
-  height: 'auto',
+  height: '600px',
+  borderRadius: '4px',
 };
 
 
@@ -321,8 +322,8 @@ export default function FormAdd({ typeUserSelected, url }) {
                 //fontSize: '14px',
                 //color: "#3e2723",
               }}
-              variant="h6"
-              component="h6"
+              variant="h4"
+              component="h4"
             >
               Actulizar
             </Typography>
@@ -333,7 +334,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                 <TextField
                   error={!!errors.fullname}
                   name='fullname'
-                  size="small"
+                  size="large"
                   type='text'
                   id="outlined-basic"
                   label="Nombre completo"
@@ -352,7 +353,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                   error={!!errors.email}
                   name='email'
                   type='email'
-                  size="small"
+                  size="large"
                   id="outlined-basic"
                   InputLabelProps={{
                     shrink: true, // Mantiene el label arriba
@@ -370,7 +371,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                   error={!!errors.phone}
                   name='phone'
                   type='phone'
-                  size="small"
+                  size="large"
                   id="outlined-basic"
                   label="Telefono"
                   variant="outlined"
@@ -389,7 +390,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                   error={!!errors.dni}
                   name='dni'
                   type='text'
-                  size="small"
+                  size="large"
                   id="outlined-basic"
                   label="DNI o pasaporte"
                   InputLabelProps={{
@@ -412,7 +413,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                   }}
                   error={!!errors.birthdate}
                   type='date'
-                  size="small"
+                  size="large"
                   id="outlined-basic"
                   label="Fecha de nacimiento"
                   variant="outlined"
@@ -424,7 +425,7 @@ export default function FormAdd({ typeUserSelected, url }) {
               </FormControl>
 
 
-              <FormControl fullWidth size="small" sx={{ mt: 2.5 }}>
+              <FormControl fullWidth size="large" sx={{ mt: 2.5 }}>
                 <InputLabel id="demo-multiple-chip-label">Tipo de usuario</InputLabel>
                 <Select
                   labelId="demo-multiple-chip-label"
@@ -461,7 +462,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                     name='posGalery'
                     error={!!errors.posGalery}
                     type='number'
-                    size="small"
+                    size="large"
                     id="outlined-basic"
                     InputLabelProps={{
                       shrink: true, // Mantiene el label arriba
@@ -477,7 +478,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                 :
                 <></>
               }
-              <FormControl fullWidth size="small" sx={{ mt: 2 }}>
+              <FormControl fullWidth size="large" sx={{ mt: 2 }}>
                 <InputLabel id="roles-label">Genero del usuario</InputLabel>
                 <Controller
                   name="sex"
@@ -531,14 +532,14 @@ export default function FormAdd({ typeUserSelected, url }) {
                 </Box>
               )}
 
-              <Box sx={{ width: '95%', mt: 2 }}>
+              <Box sx={{ width: '100%', mt: 2 }}>
                 <LoadingButton
                   loading={loading}
                   variant="contained"
                   color="primary"
                   type="submit"
                   fullWidth
-                  size="small"
+                  size="large"
                 >
                   Actualizar
                 </LoadingButton>

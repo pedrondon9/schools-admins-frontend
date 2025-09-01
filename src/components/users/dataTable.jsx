@@ -1,129 +1,92 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Avatar, Box, Button, IconButton, Stack } from '@mui/material';
+import { Avatar, Box, Button, Card, CardContent, FormControl, IconButton, InputAdornment, InputLabel, Stack, TextField, Typography } from '@mui/material';
 import { DataGrid, esES, GridToolbar } from '@mui/x-data-grid';
 import useSWR from 'swr';
 
-import { Get } from './get';
-import ModalAddFormUpdateRoles from './modalUpdate';
+import { Get } from '../dataGrid/get';
 import SkeletonTable from '../skelholder/skelethonTable';
 import AppContext from '../../contexts/ServiceContext';
-import FormUpdate from './formUpdate';
-import { DATA_EDIT_USER } from '../../contexts/constantesVar';
-
-const VISIBLE_FIELDS = ['email', 'roles', 'fullname', 'linkPhoto', 'phone', 'acciones'];
+import { NavLink } from 'react-router-dom';
+import { Search } from '@mui/icons-material';
 
 
+//'startDate', 'endDate', 'price', 'format'
 
-function DataTable({ typeUserSelected }) {
-  const { userId, typeUser, acciones, AxiosConfigsToken, loginToken,dispatch } = React.useContext(AppContext);
+function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
+  const { AxiosConfigsToken } = React.useContext(AppContext);
+  const [search, setSearch] = useState("");
 
-  //SWR para hacer peticiones
 
-  const [openFormUpdate, setOpenFormUpdate] = React.useState(false);
-  const [load, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
-  const [datas, setData] = React.useState(false);
+  const { data, isLoading } = useSWR(url, () => Get(AxiosConfigsToken, url), {});
 
- 
+  console.log('data en datatable users:', data);
 
 
 
-  //const { data, error, isLoading } = useSWR('users/get/typeUser', () => Get(AxiosConfigsToken,`users/get/${typeUserSelected}`), {});
-
-  const { data, error, isLoading,mutate } = useSWR(
-    typeUserSelected ? `users/get/${typeUserSelected}` : null,
-    (url) => Get(AxiosConfigsToken, `users/get/${typeUserSelected}`),
-    {}
-  );
-
-  const columns1 = [
-    {
-      field: 'email',
-      headerName: 'Email',
-      width: 200,
-      editable: false,
-    },
-    {
-      field: 'phone',
-      headerName: 'Telefono',
-      width: 200,
-      editable: false,
-    },
-    {
-      field: 'fullname',
-      headerName: 'Nombre completo',
-      width: 250,
-      editable: false,
-    },
-    {
-      field: 'roles',
-      headerName: 'Role',
-      width: 100,
-      editable: false,
-      valueGetter: (params) => {
-        return params.row.role.name;
-      },
-    },
-  
-    {
-      field: 'linkPhoto',
-      headerName: 'La foto del usuario',
-      width: 100,
-      editable: false,
-      renderCell: (params) => (
-        <Avatar
-          alt="Foto"
-          src={params.row.linkPhoto}
-          sx={{ width: 40, height: 40 }}
-        />
-      ),
-    },
-  
-    {
-      field: 'acciones',
-      headerName: 'Acciones',
-      width: 180,
-      editable: false,
-  
-      renderCell: (params) => {
-
-        const currentRow = params.row;
-        
-        return (
-          <>
-            {
-              <>
-  
-                <FormUpdate typeUserSelected={typeUserSelected} mutateLocal = {mutate}  dataUserSelected={currentRow} />
-  
-              </>
-            }
-          </>
-        );
-      },
-    },
-  
-  ];
   const columns = React.useMemo(
     () => columns1.filter((column) => VISIBLE_FIELDS.includes(column.field)),
     [columns1]
   );
 
-  useEffect(() => {
-    if (typeUserSelected) {
-      //getUsers()
 
-    }
-    //console.log(typeUserSelected, 'typeUserSelected');
-
-  }, [typeUserSelected])
 
   if (isLoading) return <SkeletonTable />;
 
+
+  const filteredRows = data?.response?.docs?.filter((row) => {
+    return (
+      row.fullname.toLowerCase().includes(search.toLowerCase()) ||
+      row.email.toLowerCase().includes(search.toLowerCase()) ||
+      row.phone.toString().includes(search) // en age hacemos toString()
+    );
+  });
+
   return (
     <>
-      <Box sx={{ height: 600, width: '100%' }}>
+
+      <FormControl sx={{ marginBlock: 3, width: '100%' }}>
+
+        <TextField
+          label="Buscar en todas las columnas"
+          variant="outlined"
+          size="small"
+          onChange={(e) => setSearch(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#212121",   // color del borde normal
+                borderWidth: 2,         // grosor del borde
+                borderRadius: 2,        // esquinas redondeadas
+              },
+              "&:hover fieldset": {
+                borderColor: "#212121",  // al pasar el mouse
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#ff6f00",    // cuando el input está enfocado
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "gray", // normal
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "gray", // cuando está enfocado
+            },
+            mb: 2,
+            backgroundColor: "#fff",
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </FormControl>
+      <Box sx={{ height: 'auto', width: '100%', border: "2px solid #212121", borderRadius: 2, bgcolor: "#FFFFFF" }}>
+
         <DataGrid
-          rows={data ? data.response.docs : []}
+          rows={filteredRows || []}
           getRowId={(row) => row._id}
           disableColumnFilter
           disableColumnSelector
@@ -132,21 +95,24 @@ function DataTable({ typeUserSelected }) {
           slots={{ toolbar: GridToolbar }}
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           disableRowSelectionOnClick
+          autoHeight
+          //rowHeight={100}
           slotProps={{
             toolbar: {
-              showQuickFilter: true,
+              showQuickFilter: false,
               quickFilterProps: { debounceMs: 500 },
             },
           }}
           options={{
             responsive: 'scroll',
           }}
-          sx={{
-            '& .MuiDataGrid-row': {
-              fontWeight: 'bold',   //  hace todas las filas bold
-              bgcolor:'rgba(255, 255, 255, 0.38)'
-            },
+          onRowClick={(params) => {
+            console.log('Fila clickeada:', params.row);
           }}
+
+          getRowHeight={() => 'auto'} // filas con altura dinámica según contenido
+          sx={sx}
+
           initialState={{
             columns: {
               columnVisibilityModel: {
@@ -160,6 +126,8 @@ function DataTable({ typeUserSelected }) {
           pagination={true}
         />
       </Box>
+
+
     </>
   );
 }

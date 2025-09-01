@@ -13,13 +13,13 @@ export const stylesForm = {
   //borderRadius: 1,
   display: 'flex',
   justifyContent: 'center',
-  border: '1px solid #cac7c7ff',
-
+  border: '2px solid rgb(150, 150, 150)',
+  borderRadius: '8px',
   alignItems: 'center',
   flexDirection: 'column',
-};
+}; 
 export const stylesForm2 = {
-  //height: "300px",
+  //height: "300px", 
   paddingBlock: '20px',
   minHeight: 'auto',
   width: {

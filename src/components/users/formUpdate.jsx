@@ -23,7 +23,8 @@ const style = {
   pb: 4,
   pt: 4,
   overflowY: 'scroll',
-  height: 'auto',
+  height: '600px',
+  borderRadius: '4px',
 };
 
 const ITEM_HEIGHT = 48;
@@ -240,8 +241,8 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                   //fontSize: '14px',
                   //color: "#3e2723",
                 }}
-                variant="h6"
-                component="h6"
+                variant="h4"
+                component="h4"
               >
                 Actulizar {dataUserSelected?.fullname}
               </Typography>
@@ -251,7 +252,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                 <FormControl fullWidth error={!!errors.fullname} sx={{ mb: 2, }}>
                   <TextField
                     name='fullname'
-                    size="small"
+                    size="large"
                     defaultValue={dataUserSelected.fullname}
                     type='text'
                     id="outlined-basic"
@@ -271,7 +272,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                     name='email'
                     defaultValue={dataUserSelected.email}
                     type='email'
-                    size="small"
+                    size="large"
                     id="outlined-basic"
                     InputLabelProps={{
                       shrink: true, // Mantiene el label arriba
@@ -289,7 +290,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                     name='phone'
                     defaultValue={dataUserSelected.phone}
                     type='phone'
-                    size="small"
+                    size="large"
                     id="outlined-basic"
                     label="Telefono"
                     variant="outlined"
@@ -308,7 +309,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                     name='dni'
                     defaultValue={dataUserSelected.dni}
                     type='text'
-                    size="small"
+                    size="large"
                     id="outlined-basic"
                     label="DNI o pasaporte"
                     InputLabelProps={{
@@ -331,7 +332,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                       shrink: true, // Mantiene el label arriba
                     }}
                     type='date'
-                    size="small"
+                    size="large"
                     id="outlined-basic"
                     label="Fecha de nacimiento"
                     variant="outlined"
@@ -344,7 +345,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
 
 
 
-                <FormControl fullWidth size="small" sx={{ mt: 2.5 }}>
+                <FormControl fullWidth size="large" sx={{ mt: 2.5 }}>
                   <InputLabel id="demo-multiple-chip-label">Tipo de usuario</InputLabel>
                   <Select
                     labelId="demo-multiple-chip-label"
@@ -381,7 +382,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                       name='posGalery'
                       defaultValue={dataUserSelected.posGalery}
                       type='number'
-                      size="small"
+                      size="large"
                       id="outlined-basic"
                       InputLabelProps={{
                         shrink: true, // Mantiene el label arriba
@@ -397,7 +398,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                   :
                   <></>
                 }
-                <FormControl fullWidth size="small" sx={{ mt: 2 }}>
+                <FormControl fullWidth size="large" sx={{ mt: 2 }}>
                   <InputLabel id="roles-label">Genero del usuario</InputLabel>
                   <Controller
                     name="sex"
@@ -463,14 +464,14 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                   </Box>
                 )}
 
-                <Box sx={{ width: '95%', mt: 2 }}>
+                <Box sx={{ width: '100%', mt: 2 }}>
                   <LoadingButton
                     loading={loading}
                     variant="contained"
                     color="primary"
                     type="submit"
                     fullWidth
-                    size="small"
+                    size="large"
                   >
                     Actualizar
                   </LoadingButton>
