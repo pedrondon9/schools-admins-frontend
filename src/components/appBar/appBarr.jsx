@@ -51,7 +51,7 @@ function MenuAppBars(props) {
               ml: { sm: `${drawerWidth}px` },
               boxShadow: 0,
               backgroundColor: '#FCF5EB',
-              borderBottom: '1px solid #eee',
+              borderBottom: '2px solid #e0e0e0',
             }}
           >
             <Toolbar>

@@ -50,8 +50,8 @@ function Registre() {
   return (
     <>
       <Grid
-        bgcolor="backgroundColorPage"
-        sx={{
+      bgcolor="#FCF5EB"
+      sx={{
           display: 'flex',
           minHeight: '100vh',
           justifyContent: 'center',

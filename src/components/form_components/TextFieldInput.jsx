@@ -29,7 +29,7 @@ const TextFieldInput = ({
       error={!!error}
       sx={{ mb: 1 }}
       helperText={helperText}
-      size="small"
+      size="large"
       InputProps={{
         startAdornment: startIcon && <InputAdornment position="start">{startIcon}</InputAdornment>,
       }}

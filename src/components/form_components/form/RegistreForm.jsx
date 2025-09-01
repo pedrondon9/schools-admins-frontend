@@ -58,8 +58,8 @@ const RegistreForm = ({
           //fontSize: '14px',
           //color: "#3e2723",
         }}
-        variant="h6"
-        component="h6"
+        variant="h4"
+        component="h4"
       >
         {text}
       </Typography>
@@ -142,7 +142,7 @@ const RegistreForm = ({
           color="primary"
           type="submit"
           fullWidth
-          size="small"
+          size="large"
         >
           {buttonLabel}
         </LoadingButton>
