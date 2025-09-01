@@ -292,7 +292,7 @@ export default function FormAdd({ typeUserSelected, url }) {
         justifyContent: 'end',
       }}
     >
-      <Button variant="contained" onClick={handleOpenM} size="small">
+      <Button variant="contained" onClick={handleOpenM} size="large">
         <Add />
       </Button>
       <Modal

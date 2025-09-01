@@ -50,7 +50,8 @@ function MenuAppBars(props) {
               width: { sm: `calc(100% - ${drawerWidth}px)` },
               ml: { sm: `${drawerWidth}px` },
               boxShadow: 0,
-              backgroundColor: 'transparent',
+              backgroundColor: '#FCF5EB',
+              borderBottom: '1px solid #eee',
             }}
           >
             <Toolbar>
@@ -79,7 +80,7 @@ function MenuAppBars(props) {
                 edge="end"
 
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' }, color: '#212121',bgcolor:"#212121" }}
+                sx={{ mr: 2, display: { sm: 'none' }, color: '#212121',border:"1px solid #212121",borderRadius:"4px" }}
               >
                 <MenuIcon />
               </IconButton>
@@ -114,7 +115,7 @@ function MenuAppBars(props) {
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: drawerWidth,
-                  backgroundColor: '#6200ea',
+                  backgroundColor: '#FCF5EB',
                 },
               }}
             >

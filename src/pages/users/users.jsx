@@ -3,10 +3,11 @@ import AppContext from '../../contexts/ServiceContext';
 import { Title } from '../../components/textTitle/title';
 import DataTable from '../../components/dataGrid/dataTable';
 import FormAdd from '../../components/users/formAdd';
-import { Avatar, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Avatar, Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { Get } from '../../components/users/get';
 import { TYPE_USER_SELECTED } from '../../contexts/constantesVar';
 import FormUpdate from '../../components/users/formUpdate';
+import { render } from '@testing-library/react';
 
 export const Users = () => {
   const { AxiosConfigsToken, dispatch } = React.useContext(AppContext);
@@ -27,27 +28,74 @@ export const Users = () => {
     } finally {
     }
   }
-  const VISIBLE_FIELDS = ['email', 'roles', 'fullname', 'linkPhoto', 'phone', 'acciones'];
+  const VISIBLE_FIELDS = ['linkPhoto', 'acciones', 'datos'];
 
   const columns1 = [
     {
       field: 'linkPhoto',
       headerName: 'Foto',
-      width: 110,
+      width: 80,
       editable: false,
       renderCell: (params) => (
         <Avatar
           alt="Foto"
           src={params.row.linkPhoto}
-          sx={{ width: 40, height: 40 }}
+          sx={{ width: 60, height: 60, border: "2px solid #212121" }}
         />
       ),
     },
     {
-      field: 'email',
-      headerName: 'Email',
-      width: 180,
+      field: 'datos',
+      headerName: 'Datos',
+      width: 200,
       editable: false,
+      renderCell: (params) => (
+        <Box sx={{ textAlign: { xs: "auto", sm: "auto" }, width: { xs: "100%", sm: "600px", } ,  paddingBlock: '14px',      }}>
+          <Box>
+            <Typography
+              variant="p"
+              component="p"
+              sx={{
+                textAlign: "left" ,
+                whiteSpace: 'normal',
+                fontWeight: 600,
+                wordBreak: 'break-word',
+                //backgroundColor:"#1976d2",
+                //width: { xs: "100%", sm: "600px" },
+                flexGrow: 1,  // Ocupa todo el espacio disponible
+              }}
+            >
+              {params.row.fullname}
+            </Typography>
+            <Typography
+              variant="p"
+              component="p"
+              sx={{
+                textAlign: "left" ,
+                whiteSpace: 'normal',
+                fontWeight: 600,
+                wordBreak: 'break-word',
+                flexGrow: 1,  // Ocupa todo el espacio disponible
+              }}
+            >
+              {params.row.phone}
+            </Typography>
+            <Typography
+              variant="p"
+              component="p"
+              sx={{
+                textAlign: "left" ,
+                whiteSpace: 'normal',
+                fontWeight: 600,
+                wordBreak: 'break-word',
+                flexGrow: 1,  // Ocupa todo el espacio disponible
+              }}
+            >
+              {params.row.email}
+            </Typography>
+          </Box>
+        </Box>
+      ),
     },
     {
       field: 'phone',
@@ -75,7 +123,7 @@ export const Users = () => {
     {
       field: 'acciones',
       headerName: 'Acciones',
-      width: 130,
+      width: 100,
       editable: false,
 
       renderCell: (params) => {
@@ -87,7 +135,7 @@ export const Users = () => {
             {
               <>
 
-                <FormUpdate typeUserSelected={selected}  dataUserSelected={currentRow} url={`users/get`} />
+                <FormUpdate typeUserSelected={selected} dataUserSelected={currentRow} url={`users/get`} />
 
               </>
             }
@@ -106,7 +154,7 @@ export const Users = () => {
       <Title title="Usuarios" />
 
       <FormAdd typeUserSelected={selected} url={`users/get/${selected}`} />
-      <FormControl sx={{ mb: 2, width: '100%',display:"none" }}>
+      <FormControl sx={{ mb: 2, width: '100%', display: "none" }}>
         <InputLabel size="small" id="demo-simple-select-label">
           Elige el perfil
         </InputLabel>
@@ -137,7 +185,7 @@ export const Users = () => {
             fontWeight: 600,   //  hace todas las filas bold
             fontFamily: 'sans-serif',
             bgcolor: '#FFFFFF',
-            height: 80,
+            height: 'auto',
           },
         }} />
     </div>
