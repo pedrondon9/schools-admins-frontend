@@ -20,8 +20,9 @@ export const CardEvents = ({ x, modal }) => {
           //boxShadow: 'none',
           //borderBottom: '1px #e0e0e0 solid',
           //borderRadius: '0px',
-          border: '1px solid rgb(63, 63, 63)',
-          padding: "10px"
+          border: '2px solid rgb(63, 63, 63)',
+          padding: "10px",
+          backgroundColor:"#f5f5f5"
         }}
       >
         <CardMedia
