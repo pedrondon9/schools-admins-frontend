@@ -89,7 +89,7 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
           {filteredRows ? (
             <>
               {filteredRows?.map((x, y) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} xl={4}>
+                <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
                   <CardEvents x={x} modal={<Box></Box>} />
                 </Grid>
               ))}

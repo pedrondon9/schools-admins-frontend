@@ -21,7 +21,8 @@ const style = {
   pb: 4,
   pt: 4,
   overflowY: 'scroll',
-  height: 'auto',
+  height: '600px',
+  borderRadius: '4px',
 };
 
 export default function FormAdd({ typeUserSelected }) {

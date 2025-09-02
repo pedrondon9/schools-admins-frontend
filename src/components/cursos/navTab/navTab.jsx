@@ -22,15 +22,13 @@ const NavTab = ({ id, courseId }) => {
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '60px' }}>
 
       <Grid
-        spacing={2}
         //bgcolor="backgroundColorPage"
-        container
         sx={{ justifyContent: 'center', width: { xs: '100%' } }}
       >
 
           <DescriptionComponent dataId = {editCourseId} description = {editCourseId?.description}/>
         
-        <TabContext value={`${value}`}>
+        <TabContext value={`${value}`} sx={{display:"none"}}>
           <Box sx={{}}>
             <Tabs
               value={`${value}`}
@@ -48,7 +46,7 @@ const NavTab = ({ id, courseId }) => {
             </Tabs>
           </Box>
           <TabPanel value={'1'} sx={{ paddingInline: '0px' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginLeft: "16px" }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center'}}>
               <Box sx={{ width: { xs: '100%' } }}>
                 <MyEditor id={id} dataId={editCourseId} description = {editCourseId?.description} url = {`course/get/${id}`} selected={ 'course'} />
               </Box>

@@ -1,11 +1,11 @@
 import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Grid, Tab, Tabs } from '@mui/material';
+import { Box, Button, Grid, Tab, Tabs } from '@mui/material';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Title } from './textTitle/title';
 import AppContext from '../contexts/ServiceContext';
 
-const DescriptionComponent = ({dataId,description}) => {
+const DescriptionComponent = ({ dataId, description }) => {
     const [value, setValue] = useState('1');
     const [expanded, setExpanded] = useState(false);
 
@@ -25,22 +25,27 @@ const DescriptionComponent = ({dataId,description}) => {
 
                 <Box sx={{ display: 'flex' }}>
                     <Box sx={{ width: { xs: '100%', md: '870px' }, }}>
-                        <div
-                            style={{
-                                backgroundColor: '#FFFFFF',
-                                padding: '5px',
-                                borderRadius: '5px',
-                                border:"0.5px solid #212121"
-                            }}
+                        {description && description.length > 0 ? (
+                            <div
+                                style={{
+                                    //backgroundColor: '#FFFFFF',
+                                    padding: '5px',
+                                    borderRadius: '5px',
+                                    border: "2px solid rgb(110, 110, 110)"
+                                }}
 
-                            dangerouslySetInnerHTML={expanded ? { __html: description } : { __html:description.substring(0, 120) }}
-                        />
-                        <button
+                                dangerouslySetInnerHTML={expanded ? { __html: description } : { __html: description.substring(0, 120) }}
+                            />
+                        ) : (
+                            <p>No hay descripción disponible.</p>
+                        )}
+                        <Button
+                            variant="text"
                             onClick={() => setExpanded(!expanded)}
                             className="mt-2 text-blue-500 hover:underline"
-                        >
+                            sx={{color:"blue"}}                        >
                             {expanded ? "Leer menos" : "Leer todo"}
-                        </button>
+                        </Button>
                     </Box>
                 </Box>
 

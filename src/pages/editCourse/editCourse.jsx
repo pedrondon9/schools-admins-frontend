@@ -159,9 +159,6 @@ export default function EditCourse({ }) {
     }
 
 
-
-
-
     React.useEffect(() => {
         //setImagen(null)
         //setPreviImage(null)
@@ -203,7 +200,10 @@ export default function EditCourse({ }) {
                     <NavTab id={id} courseId={editCourseId} />
                 </>
                 :
+                <Box sx={{ marginTop: '20px'}}>
                 <SkeletonTable />
+                </Box>
+
             }
 
         </Box>
