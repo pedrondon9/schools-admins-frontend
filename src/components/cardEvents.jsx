@@ -22,7 +22,7 @@ export const CardEvents = ({ x, modal }) => {
           //borderRadius: '0px',
           border: '2px solid rgb(63, 63, 63)',
           padding: "10px",
-          backgroundColor:"#f5f5f5"
+          backgroundColor:"#e3f2fd"
         }}
       >
         <CardMedia
