@@ -157,7 +157,7 @@ export const Cursos = () => {
       <Title title="Cursos" />
 
       <FormAdd typeUserSelected={selected} />
-      <FormControl sx={{ mb: 2, width: '100%' }}>
+      <FormControl sx={{ mb: 2, width: '100%',display:"none" }}>
         <InputLabel size="small" id="demo-simple-select-label">
           Elige el perfil
         </InputLabel>

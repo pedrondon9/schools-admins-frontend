@@ -17,7 +17,6 @@ export const CardEvents = ({ x, modal }) => {
     <Box sx={{ width: '100%' }}>
       <Card
         sx={{
-          //bgcolor: '#',
           //boxShadow: 'none',
           //borderBottom: '1px #e0e0e0 solid',
           //borderRadius: '0px',
@@ -28,11 +27,12 @@ export const CardEvents = ({ x, modal }) => {
         <CardMedia
           //variant='outlined'
           component="img"
-          sx={{ objectFit: 'contain' }}
+          sx={{ objectFit: 'contain', height: { xs: 100, md: 100 } }}
           image={x?.courseImg ? x?.courseImg : 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'}
           title={x?.title}
+
         />
-        <CardContent sx={{ padding: '0px', marginTop: '10px' }}>
+        <CardContent sx={{ padding: '0px', marginTop: '10px',          bgcolor: '#FCF5EB' }}>
           <Typography
             className="title-event"
             sx={{ marginBlock: 2,fontSize: { xs: "2rem", md: "1.5rem" }, fontWeight: '700' }}
@@ -51,8 +51,8 @@ export const CardEvents = ({ x, modal }) => {
           />
         </CardContent>
         <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button size="small" component={NavLink} to={`/info_event/${x?._id}`}>
-            Mas
+          <Button variant='contained' size="large" component={NavLink} to={`/info_event/${x?._id}`}>
+            Ver curso
           </Button>
         </CardActions>
       </Card>
