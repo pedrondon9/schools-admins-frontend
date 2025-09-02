@@ -9,7 +9,9 @@ const ExternalLink = ({ url, text, path = 'Aqui' }) => {
         sx={{
           textAlign: 'left',
           fontFamily: 'sans-serif',
-          fontSize: '14px',
+          fontSize: '15px',
+          fontWeight: 'bold',
+
           //color: "#3e2723",
         }}
         variant="p"

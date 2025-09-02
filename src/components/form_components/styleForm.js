@@ -3,7 +3,7 @@ export const stylesForm = {
   paddingBlock: '20px',
   minHeight: 'auto',
   width: {
-    xs: '95%',
+    xs: '80%',
     sm: 300,
     md: 300,
     lg: 300,
