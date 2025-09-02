@@ -105,9 +105,9 @@ function DrawerListt({ toggleDrawer }) {
                     sx={{
                       textAlign: 'center',
                       whiteSpace: 'normal',
-                      fontSize: 19,
+                      fontSize: 21,
                       color: currentSegment === ("/" + menu.link.split("/")[1]) ? "#000000" : "#000000",
-                      fontWeight: 500
+                      fontWeight: 600
 
                     }}
                   >
