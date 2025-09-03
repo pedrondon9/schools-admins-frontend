@@ -13,7 +13,7 @@ import { LoadingButton } from '@mui/lab';
 
 const style = {
   //position: 'absolute',
-  width: { xs: '90%', sm: '70%', md: '500px' },
+  width: { xs: '100%', sm: '70%', md: '500px' },
   bgcolor: 'background.paper',
   pb: 4,
   pt: 4,
