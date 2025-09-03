@@ -76,6 +76,7 @@ export default function FormAdd({ typeUserSelected }) {
       fs.append('title', data.title);
       fs.append('category', data.category);
       fs.append('price', data.price);
+      fs.append('brief_description', data.brief_description);
       fs.append('format', data.format);
 
       const sendData = await AxiosConfigsToken({

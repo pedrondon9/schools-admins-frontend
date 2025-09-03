@@ -52,14 +52,11 @@ const NavTab = ({ id, courseId }) => {
           </Box>
           <TabPanel value={'1'} sx={{ paddingInline: '0px' }}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Box sx={{ width: { xs: '100%' } }}>
                 <MyEditor url={`events/get/${id}`} selected={'events'} id={id} courseId={editEventId} description={editEventId.content} />
-              </Box>
             </Box>
           </TabPanel>
           <TabPanel value={'2'} sx={{ paddingInline: '0px' }}>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-
               <FormUpdate id={id} courseId={courseId} />
             </Box>
 

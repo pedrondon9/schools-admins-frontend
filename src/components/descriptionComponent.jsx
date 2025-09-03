@@ -1,5 +1,5 @@
 import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Button, Grid, Tab, Tabs } from '@mui/material';
+import { Box, Button, Grid, Tab, Tabs, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Title } from './textTitle/title';
@@ -22,7 +22,42 @@ const DescriptionComponent = ({ dataId, description }) => {
                 <Box sx={{ mt: -4, mb: 2 }}>
                     <Title title={dataId?.title} />
                 </Box>
+                <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ width: { xs: '100%', md: '870px'},mb:4 }}>
+                        <Typography
+                            sx={{
+                                fontFamily: 'sans-serif',
+                                //fontSize: '14px',
+                                //color: "#3e2723",
 
+                                fontSize: { xs: "1.1rem", md: "1.1rem" },
+                                fontWeight: '600' 
+                            }}
+                            variant="p"
+                            component="p"
+                        >
+                        {dataId?.brief_description}
+                        </Typography>
+                    </Box>
+                </Box>
+                <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ width: { xs: '100%', md: '870px'},mb:1 }}>
+                        <Typography
+                            sx={{
+                                fontFamily: 'sans-serif',
+                                //fontSize: '14px',
+                                //color: "#3e2723",
+
+                                //fontSize: { xs: "1.1rem", md: "1.1rem" },
+                                fontWeight: '600' 
+                            }}
+                            variant="h5"
+                            component="h5"
+                        >
+                        Contenido
+                        </Typography>
+                    </Box>
+                </Box>
                 <Box sx={{ display: 'flex' }}>
                     <Box sx={{ width: { xs: '100%', md: '870px' }, }}>
                         {description && description.length > 0 ? (
@@ -43,7 +78,7 @@ const DescriptionComponent = ({ dataId, description }) => {
                             variant="text"
                             onClick={() => setExpanded(!expanded)}
                             className="mt-2 text-blue-500 hover:underline"
-                            sx={{color:"blue"}}                        >
+                            sx={{ color: "blue" }}                        >
                             {expanded ? "Leer menos" : "Leer todo"}
                         </Button>
                     </Box>

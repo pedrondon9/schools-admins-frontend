@@ -67,16 +67,18 @@ export default function FormAdd({ typeUserSelected }) {
   const onSubmit = async (data) => {
     console.log(data, 'data  data  data  data  data  data  data  data ')
     console.log(arrayFiles, 'arrayFiles arrayFiles arrayFiles arrayFiles arrayFiles ')
-    //setLoad(true);
     if (false) {
       return
     }
+    setLoad(true);
+
     try {
       const fs = new FormData();
 
       fs.append('arrayFiles', arrayFiles ? arrayFiles:'');
       fs.append('title', data.title);
       fs.append('category', data.category);
+      fs.append('brief_description', data.brief_description);
       fs.append('content', ' ');
       fs.append('tags', data.tags.split(",").map(item => item.trim()));
 
@@ -232,7 +234,7 @@ export default function FormAdd({ typeUserSelected }) {
               errorInit={errorInit}
               errorInitMessage={errorInitMessage}
               loading={loading}
-              buttonLabel="Registrar"
+              buttonLabel="Crear nueva publicacion"
               imageUrl=""
               imageAlt="Global2a"
               linkUrl=""

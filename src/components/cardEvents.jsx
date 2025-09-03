@@ -29,7 +29,7 @@ export const CardEvents = ({ x, modal,urlId }) => {
           //variant='outlined'
           component="img"
           sx={{ objectFit: 'contain', height: { xs: 100, md: 100 } }}
-          image={x?.courseImg ? x?.courseImg : 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'}
+          image={x?.courseImg ? x?.courseImg :x?.linkPhoto?x?.linkPhoto: 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'}
           title={x?.title}
 
         />
@@ -43,13 +43,16 @@ export const CardEvents = ({ x, modal,urlId }) => {
           >
             {x?.title?.slice(0, 70)}...
           </Typography>
-          <div
-            style={{
-              fontWeight: '600',
-            }}
+          
+          <Typography
+            className="title-event"
+            sx={{ marginBlock: 2,fontSize: { xs: "1.1rem", md: "1.1rem" }, fontWeight: '700' }}
+            gutterBottom
+            component="div"
 
-            dangerouslySetInnerHTML={ { __html: x.description?.substring(0, 80) }}
-          />
+          >
+            {x?.brief_description?.slice(0, 90)}...
+          </Typography>
         </CardContent>
         <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button variant='contained' size="large" component={NavLink} to={`/${urlId}/${x?._id}`}>
