@@ -144,7 +144,7 @@ export default function MyEditor({ id, dataId,description,url,selected }) {
                     value={value}
                     onChange={setValue}
                     placeholder="Escribe algo aquí..."
-                    style={{ marginBottom: "50px",  width: "100%",backgroundColor: "#fafafa"}}
+                    style={{ width: "100%",backgroundColor: "#fafafa"}}
                 />
             </Box>
 

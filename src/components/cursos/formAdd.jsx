@@ -149,21 +149,15 @@ export default function FormAdd({ typeUserSelected }) {
         value: opt._id
       }))
     },
+
     {
-      name: 'startDate',
-      label: 'Fecha de inicio',
-      type: 'date',
+      name: 'brief_description',
+      label: 'Breve descripcion del curso',
+      type: 'textarea',
       validation: { required: true },
-      startIcon: null,
+      startIcon: null
     },
-    {
-      name: 'endDate',
-      label: 'Fecha a',
-      type: 'date',
-      validation: { required: true },
-      startIcon: null,
-    },
-    
+
     {
       name: 'price',
       label: 'Precio del curso',
@@ -193,7 +187,7 @@ export default function FormAdd({ typeUserSelected }) {
     },
     {
       name: 'imagen1',
-      label: 'El logo del centro',
+      label: 'Imagen del curso',
       type: 'file',
       validation: { required: true },
       startIcon: null,

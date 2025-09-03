@@ -12,7 +12,7 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import ModalUpdate from './users/modalUpdate';
 //#ede8f7 f3f0f8
-export const CardEvents = ({ x, modal }) => {
+export const CardEvents = ({ x, modal,urlId }) => {
   return (
     <Box sx={{ width: '100%' }}>
       <Card
@@ -52,7 +52,7 @@ export const CardEvents = ({ x, modal }) => {
           />
         </CardContent>
         <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button variant='contained' size="large" component={NavLink} to={`/cursos/${x?._id}`}>
+          <Button variant='contained' size="large" component={NavLink} to={`/${urlId}/${x?._id}`}>
             Ver curso
           </Button>
         </CardActions>

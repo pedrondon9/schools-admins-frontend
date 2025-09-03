@@ -17,15 +17,14 @@ const NavTab = ({ id, courseId }) => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '60px' }}>
+
       <Grid
-        spacing={2}
         //bgcolor="backgroundColorPage"
-        container
         sx={{ justifyContent: 'center', width: { xs: '100%' } }}
       >
-          
-        <DescriptionComponent dataId={editEventId} description = {editEventId.content} />
-        
+
+        <DescriptionComponent dataId={editEventId} description={editEventId.content} />
+
         <TabContext value={`${value}`}>
           <Box sx={{}}>
             <Tabs
@@ -34,14 +33,37 @@ const NavTab = ({ id, courseId }) => {
               variant="scrollable"
               scrollButtons="auto"
               aria-label="scrollable auto tabs example"
+              sx={{
+                "& .MuiTab-root": {
+                  color: "#000000", // color por defecto
+                },
+                "& .Mui-selected": {
+                  color: "#000000", // color cuando está seleccionado
+                },
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "#212121", // color del indicador
+                },
+              }}
             >
               <Tab value={'1'} component={NavLink} to="" label="Contenido de la publicacion" />
               <Tab value={'2'} component={NavLink} to="" label="Actualizar datos" />
               <Tab value={'3'} disabled component={NavLink} to="" label="" />
             </Tabs>
           </Box>
-          <TabPanel value={'1'} sx={{ paddingInline: '0px' }}><MyEditor url = {`events/get/${id}`} selected={ 'events'} id={id} courseId={editEventId} description = {editEventId.content} /></TabPanel>
-          <TabPanel value={'2'} sx={{ paddingInline: '0px' }}><FormUpdate id={id} courseId={courseId} /></TabPanel>
+          <TabPanel value={'1'} sx={{ paddingInline: '0px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ width: { xs: '100%' } }}>
+                <MyEditor url={`events/get/${id}`} selected={'events'} id={id} courseId={editEventId} description={editEventId.content} />
+              </Box>
+            </Box>
+          </TabPanel>
+          <TabPanel value={'2'} sx={{ paddingInline: '0px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+
+              <FormUpdate id={id} courseId={courseId} />
+            </Box>
+
+          </TabPanel>
 
         </TabContext>
       </Grid>

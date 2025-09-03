@@ -146,6 +146,13 @@ export default function FormAdd({ typeUserSelected }) {
         value: opt._id
       }))
     },
+    {
+      name: 'brief_description',
+      label: 'Breve descripcion de la especialidad',
+      type: 'textarea',
+      validation: { required: true },
+      startIcon: null
+    },
     
     {
       name: 'price',

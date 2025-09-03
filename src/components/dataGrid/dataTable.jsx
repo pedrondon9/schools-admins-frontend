@@ -13,7 +13,7 @@ import { Search } from '@mui/icons-material';
 
 //'startDate', 'endDate', 'price', 'format'
 
-function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
+function DataTable({ url, columns1, sx, VISIBLE_FIELDS,urlId }) {
   const { AxiosConfigsToken } = React.useContext(AppContext);
   const [search, setSearch] = useState("");
 
@@ -90,7 +90,7 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
             <>
               {filteredRows?.map((x, y) => (
                 <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                  <CardEvents x={x} modal={<Box></Box>} />
+                  <CardEvents x={x} modal={<Box></Box>} urlId ={urlId} />
                 </Grid>
               ))}
             </>

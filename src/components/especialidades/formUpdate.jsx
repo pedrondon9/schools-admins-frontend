@@ -13,7 +13,7 @@ import { LoadingButton } from '@mui/lab';
 
 const style = {
   //position: 'absolute',
-  width: { xs: '90%', sm: '70%', md: '500px' },
+  width: { xs: '100%', sm: '70%', md: '500px' },
   bgcolor: 'background.paper',
   pb: 4,
   pt: 4,
@@ -22,7 +22,7 @@ const style = {
 };
 
 export default function FormUpdate({ courseId, id }) {
-  const { AxiosConfigsToken, typeUserSelected, editEspecialitiesId, getCourseId, courseCategory,getWithId } = React.useContext(AppContext);
+  const { AxiosConfigsToken, typeUserSelected, editEspecialitiesId, getCourseId, courseCategory, getWithId } = React.useContext(AppContext);
 
   const [errorInit, setErrorInit] = React.useState(false);
   const [errorInitMessage, setErrorInitMessage] = React.useState('');
@@ -137,8 +137,6 @@ export default function FormUpdate({ courseId, id }) {
         height: 'auto',
         width: '100%',
         marginBottom: '10px',
-        display: 'flex',
-        justifyContent: 'start',
       }}
     >
 
@@ -174,7 +172,7 @@ export default function FormUpdate({ courseId, id }) {
               <FormControl fullWidth error={!!errors.title} sx={{ mb: 3, }}>
                 <TextField
                   name='title'
-                  size="small"
+                  size="large"
                   defaultValue={editEspecialitiesId?.title}
                   type='text'
                   id="outlined-basic"
@@ -189,13 +187,13 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl fullWidth size="small" sx={{ mb: 3 }}>
+              <FormControl fullWidth size="large" sx={{ mb: 3 }}>
                 <InputLabel id="roles-label">Elige la categoria del curso</InputLabel>
                 <Controller
                   name="category"
                   control={control}
                   rules={{ required: false }}
-                  defaultValue={editEspecialitiesId?.category?._id||""}
+                  defaultValue={editEspecialitiesId?.category?._id || ""}
 
                   render={({ field }) => (
                     <Select
@@ -214,13 +212,29 @@ export default function FormUpdate({ courseId, id }) {
                   )}
                 />
               </FormControl>
-              
+
+              <FormControl fullWidth error={!!errors.brief_description} sx={{ mb: 3, }}>
+
+                <TextareaAutosize
+                  placeholder='Breve descripcion de la especialidad'
+                  name={'brief_description'}
+                  defaultValue={editEspecialitiesId?.brief_description}
+
+                  style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
+                  {...register('brief_description', {
+                    required: false,
+                    minLength: 1,
+                  })}
+
+                />
+              </FormControl>
+
               <FormControl error={!!errors.price} fullWidth sx={{ mb: 3, }}>
                 <TextField
                   name='price'
                   defaultValue={editEspecialitiesId?.price}
                   type='number'
-                  size="small"
+                  size="large"
                   id="outlined-basic"
                   InputLabelProps={{
                     shrink: true, // Mantiene el label arriba
@@ -233,13 +247,13 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl fullWidth size="small" sx={{ mb: 3 }}>
+              <FormControl fullWidth size="large" sx={{ mb: 3 }}>
                 <InputLabel id="roles-label">Modifica el formato del curso</InputLabel>
                 <Controller
                   name="format"
                   control={control}
                   rules={{ required: false }}
-                  defaultValue={editEspecialitiesId?.format||""}
+                  defaultValue={editEspecialitiesId?.format || ""}
 
                   render={({ field }) => (
                     <Select
@@ -276,7 +290,7 @@ export default function FormUpdate({ courseId, id }) {
                 color="primary"
                 type="submit"
                 fullWidth
-                size="small"
+                size="large"
               >
                 Actualizar
               </LoadingButton>

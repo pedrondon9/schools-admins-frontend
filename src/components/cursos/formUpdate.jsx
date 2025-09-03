@@ -22,7 +22,7 @@ const style = {
 };
 
 export default function FormUpdate({ courseId, id }) {
-  const { AxiosConfigsToken, typeUserSelected, editCourseId, getCourseId, courseCategory,getWithId } = React.useContext(AppContext);
+  const { AxiosConfigsToken, typeUserSelected, editCourseId, getCourseId, courseCategory, getWithId } = React.useContext(AppContext);
 
   const [errorInit, setErrorInit] = React.useState(false);
   const [errorInitMessage, setErrorInitMessage] = React.useState('');
@@ -136,8 +136,6 @@ export default function FormUpdate({ courseId, id }) {
         height: 'auto',
         width: '100%',
         marginBottom: '10px',
-        display: 'flex',
-        justifyContent: 'start',
       }}
     >
 
@@ -173,7 +171,7 @@ export default function FormUpdate({ courseId, id }) {
               <FormControl fullWidth error={!!errors.title} sx={{ mb: 3, }}>
                 <TextField
                   name='title'
-                  size="small"
+                  size="large"
                   defaultValue={editCourseId?.title}
                   type='text'
                   id="outlined-basic"
@@ -188,13 +186,13 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl fullWidth size="small" sx={{ mb: 3 }}>
+              <FormControl fullWidth size="large" sx={{ mb: 3 }}>
                 <InputLabel id="roles-label">Elige la categoria del curso</InputLabel>
                 <Controller
                   name="category"
                   control={control}
                   rules={{ required: false }}
-                  defaultValue={editCourseId?.category?._id||""}
+                  defaultValue={editCourseId?.category?._id || ""}
 
                   render={({ field }) => (
                     <Select
@@ -213,7 +211,22 @@ export default function FormUpdate({ courseId, id }) {
                   )}
                 />
               </FormControl>
-              <FormControl error={!!errors.startDate} fullWidth sx={{ mb: 3 }}>
+              <FormControl fullWidth error={!!errors.brief_description} sx={{ mb: 3, }}>
+
+                <TextareaAutosize
+                  placeholder='Breve descripcion del curso'
+                  name={'brief_description'}                   
+                  defaultValue={editCourseId?.brief_description }
+
+                  style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
+                  {...register('brief_description', {
+                    required: false,
+                    minLength: 1,
+                  })}
+
+                />
+              </FormControl>
+              <FormControl error={!!errors.startDate} fullWidth sx={{ mb: 3, display: "none" }}>
                 <TextField
                   name='startDate'
                   defaultValue={new Date(editCourseId?.startDate).toISOString().split("T")[0]}
@@ -221,7 +234,7 @@ export default function FormUpdate({ courseId, id }) {
                     shrink: true, // Mantiene el label arriba
                   }}
                   type='date'
-                  size="small"
+                  size="large"
                   id="outlined-basic"
                   label="Modificar fecha de Inicio"
                   variant="outlined"
@@ -231,7 +244,7 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl error={!!errors.endDate} fullWidth sx={{ mb: 3 }}>
+              <FormControl error={!!errors.endDate} fullWidth sx={{ mb: 3, display: "none" }}>
                 <TextField
                   name='endDate'
                   defaultValue={new Date(editCourseId?.endDate).toISOString().split("T")[0]}
@@ -239,7 +252,7 @@ export default function FormUpdate({ courseId, id }) {
                     shrink: true, // Mantiene el label arriba
                   }}
                   type='date'
-                  size="small"
+                  size="large"
                   id="outlined-basic"
                   label="Modificar fecha de finalizacion"
                   variant="outlined"
@@ -254,7 +267,7 @@ export default function FormUpdate({ courseId, id }) {
                   name='price'
                   defaultValue={editCourseId?.price}
                   type='number'
-                  size="small"
+                  size="large"
                   id="outlined-basic"
                   InputLabelProps={{
                     shrink: true, // Mantiene el label arriba
@@ -267,13 +280,13 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl fullWidth size="small" sx={{ mb: 3 }}>
+              <FormControl fullWidth size="large" sx={{ mb: 3 }}>
                 <InputLabel id="roles-label">Modifica el formato del curso</InputLabel>
                 <Controller
                   name="format"
                   control={control}
                   rules={{ required: false }}
-                  defaultValue={editCourseId?.format||""}
+                  defaultValue={editCourseId?.format || ""}
 
                   render={({ field }) => (
                     <Select
@@ -310,7 +323,7 @@ export default function FormUpdate({ courseId, id }) {
                 color="primary"
                 type="submit"
                 fullWidth
-                size="small"
+                size="large"
               >
                 Actualizar
               </LoadingButton>

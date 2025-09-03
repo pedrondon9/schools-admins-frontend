@@ -179,7 +179,7 @@ export const Users = () => {
           )}
         </Select>
       </FormControl>
-      <DataTable typeUserSelected={selected} VISIBLE_FIELDS={VISIBLE_FIELDS} columns1={columns1} url={`users/get`}
+      <DataTable typeUserSelected={selected} VISIBLE_FIELDS={VISIBLE_FIELDS} columns1={columns1} url={`users/get` } 
         sx={{
           '& .MuiDataGrid-row': {
             fontWeight: 600,   //  hace todas las filas bold

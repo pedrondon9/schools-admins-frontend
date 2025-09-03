@@ -170,7 +170,7 @@ export const Eventos = () => {
           )}
         </Select>
       </FormControl>
-      <DataTable url = {`events/get`} columns1={columns1} VISIBLE_FIELDS={VISIBLE_FIELDS} typeUserSelected={selected}
+      <DataTable urlId = {`eventos`} url = {`events/get`} columns1={columns1} VISIBLE_FIELDS={VISIBLE_FIELDS} typeUserSelected={selected}
         sx={{
           '& .MuiDataGrid-row:hover': {
             cursor: 'pointer', // Cambia el cursor al pasar el mouse

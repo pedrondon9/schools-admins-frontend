@@ -184,7 +184,7 @@ export const Especialidades = () => {
           )}
         </Select>
       </FormControl>
-      <DataTable columns1={columns1} VISIBLE_FIELDS={VISIBLE_FIELDS} typeUserSelected={selected} url={`especialities/get`}
+      <DataTable urlId = {`especialidades`} columns1={columns1} VISIBLE_FIELDS={VISIBLE_FIELDS} typeUserSelected={selected} url={`especialities/get`}
         sx={{
           '& .MuiDataGrid-row:hover': {
             cursor: 'pointer', // Cambia el cursor al pasar el mouse

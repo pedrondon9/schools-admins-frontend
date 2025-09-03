@@ -182,7 +182,7 @@ export const Cursos = () => {
           )}
         </Select>
       </FormControl>
-      <DataTable columns1={columns1} typeUserSelected={selected} url={`course/get`} VISIBLE_FIELDS={VISIBLE_FIELDS} sx={{
+      <DataTable urlId = {`cursos`} columns1={columns1} typeUserSelected={selected} url={`course/get`} VISIBLE_FIELDS={VISIBLE_FIELDS} sx={{
         '& .MuiDataGrid-row:hover': {
           cursor: 'pointer', // Cambia el cursor al pasar el mouse
           //py: 1, // padding vertical para que haya espacio

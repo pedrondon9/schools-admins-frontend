@@ -28,10 +28,10 @@ const DescriptionComponent = ({ dataId, description }) => {
                         {description && description.length > 0 ? (
                             <div
                                 style={{
-                                    //backgroundColor: '#FFFFFF',
+                                    backgroundColor: '#fff3e0',
                                     padding: '5px',
                                     borderRadius: '5px',
-                                    border: "2px solid rgb(110, 110, 110)"
+                                    border: "2px solid rgb(79, 79, 79)"
                                 }}
 
                                 dangerouslySetInnerHTML={expanded ? { __html: description } : { __html: description.substring(0, 120) }}

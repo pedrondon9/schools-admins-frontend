@@ -149,6 +149,13 @@ export default function FormAdd({ typeUserSelected }) {
       }))
     },
     {
+      name: 'brief_description',
+      label: 'Breve descripcion de la especialidad',
+      type: 'textarea',
+      validation: { required: true },
+      startIcon: null
+    },
+    {
       name: 'tags',
       label: 'Palabras claves de la publicacion (separadas por comas)',
       type: 'text',
