@@ -47,7 +47,7 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
+export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
   const theme = useTheme();
 
   const { AxiosConfigsToken, typeUserSelected } = React.useContext(AppContext);
@@ -124,7 +124,10 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
       fs.append('birthdate', data.birthdate);
       fs.append('info', data.info);
       fs.append('roles', JSON.stringify(rolesSelected));
+      fs.append('position', data.position);
       fs.append('dni', data.dni);
+      fs.append('brief_description', data.brief_description);
+
 
       const sendData = await AxiosConfigsToken({
         url: `/users/put`,
@@ -323,6 +326,21 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                   />
                 </FormControl>
 
+                <FormControl fullWidth error={!!errors.brief_description} sx={{ mb: 3, }}>
+
+                  <TextareaAutosize
+                    placeholder='Breve descripcion del usuario (Opcional)'
+                    name={'brief_description'}
+                    defaultValue={dataUserSelected?.brief_description}
+
+                    style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
+                    {...register('brief_description', {
+                      required: false,
+                      minLength: 1,
+                    })}
+
+                  />
+                </FormControl>
 
                 <FormControl error={!!errors.birthdate} fullWidth sx={{ mb: 2, }}>
                   <TextField
@@ -375,30 +393,46 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                   </Select>
                 </FormControl>
 
+                <FormControl fullWidth sx={{ mt: 2, }}>
+                  <TextField
+                    name='position'
+                    error={!!errors.position}
+                    defaultValue={dataUserSelected?.position}
 
-                {userTypeSelected === 'admin' ?
-                  <FormControl error={!!errors.posGalery} fullWidth sx={{ mt: 2, }}>
-                    <TextField
-                      name='posGalery'
-                      defaultValue={dataUserSelected.posGalery}
-                      type='number'
-                      size="large"
-                      id="outlined-basic"
-                      InputLabelProps={{
-                        shrink: true, // Mantiene el label arriba
-                      }}
-                      label="Posicion en la galeria"
-                      variant="outlined"
-                      {...register('posGalery', {
-                        required: false,
-                        minLength: 1,
-                      })}
-                    />
-                  </FormControl>
-                  :
-                  <></>
-                }
-                <FormControl fullWidth size="large" sx={{ mt: 2 }}>
+                    type='text'
+                    size="large"
+                    id="outlined-basic"
+                    InputLabelProps={{
+                      shrink: true, // Mantiene el label arriba
+                    }}
+                    label="Puesto o cargo del usuario (Opcional)"
+                    variant="outlined"
+                    {...register('position', {
+                      required: false,
+                      minLength: 1,
+                    })}
+                  />
+                </FormControl>
+                <FormControl error={!!errors.posGalery} fullWidth sx={{ mt: 2, }}>
+                  <TextField
+                    name='posGalery'
+                    defaultValue={dataUserSelected?.posGalery}
+                    type='number'
+                    size="large"
+                    id="outlined-basic"
+                    InputLabelProps={{
+                      shrink: true, // Mantiene el label arriba
+                    }}
+                    label="Posicion en la galeria (Opcional)"
+                    variant="outlined"
+                    {...register('posGalery', {
+                      required: false,
+                      minLength: 1,
+                    })}
+                  />
+                </FormControl>
+
+                <FormControl fullWidth size="large" sx={{ mt: 2, mb: 2 }}>
                   <InputLabel id="roles-label">Genero del usuario</InputLabel>
                   <Controller
                     name="sex"
@@ -420,17 +454,6 @@ export default function FormUpdate({ dataUserSelected, mutateLocal,url }) {
                         </MenuItem>
                       </Select>
                     )}
-                  />
-                </FormControl>
-                <FormControl fullWidth error={!!errors.info} sx={{ mt: 2, mb: 2 }}>
-
-                  <TextareaAutosize
-                    defaultValue={dataUserSelected.info}
-
-                    name={'info'} placeholder={''}
-                    style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
-                    {...register('info', { required: false })}
-
                   />
                 </FormControl>
 

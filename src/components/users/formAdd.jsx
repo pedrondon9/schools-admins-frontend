@@ -132,6 +132,8 @@ export default function FormAdd({ typeUserSelected, url }) {
       fs.append('school', dataUser.schoolTenant);
       fs.append('arrayFiles', arrayFiles);
       fs.append('birthdate', data.birthdate);
+      fs.append('brief_description', data.brief_description);
+      fs.append('position', data.position);
       fs.append('info', data.info);
 
       const sendData = await AxiosConfigsToken({
@@ -205,6 +207,13 @@ export default function FormAdd({ typeUserSelected, url }) {
       startIcon: null
     },
     {
+      name: 'brief_description',
+      label: 'Breve descripcion del usuario',
+      type: 'textarea',
+      validation: { required: true },
+      startIcon: null
+    },
+    {
       name: 'sex',
       label: 'Genero',
       type: 'select',
@@ -236,6 +245,13 @@ export default function FormAdd({ typeUserSelected, url }) {
         label: opt.name,
         value: opt._id
       }))
+    },
+    {
+      name: 'posGalery',
+      label: 'Posicion en la galeria',
+      type: 'number',
+      validation: { required: false },
+      startIcon: null
     },
     ...(typeUser[0]?.name === 'admin'
       ? [
@@ -405,6 +421,20 @@ export default function FormAdd({ typeUserSelected, url }) {
               </FormControl>
 
 
+              <FormControl fullWidth  sx={{ mb: 3, }}>
+
+                <TextareaAutosize
+                  placeholder='Breve descripcion del usuario (Opcional)'
+                  name={'brief_description'}
+                  error={!!errors.brief_description}
+                  style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
+                  {...register('brief_description', {
+                    required: false,
+                    minLength: 1,
+                  })}
+
+                />
+              </FormControl>
               <FormControl fullWidth sx={{ mb: 2, }}>
                 <TextField
                   name='birthdate'
@@ -425,7 +455,7 @@ export default function FormAdd({ typeUserSelected, url }) {
               </FormControl>
 
 
-              <FormControl fullWidth size="large" sx={{ mt: 2.5 }}>
+              <FormControl fullWidth size="large" sx={{ mb: 2.5 }}>
                 <InputLabel id="demo-multiple-chip-label">Tipo de usuario</InputLabel>
                 <Select
                   labelId="demo-multiple-chip-label"
@@ -455,30 +485,44 @@ export default function FormAdd({ typeUserSelected, url }) {
                 </Select>
               </FormControl>
 
+              <FormControl fullWidth sx={{ mb: 2, }}>
+                <TextField
+                  name='position'
+                  error={!!errors.position}
+                  type='text'
+                  size="large"
+                  id="outlined-basic"
+                  InputLabelProps={{
+                    shrink: true, // Mantiene el label arriba
+                  }}
+                  label="Puesto o cargo del usuario (Opcional)"
+                  variant="outlined"
+                  {...register('position', {
+                    required: false,
+                    minLength: 1,
+                  })}
+                />
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 2, }}>
+                <TextField
+                  name='posGalery'
+                  error={!!errors.posGalery}
+                  type='number'
+                  size="large"
+                  id="outlined-basic"
+                  InputLabelProps={{
+                    shrink: true, // Mantiene el label arriba
+                  }}
+                  label="Posicion en la galeria (Opcional)"
+                  variant="outlined"
+                  {...register('posGalery', {
+                    required: false,
+                    minLength: 1,
+                  })}
+                />
+              </FormControl>
 
-              {typeUser[0]?.name === 'admin' ?
-                <FormControl fullWidth sx={{ mt: 2, }}>
-                  <TextField
-                    name='posGalery'
-                    error={!!errors.posGalery}
-                    type='number'
-                    size="large"
-                    id="outlined-basic"
-                    InputLabelProps={{
-                      shrink: true, // Mantiene el label arriba
-                    }}
-                    label="Posicion en la galeria"
-                    variant="outlined"
-                    {...register('posGalery', {
-                      required: false,
-                      minLength: 1,
-                    })}
-                  />
-                </FormControl>
-                :
-                <></>
-              }
-              <FormControl fullWidth size="large" sx={{ mt: 2 }}>
+              <FormControl fullWidth size="large" sx={{ mb:2 }}>
                 <InputLabel id="roles-label">Genero del usuario</InputLabel>
                 <Controller
                   name="sex"
@@ -502,16 +546,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                   )}
                 />
               </FormControl>
-              <FormControl fullWidth sx={{ mt: 2, mb: 2 }}>
-
-                <TextareaAutosize
-                  error={!!errors.info}
-                  name={'info'} placeholder={''}
-                  style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
-                  {...register('info', { required: true })}
-
-                />
-              </FormControl>
+             
 
               <Controller
                 name="imagen1"
@@ -527,12 +562,12 @@ export default function FormAdd({ typeUserSelected, url }) {
               />
 
               {errorInit && (
-                <Box sx={{ width: '95%', mt: 2 }}>
+                <Box sx={{ width: '95%', mb: 2 }}>
                   <FormAlert message={errorInitMessage} />
                 </Box>
               )}
 
-              <Box sx={{ width: '100%', mt: 2 }}>
+              <Box sx={{ width: '100%', mb: 2 }}>
                 <LoadingButton
                   loading={loading}
                   variant="contained"

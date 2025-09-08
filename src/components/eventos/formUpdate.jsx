@@ -73,18 +73,24 @@ export default function FormUpdate({ courseId, id }) {
 
     try {
       setLoad(true);
+      const fs = new FormData();
+      fs.append('arrayFiles', arrayFiles ? arrayFiles : editEventId?.linkPhoto);
+      fs.append('title', data.title);
+      fs.append('category', data.category);
+      fs.append('price', data.price);
+      fs.append('brief_description', data.brief_description);
+      fs.append('id', editEventId._id);
 
       const sendData = await AxiosConfigsToken({
         url: `/events/put`,
         method: 'put',
-        data,
+        data:fs,
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
         //await getCourseId(id)
         await getWithId(`events/get/${id}`, 'events')
-
-
 
       } else {
         toast.error(`${sendData.data.message}`);
@@ -126,6 +132,8 @@ export default function FormUpdate({ courseId, id }) {
     //setImagen(null)
     //setPreviImage(null)
     GetSelect()
+    setPreviImageUsers(editEventId?.linkPhoto)
+
     //setPreviImageUsers(dataUserSelected?.linkPhoto)
   }, []);
 
@@ -247,6 +255,34 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
+
+
+              <Controller
+                name="imagen1"
+                control={control}
+                render={({ }) => (
+                  <FieldImageInput
+                    label={'Foto del usuario'}
+                    onFileChange={(file) => {
+                      setArrayFiles(file);
+                    }}
+                  />
+                )}
+              />
+
+              {!arrayFiles ?
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <FormControl sx={{ mt: 1, width: '20%', justifyItems: 'center' }} size="small">
+                    <img src={previImageUsers} alt="" />
+                  </FormControl></div> :
+                <></>
+              }
 
               {errorInit && (
                 <Box sx={{ width: '95%', mt: 2 }}>
