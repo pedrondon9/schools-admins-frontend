@@ -40,7 +40,7 @@ function DrawerListt({ toggleDrawer }) {
     });
   };
   const listePath = [
-    { text: 'Inicio', link: '/' },
+    { text: 'Dasbord', link: '/' },
     { text: 'Usuario', link: '/users' },
     { text: 'Cursos', link: '/cursos' },
     { text: 'Especialidades', link: '/especialidades' },
