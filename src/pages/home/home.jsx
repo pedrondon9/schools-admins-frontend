@@ -5,11 +5,38 @@ import axios from 'axios';
 import { TITLEPAGE, URL_SERVER } from '../../contexts/constantesVar';
 
 import { Box, Grid } from '@mui/material';
+import { CardDasboard } from '../../components/cardDasboard';
+import { Title } from '../../components/textTitle/title';
+import { set } from 'date-fns';
+import SkeletonColum from '../../components/skelholder/skelethonColum';
+import SkeletonTable from '../../components/skelholder/skelethonTable';
 
 function Homes() {
-  const { dispatch } = useContext(AppContext);
+  const { dispatch, AxiosConfigsToken } = useContext(AppContext);
+  const [data, setData] = useState(null);
+  const [spinner, setSpinner] = useState(false);
+
+  const getData = async () => {
+    try {
+      setSpinner(true);
+      const response = await AxiosConfigsToken.get('/dasboard/get');
+
+      if (response.data.success) {
+        console.log('response', response.data);
+        setData(response.data.response);
+      } else {
+        setData(null);
+      }
+    } catch (error) {
+      console.error('Error al hacer la solicitud:', error);
+    } finally {
+      setSpinner(false);
+    }
+  }
+
 
   useEffect(() => {
+    getData();
     if (JSON.parse(window.localStorage.getItem('enableTAdmins'))) {
     } else {
       window.localStorage.setItem(
@@ -31,9 +58,33 @@ function Homes() {
   }, []);
 
   return (
-    <>
-      <Grid spacing={1} bgcolor="backgroundColorPage" container></Grid>
-    </>
+    <div>
+      <Title title="Dasboard" />
+
+      {!spinner ?
+        <>
+          {data ?
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Grid container spacing={2} sx={{ paddingTop: 3 }}>
+
+                <CardDasboard title={"Usuarios"} cantities={data.users} />
+                <CardDasboard title={"Cursos"} cantities={data.courses} />
+                <CardDasboard title={"Especialidades"} cantities={data.specialities} />
+                <CardDasboard title={"Publicaciones"} cantities={data.events} />
+
+              </Grid>
+            </div>
+            :
+            <></>
+          }
+        </>
+
+        :
+        <SkeletonTable />
+      }
+
+
+    </div>
   );
 }
 
