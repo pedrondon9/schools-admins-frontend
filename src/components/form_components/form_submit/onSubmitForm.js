@@ -16,7 +16,6 @@ export const OnSubmit = async (
 
     setErrorInit(false);
 
-    console.log(data)
 
     try {
         setLoad(true);
@@ -47,7 +46,6 @@ export const OnSubmit = async (
                 navigate('/');
 
             } else {
-                console.log(registerPost)
                 setLoad(false);
                 setErrorInitMessage(registerPost.data.mens);
                 setErrorInit(true);
@@ -60,7 +58,6 @@ export const OnSubmit = async (
 
 
         if (registerPost.data.verify) {
-            console.log(registerPost.data);
 
             let dataOtp = {
                 timeExpire: Date.now() + 10 * 60 * 1000, // 2 minuto en milisegundos
@@ -78,7 +75,6 @@ export const OnSubmit = async (
             navigate('/');
 
         } else {
-            console.log(registerPost)
             setLoad(false);
             setErrorInitMessage(registerPost.data.mens);
             setErrorInit(true);
@@ -104,13 +100,11 @@ export const OnSubmitRegister = async (
     navigate,
     dispatch
 ) => {
-    console.log(data, arrayFiles);
 
     const cachedDataOtp = JSON.parse(window.localStorage.getItem(cacheKey))
         ? JSON.parse(window.localStorage.getItem(cacheKey))
         : null;
 
-        console.log(cachedDataOtp,'cache otp')
 
     if (cachedDataOtp) {
         setErrorInit(false);

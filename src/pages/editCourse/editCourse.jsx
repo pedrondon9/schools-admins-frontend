@@ -64,99 +64,10 @@ export default function EditCourse({ }) {
 
     //el useForm de react form hook
     const {
-        register,
-        handleSubmit,
-        reset,
-        watch,
-        setValue,
-        control,
+        
         formState: { errors },
     } = useForm()
 
-
-
-    //para enviar datos en el servidor
-    const onSubmit = async (data) => {
-
-        console.log(data, 'data')
-        console.log(dataUserSelected, 'dataSelected')
-        console.log(arrayFiles, 'files')
-        console.log(data.roles ? [data.roles] : [dataUserSelected.role._id], 'roles')
-
-        if (false) {
-            return
-        }
-
-        try {
-            setLoad(true);
-            const fs = new FormData();
-            fs.append('arrayFiles', arrayFiles ? arrayFiles : dataUserSelected?.linkPhoto);
-            fs.append('fullname', data.fullname);
-            fs.append('sex', data.sex);
-            fs.append('id', dataUserSelected._id);
-            fs.append('contact', data.contact);
-            fs.append('phone', data.phone);
-            fs.append('posGalery', data.posGalery ? Number(data.posGalery) : 0);
-            fs.append('email', data.email);
-            fs.append('birthdate', data.birthdate);
-
-            fs.append('info', data.info);
-            fs.append('codeUser', data.codeUser);
-            fs.append('roles', data.roles ? [data.roles] : [dataUserSelected.role._id]);
-            fs.append('dni', data.dni);
-
-            const sendData = await AxiosConfigsToken({
-                url: `/users/put`,
-                method: 'put',
-                data: fs,
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
-            if (sendData.data.success) {
-                toast.success(`${sendData.data.message}`);
-
-            } else {
-                toast.error(`${sendData.data.message}`);
-            }
-        } catch (error) {
-            console.log(error)
-            toast.error(error.response?.data?.message);
-        } finally {
-            setLoad(false);
-        }
-
-
-
-    };
-
-
-    const getCourseIds = async (id) => {
-        setLoadingCourseId(true)
-        try {
-            const response = await Get(AxiosConfigsToken, `course/get/${id}`);
-            if (response.success) {
-                console.log(response, 'response courseId');
-                setCourseId(response.response?.docs[0])
-                dispatch({
-                    type: DATA_EDIT_COURSE,
-                    payload: response.response?.docs[0]
-                })
-
-            } else {
-                dispatch({
-                    type: DATA_EDIT_COURSE,
-                    payload: null
-                })
-            }
-        } catch (error) {
-            S
-            dispatch({
-                type: DATA_EDIT_COURSE,
-                payload: null
-            })
-        } finally {
-            setLoadingCourseId(false)
-        }
-    }
 
 
     React.useEffect(() => {

@@ -12,13 +12,7 @@ import { Toaster } from 'react-hot-toast';
 import MenuAppBars from './components/appBar/appBarr';
 import Homes from './pages/home/home';
 
-import { Students } from './pages/students/students';
 import { Users } from './pages/users/users';
-import { Profil } from './pages/profil/profil';
-import { CourseInfo } from './pages/courseInfo/courseInfo';
-import { InfoStudent } from './pages/infoStudent/infoStudent';
-import { Profes } from './pages/profe/profes';
-import Setting from './pages/setting/setting';
 import Registre from './pages/registre/registre';
 import UpdatePassword from './pages/updatePassword/updatePassword';
 import RegisterUsers from './pages/users/register.users';
@@ -75,15 +69,7 @@ function App() {
                 }
               />
 
-              <Route
-                exact
-                path="/setting"
-                element={
-                  <Protected>
-                    <Setting />
-                  </Protected>
-                }
-              />
+             
 
               <Route
                 exact
@@ -150,25 +136,9 @@ function App() {
                 }
               />
 
-              <Route
-                exact
-                path="/profil"
-                element={
-                  <Protected>
-                    <Profil />
-                  </Protected>
-                }
-              />
+             
 
-              <Route
-                exact
-                path="/students"
-                element={
-                  <Protected>
-                    <Students />
-                  </Protected>
-                }
-              />
+             
               <Route
                 exact
                 path="/cursos"
@@ -178,15 +148,7 @@ function App() {
                   </Protected>
                 }
               />
-              <Route
-                exact
-                path="/info_student/:id"
-                element={
-                  <Protected>
-                    <InfoStudent />
-                  </Protected>
-                }
-              />
+             
             
               <Route
                 exact

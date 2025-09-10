@@ -144,7 +144,6 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
         toast.error(`${sendData.data.message}`);
       }
     } catch (error) {
-      console.log(error)
       toast.error(error.response?.data?.message);
     } finally {
       setLoad(false);
@@ -480,7 +479,9 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                   >
                     <FormControl sx={{ mt: 1, width: '20%', justifyItems: 'center' }} size="small">
                       <img src={previImageUsers} alt="" />
-                    </FormControl></div> : <></>}
+                    </FormControl></div> :
+                  <></>
+                }
                 {errorInit && (
                   <Box sx={{ width: '95%', mt: 2 }}>
                     <FormAlert message={errorInitMessage} />

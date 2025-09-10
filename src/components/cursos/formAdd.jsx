@@ -110,7 +110,6 @@ export default function FormAdd({ typeUserSelected }) {
   const GetSelect = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `categories/get`);
-      console.log(response)
       if (response.success) {
         setCategories(response?.response)
         dispatch({
@@ -202,7 +201,6 @@ export default function FormAdd({ typeUserSelected }) {
 
     setTypeUser(roleSelected)
 
-    console.log(roleSelected, 'dd dd  dd  dd ')
   }
 
 

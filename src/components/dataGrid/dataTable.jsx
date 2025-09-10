@@ -19,7 +19,6 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS,urlId }) {
 
   const { data, isLoading } = useSWR(url, () => Get(AxiosConfigsToken, url), {});
 
-  console.log('data en datatable:', data);
 
 
 

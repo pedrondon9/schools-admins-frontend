@@ -22,13 +22,11 @@ function Homes() {
       const response = await AxiosConfigsToken.get('/dasboard/get');
 
       if (response.data.success) {
-        console.log('response', response.data);
         setData(response.data.response);
       } else {
         setData(null);
       }
     } catch (error) {
-      console.error('Error al hacer la solicitud:', error);
     } finally {
       setSpinner(false);
     }

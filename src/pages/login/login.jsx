@@ -54,7 +54,6 @@ function Login() {
         method: 'post',
         data,
       });
-      console.log(logearse.data);
 
       if (logearse.data.verify) {
         let dataUsers = {
@@ -70,7 +69,6 @@ function Login() {
         };
         window.localStorage.setItem('enableTAdmins', JSON.stringify(dataUsers));
 
-        console.log(dataUsers)
 
         setLoad(false);
 

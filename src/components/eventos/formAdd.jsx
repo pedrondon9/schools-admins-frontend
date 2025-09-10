@@ -65,8 +65,6 @@ export default function FormAdd({ typeUserSelected }) {
 
   //para enviar datos en el servidor
   const onSubmit = async (data) => {
-    console.log(data, 'data  data  data  data  data  data  data  data ')
-    console.log(arrayFiles, 'arrayFiles arrayFiles arrayFiles arrayFiles arrayFiles ')
     if (false) {
       return
     }
@@ -110,7 +108,6 @@ export default function FormAdd({ typeUserSelected }) {
   const GetSelect = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `categories/get_evnt_cat`);
-      console.log(response)
       if (response.success) {
         setCategories(response?.response)
         dispatch({
@@ -180,7 +177,6 @@ export default function FormAdd({ typeUserSelected }) {
 
     setTypeUser(roleSelected)
 
-    console.log(roleSelected, 'dd dd  dd  dd ')
   }
 
 

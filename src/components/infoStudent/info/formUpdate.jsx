@@ -87,7 +87,6 @@ export default function FormUpdate({ dataUp }) {
       }
     }
 
-    console.log(data);
 
     try {
       setLoad(true);
@@ -137,7 +136,6 @@ export default function FormUpdate({ dataUp }) {
         setLoad(false);
       }
     } catch (error) {
-      console.log(error);
       toast.error(`Hay un problema front`);
       setLoad(false);
     }
@@ -185,7 +183,6 @@ export default function FormUpdate({ dataUp }) {
             const img_convert_to_blob = await img_fetch.blob('image/png');
 
             setImagen(img_convert_to_blob);
-            console.log(img_convert_to_blob);
           };
         };
       } else {

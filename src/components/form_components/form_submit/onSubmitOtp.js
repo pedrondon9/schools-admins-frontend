@@ -11,7 +11,6 @@ export const handleSubmitOptF = async (
     cacheKey
 ) => {
     const Otp = JSON.parse(window.localStorage.getItem(cacheKey));
-    console.log(Otp,'dddssss   ddddd')
 
     setErrorInitOtp(false);
     setLoadOtp(true);
@@ -26,7 +25,6 @@ export const handleSubmitOptF = async (
             }
         });
 
-        console.log(confirmOpt.data, 'verify otp');
 
         if (confirmOpt.data.verify) {
             const cachedDataOtp = JSON.parse(window.localStorage.getItem(cacheKey))
@@ -76,7 +74,6 @@ export const onSubmitResendOTPF = async (
         });
 
         if (registerPost.data.verify) {
-            console.log(registerPost.data);
 
             let dataOtp = {
                 timeExpire: Date.now() + 10 * 60 * 1000, // 2 minuto en milisegundos
@@ -97,7 +94,6 @@ export const onSubmitResendOTPF = async (
         }
     } catch (error) {
 
-        console.log(error)
 
         ErrorG(error, setErrorInitMessageOtp, cacheKey, setDataOTP,setErrorInitOtp)
 

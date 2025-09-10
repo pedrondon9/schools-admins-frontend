@@ -3,7 +3,6 @@ import axiosConfigs from '../../components/axiosConfig';
 export const GetDataHome = async () => {
   const res = await axiosConfigs.get('/get_info_home');
   const data = res.data.data;
-  console.log(res, 'ssssssssswwwwww');
   return data;
 };
 
