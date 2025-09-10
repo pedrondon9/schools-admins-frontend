@@ -56,7 +56,7 @@ export const CardEvents = ({ x, modal,urlId }) => {
         </CardContent>
         <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button variant='contained' size="large" component={NavLink} to={`/${urlId}/${x?._id}`}>
-            Ver curso
+            Mas info
           </Button>
         </CardActions>
       </Card>
