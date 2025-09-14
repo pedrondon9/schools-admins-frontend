@@ -12,7 +12,7 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import ModalUpdate from './users/modalUpdate';
 //#ede8f7 f3f0f8
-export const CardEvents = ({ x, modal,urlId }) => {
+export const CardEvents = ({ x, modal, urlId }) => {
   return (
     <Box sx={{ width: '100%' }}>
       <Card
@@ -22,31 +22,36 @@ export const CardEvents = ({ x, modal,urlId }) => {
           //borderRadius: '0px',
           border: '2px solid rgb(63, 63, 63)',
           padding: "10px",
-          backgroundColor:"#fff3e0"
+          backgroundColor: "#fff3e0"
         }}
       >
-        <CardMedia
-          //variant='outlined'
-          component="img"
-          sx={{ objectFit: 'contain', height: { xs: 100, md: 100 } }}
-          image={x?.courseImg ? x?.courseImg :x?.linkPhoto?x?.linkPhoto: 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'}
-          title={x?.title}
+        {x?.courseImg || x?.linkPhoto ?
+          <CardMedia
+            //variant='outlined'
+            component="img"
+            sx={{ objectFit: 'contain', height: { xs: 100, md: 100 } }}
+            image={x?.courseImg ? x?.courseImg : x?.linkPhoto ? x?.linkPhoto : 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'}
+            title={x?.title}
 
-        />
-        <CardContent sx={{ padding: '0px', marginTop: '10px',          bgcolor: '#FCF5EB' }}>
+          />
+          :
+          <></>
+        }
+
+        <CardContent sx={{ padding: '0px', marginTop: '10px', bgcolor: '#FCF5EB' }}>
           <Typography
             className="title-event"
-            sx={{ marginBlock: 2,fontSize: { xs: "2rem", md: "1.5rem" }, fontWeight: '700' }}
+            sx={{ marginBlock: 2, fontSize: { xs: "2rem", md: "1.5rem" }, fontWeight: '700' }}
             gutterBottom
             component="div"
 
           >
             {x?.title?.slice(0, 70)}...
           </Typography>
-          
+
           <Typography
             className="title-event"
-            sx={{ marginBlock: 2,fontSize: { xs: "1.1rem", md: "1.1rem" }, fontWeight: '700' }}
+            sx={{ marginBlock: 2, fontSize: { xs: "1.1rem", md: "1.1rem" }, fontWeight: '700' }}
             gutterBottom
             component="div"
 

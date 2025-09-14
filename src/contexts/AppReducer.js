@@ -23,7 +23,7 @@ const AppReducer = (state, action) => {
       return {
         ...state,
         dataUser: {
-          ...state.dataApp,
+          ...state.dataUser,
           ...payload,
         },
       };

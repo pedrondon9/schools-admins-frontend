@@ -55,6 +55,8 @@ function Login() {
         data,
       });
 
+      console.log(logearse.data.userData?.school?.name);
+
       if (logearse.data.verify) {
         let dataUsers = {
           login: logearse.data.userData.isActive,
@@ -63,9 +65,10 @@ function Login() {
           loginName: logearse.data.userData?.email,
           loginEmail: logearse.data.userData?.email,
           loginToken: logearse.data.token,
-          schoolTenant: logearse.data.userData?.school[0]?._id,
-          schoolName: logearse.data.userData?.school[0]?.name,
-          schoolLogo: logearse.data.userData?.school[0]?.logo,
+          schoolId: logearse.data.userData?.school?._id || null,
+          schoolTenant: logearse.data.userData?.school?._id || null,
+          schoolName: logearse.data.userData?.school?.name || null,
+          schoolLogo: logearse.data.userData?.school?.logo || null,
         };
         window.localStorage.setItem('enableTAdmins', JSON.stringify(dataUsers));
 
@@ -80,11 +83,16 @@ function Login() {
         navigate('/');
       } else {
         let dataUsers = {
-          valor: false,
-          valorI: '',
-          nameI: '',
-          emailI: '',
-          tokI: '',
+          login: false,
+          loginId: '',
+          logo: '',
+          loginName: '',
+          loginEmail: '',
+          loginToken: '',
+          schoolId: '',
+          schoolTenant: '',
+          schoolName: '',
+          schoolLogo: '',
         };
 
         dispatch({
@@ -97,11 +105,11 @@ function Login() {
         setErrorInit(true);
         setLoad(false);
 
-        
+
       }
     } catch (error) {
 
-      ErrorG(error, setErrorInitMessage, "", "",setErrorInit)
+      ErrorG(error, setErrorInitMessage, "", "", setErrorInit)
 
       setErrorInit(true);
       setLoad(false);
@@ -167,7 +175,7 @@ function Login() {
           imageAlt="Global2a"
           linkUrl=""
           linkText=""
-          text = 'Inicia sesion'
+          text='Inicia sesion'
 
         />
 

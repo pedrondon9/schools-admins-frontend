@@ -44,7 +44,8 @@ function RegistreConfirmOTP({ dataOTP, setDataOTP }) {
       setDataOTP,
       setLoadOtp,
       setErrorInitMessageOtp,
-      cacheKey
+      cacheKey,
+      'confir_opt_register_post'
     );
   };
 

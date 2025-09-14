@@ -8,43 +8,50 @@ export const handleSubmitOptF = async (
     setDataOTP,
     setLoadOtp,
     setErrorInitMessageOtp,
-    cacheKey
+    cacheKey,
+    url
 ) => {
     const Otp = JSON.parse(window.localStorage.getItem(cacheKey));
+
+    console.log('Otp', Otp);
 
     setErrorInitOtp(false);
     setLoadOtp(true);
 
     try {
         const confirmOpt = await axios({
-            url: `${URL_SERVER}/auth/confir_opt_register_post`,
+            url: `${URL_SERVER}/auth/${url}`,
             method: 'post',
             data: { otp: otpCode, token: Otp.token },
-            headers:{
-                'x-access-token':Otp.token
+            headers: {
+                'x-access-token': Otp.token
             }
         });
 
 
         if (confirmOpt.data.verify) {
-            const cachedDataOtp = JSON.parse(window.localStorage.getItem(cacheKey))
-                ? JSON.parse(window.localStorage.getItem(cacheKey))
-                : null;
-            if (cachedDataOtp) {
-                cachedDataOtp.confirmEmail = '2';
-            }
+            window.location.href = "/signIn";
+            window.localStorage.setItem(cacheKey, JSON.stringify({
+                timeExpire: 0,
+                token: '',
+                confirmEmail: '0',
+            }));
 
-            window.localStorage.setItem(cacheKey, JSON.stringify(cachedDataOtp));
-            setDataOTP(cachedDataOtp);
-
+            setDataOTP({
+                timeExpire: 0,
+                token: '',
+                confirmEmail: '0'
+            });
             setLoadOtp(false);
+            setErrorInitMessageOtp('');
+
         } else {
             setLoadOtp(false);
             setErrorInitMessageOtp(confirmOpt.data.mens);
             setErrorInitOtp(true);
         }
     } catch (error) {
-        ErrorG(error, setErrorInitMessageOtp, cacheKey, setDataOTP,setErrorInitOtp)
+        ErrorG(error, setErrorInitMessageOtp, cacheKey, setDataOTP, setErrorInitOtp)
 
         setErrorInitOtp(true);
         setLoadOtp(false);
@@ -67,9 +74,9 @@ export const onSubmitResendOTPF = async (
         const registerPost = await axios({
             url: `${URL_SERVER}/auth/resend_otp`,
             method: 'post',
-            data: {token: Otp.token },
-            headers:{
-                'x-access-token':Otp.token
+            data: { token: Otp.token },
+            headers: {
+                'x-access-token': Otp.token
             }
         });
 
@@ -95,7 +102,7 @@ export const onSubmitResendOTPF = async (
     } catch (error) {
 
 
-        ErrorG(error, setErrorInitMessageOtp, cacheKey, setDataOTP,setErrorInitOtp)
+        ErrorG(error, setErrorInitMessageOtp, cacheKey, setDataOTP, setErrorInitOtp)
 
         setErrorInitOtp(true);
         setLoad(false);

@@ -19,17 +19,15 @@ export default (props) => {
 
   AxiosConfigsToken.interceptors.request.use(config => {
     config.headers['x-access-token'] = state.dataUser.loginToken;
+    config.headers["x-tenant-id"] =  state.dataUser.schoolTenant;
     return config;
   });
-
-
-
 
   const getWithId = async (url, select) => {
     //let id = url.split('/')[2]
     if (select === 'especialities') {
       setLoadingEspecilitiesId(true)
-      
+
     }
     if (select === 'course') {
       setLoadingCourseId(true)

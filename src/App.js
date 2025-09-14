@@ -23,6 +23,7 @@ import NavTab from './components/especialidades/navTab/navTab';
 import EditEspecialities from './pages/editEspecialities/editEspecialities';
 import { Eventos } from './pages/eventos/eventos';
 import EventId from './pages/eventId/eventId';
+import { Schools } from './pages/school/school';
 
 function App() {
   return (
@@ -68,8 +69,15 @@ function App() {
                   </Protected>
                 }
               />
-
-             
+              <Route
+                exact
+                path="/school"
+                element={
+                  <Protected>
+                    <Schools />
+                  </Protected>
+                }
+              />
 
               <Route
                 exact

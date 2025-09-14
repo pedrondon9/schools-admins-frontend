@@ -23,24 +23,7 @@ function CardHome({ IconHome, colorIcon, titleCard, cantidad, colors, colorText 
       <Card sx={{ width: '100%', backgroundColor: colors }}>
         <CardContent>
           <Box
-            /*
-                            sx={{
-                                height: "160px",
-                                width: {
-                                    xs: "100%",
-                                    sm: "100%",
-                                    md: '49.5%',
-                                    lg: "32.5%",
-                                    xl: "24.5%"
-                                },
-                                marginBottom: "10px",
-                                //marginRight:{xs:"0px",sm:"0px",md:"10px",lg: "10px",xl:"10px"},
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                bgcolor: "#fff",
-                            }}
-                            */
+           
 
             sx={{
               height: IconHome ? '160px' : '80px',

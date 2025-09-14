@@ -70,7 +70,7 @@ function MenuAppBars(props) {
                   textDecoration: 'none',
                 }}
               >
-                ESEG
+                {dataUser.schoolName}
               </Typography>
               <IconButton
 

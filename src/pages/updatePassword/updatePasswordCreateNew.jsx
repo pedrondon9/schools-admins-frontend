@@ -53,6 +53,12 @@ function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
         return;
       }
 
+      const registerPost = await axios({
+        url: `${URL_SERVER}/${path}`,
+        method: 'post',
+        data,
+    });
+
       await OnSubmit(
         data,
         'update_pass/update_password',
