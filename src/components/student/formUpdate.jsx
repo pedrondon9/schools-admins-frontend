@@ -224,6 +224,7 @@ export default function FormUpdate({ courseId, id }) {
     //setPreviImage(null)
     GetSelect()
     setPreviImageUsers(dataUserSelected?.linkPhoto)
+    setPersonName(dataUserSelected.roles?.map(r => r.name))
 
     //setPreviImageUsers(dataUserSelected?.linkPhoto)
   }, []);

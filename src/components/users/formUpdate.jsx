@@ -187,6 +187,8 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
     //setPreviImage(null)
     getRoles()
     setPreviImageUsers(dataUserSelected.linkPhoto)
+    console.log(dataUserSelected.roles?.map(r => r.name),'gggg')
+
   }, []);
 
   React.useEffect(() => {

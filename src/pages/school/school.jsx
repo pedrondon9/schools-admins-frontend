@@ -28,14 +28,11 @@ export const Schools = () => {
     const [errorInitMessage, setErrorInitMessage] = React.useState('');
     const [arrayFiles, setArrayFiles] = React.useState('');
     const [schoolData, setSchoolData] = React.useState(null);
+    const [viewForm, setViewForm] = React.useState(false);
 
     const [loading, setLoad] = React.useState(false); //estado para activar el spinner del boton submit
 
     const [previImageUsers, setPreviImageUsers] = React.useState(null);
-
-
-
-
 
     //el useForm de react form hook
     const {
@@ -125,7 +122,7 @@ export const Schools = () => {
 
             console.log('response', response.data.response?.docs?.[0]);
             if (response.data.success) {
-                setSchoolData(response.data.response?.docs?.[0]);
+                setSchoolData(response.data.response.docs[0]);
                 setPreviImageUsers(response.data.response?.docs?.[0]?.logo);
 
             } else {
@@ -158,7 +155,7 @@ export const Schools = () => {
 
                 <Box sx={style}>
 
-                    {!spinner ?
+                    {schoolData || viewForm ?
                         <form
                             onSubmit={handleSubmit(onSubmit)}
                             style={{
@@ -365,6 +362,22 @@ export const Schools = () => {
                         :
                         <></>
                     }
+
+                    {!schoolData ?
+                        <Button
+                            sx={{ color: '#000000' }}
+
+                            onClick={() => {
+                                setViewForm(!viewForm)
+                            }}
+                        >
+                            {!viewForm ? "Ver formulario" : "Ocultar formulario"}
+                        </Button>
+                        :
+                        <></>
+                    }
+
+
 
 
                 </Box>
