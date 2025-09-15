@@ -24,6 +24,7 @@ import EditEspecialities from './pages/editEspecialities/editEspecialities';
 import { Eventos } from './pages/eventos/eventos';
 import EventId from './pages/eventId/eventId';
 import { Schools } from './pages/school/school';
+import Student from './pages/student/student';
 
 function App() {
   return (
@@ -90,6 +91,15 @@ function App() {
               />
               <Route
                 exact
+                path="/users/info/:id"
+                element={
+                  <Protected>
+                    <Student />
+                  </Protected>
+                }
+              />
+              <Route
+                exact
                 path="/especialidades"
                 element={
                   <Protected>
@@ -144,9 +154,9 @@ function App() {
                 }
               />
 
-             
 
-             
+
+
               <Route
                 exact
                 path="/cursos"
@@ -156,8 +166,8 @@ function App() {
                   </Protected>
                 }
               />
-             
-            
+
+
               <Route
                 exact
                 path="/info_event/:id"
@@ -167,8 +177,8 @@ function App() {
                   </Protected>
                 }
               />
-             
-              
+
+
             </Routes>
           </MenuAppBars>
         </HashRouter>

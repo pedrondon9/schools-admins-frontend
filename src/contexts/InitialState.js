@@ -24,5 +24,6 @@ export const InitialState = {
       editCourseId:null,
       editEspecialitiesId:null,
       editEventId:null,
+      dataUserSelected:null,
       courseCategory:null
 };

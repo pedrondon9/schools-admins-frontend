@@ -2,12 +2,13 @@ import * as React from 'react';
 import AppContext from '../../contexts/ServiceContext';
 import { Title } from '../../components/textTitle/title';
 import FormAdd from '../../components/users/formAdd';
-import { Avatar, Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Avatar, Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { Get } from '../../components/users/get';
 import { TYPE_USER_SELECTED } from '../../contexts/constantesVar';
 import FormUpdate from '../../components/users/formUpdate';
 import { render } from '@testing-library/react';
 import DataTable from '../../components/users/dataTable';
+import { NavLink } from 'react-router-dom';
 
 export const Users = () => {
   const { AxiosConfigsToken, dispatch } = React.useContext(AppContext);
@@ -50,13 +51,13 @@ export const Users = () => {
       width: 200,
       editable: false,
       renderCell: (params) => (
-        <Box sx={{ textAlign: { xs: "auto", sm: "auto" }, width: { xs: "100%", sm: "600px", } ,  paddingBlock: '14px',      }}>
+        <Box sx={{ textAlign: { xs: "auto", sm: "auto" }, width: { xs: "100%", sm: "600px", }, paddingBlock: '14px', }}>
           <Box>
             <Typography
               variant="p"
               component="p"
               sx={{
-                textAlign: "left" ,
+                textAlign: "left",
                 whiteSpace: 'normal',
                 fontWeight: 600,
                 wordBreak: 'break-word',
@@ -71,7 +72,7 @@ export const Users = () => {
               variant="p"
               component="p"
               sx={{
-                textAlign: "left" ,
+                textAlign: "left",
                 whiteSpace: 'normal',
                 fontWeight: 600,
                 wordBreak: 'break-word',
@@ -84,7 +85,7 @@ export const Users = () => {
               variant="p"
               component="p"
               sx={{
-                textAlign: "left" ,
+                textAlign: "left",
                 whiteSpace: 'normal',
                 fontWeight: 600,
                 wordBreak: 'break-word',
@@ -134,9 +135,15 @@ export const Users = () => {
           <>
             {
               <>
+                <div style={{ display: "none" }}>
 
-                <FormUpdate typeUserSelected={selected} dataUserSelected={currentRow} url={`users/get`} />
+                  <FormUpdate typeUserSelected={selected} dataUserSelected={currentRow} url={`users/get`} />
 
+
+                </div>
+                <Button variant='contained' component={NavLink} to = {`/users/info/${params.row._id}`} >
+                  ver
+                </Button>
               </>
             }
           </>
@@ -179,7 +186,7 @@ export const Users = () => {
           )}
         </Select>
       </FormControl>
-      <DataTable typeUserSelected={selected} VISIBLE_FIELDS={VISIBLE_FIELDS} columns1={columns1} url={`users/get` } 
+      <DataTable typeUserSelected={selected} VISIBLE_FIELDS={VISIBLE_FIELDS} columns1={columns1} url={`users/get`}
         sx={{
           '& .MuiDataGrid-row': {
             fontWeight: 600,   //  hace todas las filas bold
