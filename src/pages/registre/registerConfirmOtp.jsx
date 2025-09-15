@@ -19,9 +19,10 @@ import {
 import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
 import { cacheKeyRegister } from '../../components/form_components/constantVariable';
 
-function RegistreConfirmOTP({ dataOTP, setDataOTP }) {
+function RegistreConfirmOTP({ setSelect, token, setTken }) {
+  const navigate = useNavigate();
   const [loading, setLoad] = useState(false); //estado para activar el spinner del boton submit
-
+  const [loadingResentOtp, setLoadResentOtp] = useState(false);  
   const [errorInitOtp, setErrorInitOtp] = useState(false);
   const [errorInitMessageOtp, setErrorInitMessageOtp] = useState('');
   const [otpCode, setOtpCode] = useState('');
@@ -38,81 +39,169 @@ function RegistreConfirmOTP({ dataOTP, setDataOTP }) {
   } = useForm();
 
   const handleSubmitOpt = async () => {
-    await handleSubmitOptF(
-      setErrorInitOtp,
-      otpCode,
-      setDataOTP,
-      setLoadOtp,
-      setErrorInitMessageOtp,
-      cacheKey,
-      'confir_opt_register_post'
-    );
+
+    if (false) {
+      console.log(otpCode)
+      setLoad(false);
+
+      return
+    }
+
+    try {
+      setLoadOtp(true);
+
+
+      if (!otpCode) {
+        setErrorInitOtp(true);
+        setErrorInitMessageOtp('Ingrese el codigo');
+        return;
+      }
+
+      const registerPost = await axios({
+        url: `${URL_SERVER}/auth/confir_opt_register_post`,
+        method: 'post',
+        data: { otp: otpCode },
+        headers: {
+          'x-access-token': token
+        }
+      });
+
+      if (registerPost.data.success) {
+        console.log(registerPost.data);
+        setErrorInitMessageOtp(registerPost.data.message);
+        setErrorInitOtp(true);
+        navigate('/signIn');
+      } else {
+
+      }
+
+    } catch (error) {
+      console.log(error)
+
+      if ([403, 400, 405, 401, 503].includes(error.response?.status)) {
+        setErrorInitMessageOtp(error.response?.data?.message);
+        setErrorInitOtp(true)
+        return
+      }
+
+      if (error.request) {
+        // No hubo respuesta del servidor
+        setErrorInitMessageOtp('No se pudo conectar con el servidor.');
+        setErrorInitOtp(true)
+        return
+
+      } else {
+        // Otro error
+        setErrorInitMessageOtp('Error desconocido.');
+        setErrorInitOtp(true)
+        return
+
+      }
+    } finally {
+
+      setLoadOtp(false);
+    }
   };
 
   //Funcion que se llama despues dpulsar el boton submit
   const onSubmitResendOTP = async (data) => {
-    await onSubmitResendOTPF(
-      setErrorInitOtp,
-      setDataOTP,
-      setLoadOtp,
-      setErrorInitMessageOtp,
-      cacheKey
-    );
+
+    try {
+      setLoadResentOtp(true);
+
+      const registerPost = await axios({
+        url: `${URL_SERVER}/auth/resend_otp_register`,
+        method: 'post',
+        headers: {
+          'x-access-token': token
+        }
+      });
+
+      if (registerPost.data.success) {
+        console.log(registerPost.data);
+        setErrorInitMessageOtp(registerPost.data.message);
+        setErrorInitOtp(true);
+      } else {
+
+      }
+
+    } catch (error) {
+      console.log(error)
+      if ([403, 400, 405, 401, 503].includes(error.response?.status)) {
+        setErrorInitMessageOtp(error.response?.data?.message);
+        setErrorInitOtp(true)
+        return
+      }
+
+      if (error.request) {
+        // No hubo respuesta del servidor
+        setErrorInitMessageOtp('No se pudo conectar con el servidor.');
+        setErrorInitOtp(true)
+        return
+
+      } else {
+        // Otro error
+        setErrorInitMessageOtp('Error desconocido.');
+        setErrorInitOtp(true)
+        return
+
+      }
+    } finally {
+
+      setLoadResentOtp(false);
+    }
   };
 
   useEffect(() => {
     try {
       CacheDataOtp(cacheKey, setDataOTP);
-    } catch (error) {}
+    } catch (error) { }
   }, []);
 
   return (
     <>
-      {dataOTP?.confirmEmail === '1' ? (
-        <div style={{ textAlign: '', padding: 20 }}>
-          <Typography variant="p" align="left" sx={textStyleP}>
-            Ingrese el código que hemos enviado en tu correo (tienes 2 minutos para ingresarlo)
-            <br />
-            <LoadingButton
-              component={LoadingButton}
-              loading={loading}
-              variant="outlined"
-              size="small"
-              color="primary"
-              onClick={onSubmitResendOTP}
-              sx={{
-                //textAlign: "right",
-                fontFamily: 'sans-serif',
-                marginTop: 1,
-                //fontSize: "12px",
-                //color: "#3e2723",
-              }}
-            >
-              Enviar otra vez el codigo
-            </LoadingButton>
-            <br />
-          </Typography>
-          <OtpInput length={6} onChange={setOtpCode} />
-          {errorInitOtp && (
-            <Box sx={{ width: '95%', mt: 2 }}>
-              <FormAlert message={errorInitMessageOtp} />
-            </Box>
-          )}
+      <div style={{ textAlign: '', padding: 20 }}>
+        <Typography variant="p" align="left" sx={textStyleP}>
+          Ingrese el código que hemos enviado en tu correo (tienes 2 minutos para ingresarlo)
+          <br />
           <LoadingButton
-            loading={loadingOpt}
-            variant="contained"
+            component={LoadingButton}
+            loading={loadingResentOtp}
+            variant="outlined"
             size="small"
             color="primary"
-            onClick={handleSubmitOpt}
-            sx={{ mt: 3 }}
-            disabled={otpCode.length !== 6}
+            onClick={onSubmitResendOTP}
+            sx={{
+              //textAlign: "right",
+              fontFamily: 'sans-serif',
+              marginTop: 1,
+              //fontSize: "12px",
+              //color: "#3e2723",
+            }}
           >
-            Verificar
+            Enviar otra vez el codigo
           </LoadingButton>
-        </div>
-      ) : (
-        <></>
-      )}
+          <br />
+        </Typography>
+        <OtpInput length={6} onChange={setOtpCode} />
+        {errorInitOtp && (
+          <Box sx={{ width: '95%', mt: 2 }}>
+            <FormAlert message={errorInitMessageOtp} />
+          </Box>
+        )}
+        <LoadingButton
+          loading={loadingOpt}
+          variant="contained"
+          size="small"
+          color="primary"
+          onClick={handleSubmitOpt}
+          sx={{ mt: 3 }}
+          disabled={otpCode.length !== 6}
+        >
+          Verificar
+        </LoadingButton>
+      </div>
+
     </>
   );
 }

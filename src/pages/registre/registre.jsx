@@ -13,11 +13,9 @@ import RegistreConfirmOTP from './registerConfirmOtp';
 import RegisterCreate from './registerCreate';
 
 function Registre() {
-  const [dataOtp, setDataOtp] = useState({
-    timeExpire: 0,
-    token: '',
-    confirmEmail: '0',
-  });
+  const [token, setToken] = useState(null);
+  const [selectForm, setSelectForm] = useState('0');
+
 
   //el useForm de react form hook
   const {
@@ -44,14 +42,14 @@ function Registre() {
       }
 
       const now = Date.now();
-    } catch (error) {}
+    } catch (error) { }
   }, []);
 
   return (
     <>
       <Grid
-      bgcolor="#FCF5EB"
-      sx={{
+        bgcolor="#FCF5EB"
+        sx={{
           display: 'flex',
           minHeight: '100vh',
           justifyContent: 'center',
@@ -59,23 +57,28 @@ function Registre() {
         }}
       >
         <Box sx={stylesForm}>
-          <RegistrePost
-            setDataOTP={(data) => setDataOtp(data)}
-            dataOTP={dataOtp}
-            chooseForm={'a'}
-          />
 
-          <RegistreConfirmOTP
-            setDataOTP={(data) => setDataOtp(data)}
-            dataOTP={dataOtp}
-            chooseForm={'a'}
-          />
+          {selectForm === '0' ?
+            <RegistrePost
+              setSelect={(data) => setSelectForm(data)}
+              chooseForm={'a'}
+              setTken={(data)=> setToken(data)}
 
-          <RegisterCreate
-            setDataOTP={(data) => setDataOtp(data)}
-            dataOTP={dataOtp}
-            chooseForm={'a'}
-          />
+            />
+            :
+            <></>
+          }
+
+          {selectForm === '1' ?
+            <RegistreConfirmOTP
+              setSelect={(data) => setSelectForm(data)}
+              setTken={(data)=> setToken(data)}
+              token={token}
+              chooseForm={'a'}
+            />
+            :
+            <></>
+          }
         </Box>
       </Grid>
     </>

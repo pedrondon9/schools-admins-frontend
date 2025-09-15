@@ -14,7 +14,7 @@ import CacheDataOtp from '../../components/form_components/form_submit/cacheData
 import { cacheKeyRegister } from '../../components/form_components/constantVariable';
 import { OnSubmit } from '../../components/form_components/form_submit/onSubmitForm';
 
-function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
+function RegistrePost({ setSelect, setTken, chooseForm }) {
     const { } = useContext(AppContext);
 
     const [loading, setLoad] = useState(false); //estado para activar el spinner del boton submit
@@ -38,70 +38,96 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
 
         data.roles = ['admin']
 
-        if (chooseForm === 'a') {
-            setErrorInit(false);
+        try {
 
-            console.log('Datos del formulario:', data);
-            try {
-                if (data.password !== data.password2) {
-                    setErrorInit(true);
-                    setErrorInitMessage('Las contrasenas no coinsiden');
+            setLoad(true);
 
-                    return;
-                }
-
-                await OnSubmit(
-                    data,
-                    'auth/registro_post',
-                    setLoad,
-                    setErrorInitMessage,
-                    setErrorInit,
-                    setDataOTP,
-                    cacheKey
-                );
-            } catch (error) {
+            if (data.password !== data.password2) {
+                setErrorInit(true);
+                setErrorInitMessage('Las contrasenas no coinsiden');
+                return;
             }
 
+            const registerPost = await axios({
+                url: `${URL_SERVER}/auth/registro_post`,
+                method: 'post',
+                data,
+            });
+
+            console.log(registerPost.data);
+
+
+            if (registerPost.data.success) {
+                console.log(registerPost.data);
+                setErrorInitMessage(registerPost.data.message);
+                setTken(registerPost.data.token)
+
+                setErrorInit(true);
+                setSelect('1')
+            } else {
+
+            }
+
+        } catch (error) {
+            
+            console.log(error);
+
+            if ([403, 400, 405, 401, 503].includes(error.response?.status)) {
+                setErrorInitMessage(error.response?.data?.message);
+                setErrorInit(true)
+                return
+            }
+
+            if (error.request) {
+                // No hubo respuesta del servidor
+                setErrorInitMessage('No se pudo conectar con el servidor.');
+                setErrorInit(true)
+                return
+
+            } else {
+                // Otro error
+                setErrorInitMessage('Error desconocido.');
+                setErrorInit(true)
+                return
+
+            }
+        } finally {
+
+            setLoad(false);
         }
     };
 
     useEffect(() => {
-        try {
-            CacheDataOtp(cacheKey, setDataOTP);
-        } catch (error) { }
+
     }, []);
 
     return (
         <>
-            {dataOTP?.confirmEmail === '0' ? (
-                <>
-                    <RegistreForm
-                        onSubmit={onSubmit}
-                        handleSubmit={handleSubmit}
-                        register={register}
-                        errors={errors}
-                        fields={fields}
-                        showPassword={showPassword}
-                        togglePasswordVisibility={() => setShowPassword(!showPassword)}
-                        errorInit={errorInit}
-                        errorInitMessage={errorInitMessage}
-                        loading={loading}
-                        buttonLabel="Registrarse"
-                        imageUrl=""
-                        imageAlt="Global2a"
-                        linkUrl=""
-                        linkText=""
-                        text = 'Crea tu cuenta'
-                    />
-                    <ExternalLink
-                        url={'/signIn'}
-                        text={'Si ya tienes una cuenta '}
-                        path={'Inicia sesion aqui'}
-                    />
-                </>
-            ) : (
-                <></>
-            )}
+
+            <RegistreForm
+                onSubmit={onSubmit}
+                handleSubmit={handleSubmit}
+                register={register}
+                errors={errors}
+                fields={fields}
+                showPassword={showPassword}
+                togglePasswordVisibility={() => setShowPassword(!showPassword)}
+                errorInit={errorInit}
+                errorInitMessage={errorInitMessage}
+                loading={loading}
+                buttonLabel="Registrarse"
+                imageUrl=""
+                imageAlt="Global2a"
+                linkUrl=""
+                linkText=""
+                text='Crea tu cuenta'
+            />
+            <ExternalLink
+                url={'/signIn'}
+                text={'Si ya tienes una cuenta '}
+                path={'Inicia sesion aqui'}
+            />
+
         </>
     );
 }
