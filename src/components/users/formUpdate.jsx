@@ -1,5 +1,16 @@
 import * as React from 'react';
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextareaAutosize, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextareaAutosize,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Edit } from '@mui/icons-material';
@@ -38,7 +49,6 @@ const MenuProps = {
   },
 };
 
-
 function getStyles(name, personName, theme) {
   return {
     fontWeight: personName.includes(name)
@@ -72,7 +82,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
     } = event;
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === 'string' ? value.split(',') : value
     );
   };
 
@@ -95,20 +105,17 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
     setValue,
     control,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  let typerUsers = watch()
-
-
+  let typerUsers = watch();
 
   //para enviar datos en el servidor
 
   const onSubmit = async (data) => {
-
-    let rolesSelected = personName.map(n => roles.find(r => r.name === n)?._id)
+    let rolesSelected = personName.map((n) => roles.find((r) => r.name === n)?._id);
 
     if (false) {
-      return
+      return;
     }
 
     try {
@@ -128,7 +135,6 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
       fs.append('dni', data.dni);
       fs.append('brief_description', data.brief_description);
 
-
       const sendData = await AxiosConfigsToken({
         url: `/users/put`,
         method: 'put',
@@ -139,7 +145,6 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
         toast.success(`${sendData.data.message}`);
         handleCloseM();
         await mutate(url);
-
       } else {
         toast.error(`${sendData.data.message}`);
       }
@@ -148,57 +153,47 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
     } finally {
       setLoad(false);
     }
-
-
-
   };
-
 
   const getRoles = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `roles/get`);
       if (response.success) {
-        setRoles(response.response)
-
+        setRoles(response.response);
       } else {
-        setRoles([])
+        setRoles([]);
       }
     } catch (error) {
     } finally {
     }
-  }
-
-
-
+  };
 
   const onChangeTypeUser = (id) => {
-    const roleSelected = roles.filter(role => role._id === id);
+    const roleSelected = roles.filter((role) => role._id === id);
 
-    console.log(roleSelected)
+    console.log(roleSelected);
 
-    setTypeUser(roleSelected)
-    setUserTypeSelected(roleSelected[0].name)
-
-  }
-
+    setTypeUser(roleSelected);
+    setUserTypeSelected(roleSelected[0].name);
+  };
 
   React.useEffect(() => {
     //setImagen(null)
     //setPreviImage(null)
-    getRoles()
-    setPreviImageUsers(dataUserSelected.linkPhoto)
-    console.log(dataUserSelected.roles?.map(r => r.name),'gggg')
-
+    getRoles();
+    setPreviImageUsers(dataUserSelected.linkPhoto);
+    console.log(
+      dataUserSelected.roles?.map((r) => r.name),
+      'gggg'
+    );
   }, []);
 
   React.useEffect(() => {
     if (typerUsers?.roles) {
-      onChangeTypeUser(typerUsers.roles)
-      console.log(typerUsers.roles)
+      onChangeTypeUser(typerUsers.roles);
+      console.log(typerUsers.roles);
     }
     //setUserTypeSelected(dataUserSelected.role.name)
-
-
   }, [typerUsers?.roles]);
 
   return (
@@ -211,10 +206,14 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
         justifyContent: 'start',
       }}
     >
-      <Button variant="contained" size="large" onClick={() => {
-        handleOpenM()
-        setPersonName(dataUserSelected.roles?.map(r => r.name))
-      }} >
+      <Button
+        variant="contained"
+        size="large"
+        onClick={() => {
+          handleOpenM();
+          setPersonName(dataUserSelected.roles?.map((r) => r.name));
+        }}
+      >
         <Edit />
       </Button>
       <Modal
@@ -225,8 +224,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
         disableScrollLock={true}
       >
         <Box sx={style}>
-
-          {dataUserSelected ?
+          {dataUserSelected ? (
             <form
               onSubmit={handleSubmit(onSubmit)}
               style={{
@@ -236,8 +234,6 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                 width: '100%',
               }}
             >
-
-
               <Typography
                 sx={{
                   textAlign: 'center',
@@ -251,14 +247,13 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                 Actulizar {dataUserSelected?.fullname}
               </Typography>
 
-
               <Box sx={{ width: '95%', mt: 2 }}>
-                <FormControl fullWidth error={!!errors.fullname} sx={{ mb: 2, }}>
+                <FormControl fullWidth error={!!errors.fullname} sx={{ mb: 2 }}>
                   <TextField
-                    name='fullname'
+                    name="fullname"
                     size="large"
                     defaultValue={dataUserSelected.fullname}
-                    type='text'
+                    type="text"
                     id="outlined-basic"
                     label="Nombre completo"
                     variant="outlined"
@@ -271,11 +266,11 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                     })}
                   />
                 </FormControl>
-                <FormControl error={!!errors.email} fullWidth sx={{ mb: 2, }}>
+                <FormControl error={!!errors.email} fullWidth sx={{ mb: 2 }}>
                   <TextField
-                    name='email'
+                    name="email"
                     defaultValue={dataUserSelected.email}
-                    type='email'
+                    type="email"
                     size="large"
                     id="outlined-basic"
                     InputLabelProps={{
@@ -289,11 +284,11 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                     })}
                   />
                 </FormControl>
-                <FormControl error={!!errors.phone} fullWidth sx={{ mb: 2, }}>
+                <FormControl error={!!errors.phone} fullWidth sx={{ mb: 2 }}>
                   <TextField
-                    name='phone'
+                    name="phone"
                     defaultValue={dataUserSelected.phone}
-                    type='phone'
+                    type="phone"
                     size="large"
                     id="outlined-basic"
                     label="Telefono"
@@ -308,11 +303,11 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                   />
                 </FormControl>
 
-                <FormControl error={!!errors.dni} fullWidth sx={{ mb: 2, }}>
+                <FormControl error={!!errors.dni} fullWidth sx={{ mb: 2 }}>
                   <TextField
-                    name='dni'
+                    name="dni"
                     defaultValue={dataUserSelected.dni}
-                    type='text'
+                    type="text"
                     size="large"
                     id="outlined-basic"
                     label="DNI o pasaporte"
@@ -327,30 +322,33 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                   />
                 </FormControl>
 
-                <FormControl fullWidth error={!!errors.brief_description} sx={{ mb: 3, }}>
-
+                <FormControl fullWidth error={!!errors.brief_description} sx={{ mb: 3 }}>
                   <TextareaAutosize
-                    placeholder='Breve descripcion del usuario (Opcional)'
+                    placeholder="Breve descripcion del usuario (Opcional)"
                     name={'brief_description'}
                     defaultValue={dataUserSelected?.brief_description}
-
-                    style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
+                    style={{
+                      width: '100%',
+                      padding: '8px',
+                      fontSize: '14px',
+                      marginBlock: '5px',
+                      height: '50px',
+                    }}
                     {...register('brief_description', {
                       required: false,
                       minLength: 1,
                     })}
-
                   />
                 </FormControl>
 
-                <FormControl error={!!errors.birthdate} fullWidth sx={{ mb: 2, }}>
+                <FormControl error={!!errors.birthdate} fullWidth sx={{ mb: 2 }}>
                   <TextField
-                    name='birthdate'
-                    defaultValue={new Date(dataUserSelected?.birthdate).toISOString().split("T")[0]}
+                    name="birthdate"
+                    defaultValue={new Date(dataUserSelected?.birthdate).toISOString().split('T')[0]}
                     InputLabelProps={{
                       shrink: true, // Mantiene el label arriba
                     }}
-                    type='date'
+                    type="date"
                     size="large"
                     id="outlined-basic"
                     label="Fecha de nacimiento"
@@ -361,8 +359,6 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                     })}
                   />
                 </FormControl>
-
-
 
                 <FormControl fullWidth size="large" sx={{ mt: 2.5 }}>
                   <InputLabel id="demo-multiple-chip-label">Tipo de usuario</InputLabel>
@@ -394,13 +390,12 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                   </Select>
                 </FormControl>
 
-                <FormControl fullWidth sx={{ mt: 2, }}>
+                <FormControl fullWidth sx={{ mt: 2 }}>
                   <TextField
-                    name='position'
+                    name="position"
                     error={!!errors.position}
                     defaultValue={dataUserSelected?.position}
-
-                    type='text'
+                    type="text"
                     size="large"
                     id="outlined-basic"
                     InputLabelProps={{
@@ -414,11 +409,11 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                     })}
                   />
                 </FormControl>
-                <FormControl error={!!errors.posGalery} fullWidth sx={{ mt: 2, }}>
+                <FormControl error={!!errors.posGalery} fullWidth sx={{ mt: 2 }}>
                   <TextField
-                    name='posGalery'
+                    name="posGalery"
                     defaultValue={dataUserSelected?.posGalery}
-                    type='number'
+                    type="number"
                     size="large"
                     id="outlined-basic"
                     InputLabelProps={{
@@ -444,8 +439,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                         defaultValue={dataUserSelected.sex}
                         label={'Genero del usuario'}
                         labelId="roles-label"
-                        {...field}   // incluye value + onChange de RHF
-
+                        {...field} // incluye value + onChange de RHF
                       >
                         <MenuItem key={'hombre'} value={'hombre'}>
                           Hombre
@@ -461,7 +455,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                 <Controller
                   name="imagen1"
                   control={control}
-                  render={({ }) => (
+                  render={({}) => (
                     <FieldImageInput
                       label={'Foto del usuario'}
                       onFileChange={(file) => {
@@ -471,7 +465,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                   )}
                 />
 
-                {!arrayFiles ?
+                {!arrayFiles ? (
                   <div
                     style={{
                       display: 'flex',
@@ -481,9 +475,11 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                   >
                     <FormControl sx={{ mt: 1, width: '20%', justifyItems: 'center' }} size="small">
                       <img src={previImageUsers} alt="" />
-                    </FormControl></div> :
+                    </FormControl>
+                  </div>
+                ) : (
                   <></>
-                }
+                )}
                 {errorInit && (
                   <Box sx={{ width: '95%', mt: 2 }}>
                     <FormAlert message={errorInitMessage} />
@@ -503,23 +499,11 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                   </LoadingButton>
                 </Box>
               </Box>
-
-
-
-
             </form>
-            :
+          ) : (
             <></>
-          }
-
-
+          )}
         </Box>
-
-
-
-
-
-
       </Modal>
     </Box>
   );

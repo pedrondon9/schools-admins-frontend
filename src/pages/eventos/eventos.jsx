@@ -15,20 +15,18 @@ export const Eventos = () => {
   const [selected, setSelected] = React.useState('');
   const [roles, setRoles] = React.useState([]);
 
-
   const getRoles = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `roles/get`);
       if (response.success) {
-        setRoles(response.response)
-
+        setRoles(response.response);
       } else {
-        setRoles([])
+        setRoles([]);
       }
     } catch (error) {
     } finally {
     }
-  }
+  };
 
   const VISIBLE_FIELDS = ['title'];
 
@@ -38,86 +36,96 @@ export const Eventos = () => {
       headerName: 'Curso de',
       flex: 1,
       editable: false,
-      alignItems: "center",
+      alignItems: 'center',
 
       renderCell: (params) => (
-
- <Box
+        <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: { xs: "center", sm: "flex-start" },
-            width: "100%",
-            flexDirection: { xs: "column", sm: "row" }, // columna en móviles, fila en pantallas ≥sm
-            alignItems: { xs: "flex-start", sm: "center" }, // alinear inicio en columna, centrado en fila
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: { xs: 'center', sm: 'flex-start' },
+            width: '100%',
+            flexDirection: { xs: 'column', sm: 'row' }, // columna en móviles, fila en pantallas ≥sm
+            alignItems: { xs: 'flex-start', sm: 'center' }, // alinear inicio en columna, centrado en fila
             gap: 2, // Espacio entre los elementos
           }}
         >
           {/* Imagen del curso */}
-          <Box sx={{ display: "flex", justifyContent: { xs: "center", sm: 'auto' }, width: { xs: "100%", sm: 120 }, paddingBlock: 1 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: { xs: 'center', sm: 'auto' },
+              width: { xs: '100%', sm: 120 },
+              paddingBlock: 1,
+            }}
+          >
             <Box
               component="img"
-              src={params.row.linkPhoto ? params.row.linkPhoto : 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'} // URL de la imagen
+              src={
+                params.row.linkPhoto
+                  ? params.row.linkPhoto
+                  : 'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'
+              } // URL de la imagen
               alt={params.row.title}
               sx={{
                 width: 100,
                 height: 100,
-                objectFit: "cover", // ajusta la imagen sin deformar
-                borderRadius: 1,    // esquinas redondeadas
+                objectFit: 'cover', // ajusta la imagen sin deformar
+                borderRadius: 1, // esquinas redondeadas
               }}
             />
           </Box>
 
           {/* Título */}
-          <Box sx={{ textAlign: { xs: "auto", sm: "auto" }, width: { xs: "100%", sm: "600px" } }}>
+          <Box sx={{ textAlign: { xs: 'auto', sm: 'auto' }, width: { xs: '100%', sm: '600px' } }}>
             <Box>
               <Typography
                 variant="h6"
                 component="h6"
                 sx={{
-                  textAlign: { xs: "center", sm: "left" },
+                  textAlign: { xs: 'center', sm: 'left' },
                   whiteSpace: 'normal',
                   fontWeight: 500,
                   wordBreak: 'break-word',
                   //backgroundColor:"#1976d2",
                   //width: { xs: "100%", sm: "600px" },
-                  flexGrow: 1,  // Ocupa todo el espacio disponible
+                  flexGrow: 1, // Ocupa todo el espacio disponible
                 }}
               >
                 {params.row.title}
               </Typography>
-              
 
               <Typography
                 variant="p"
                 component="p"
                 sx={{
-                  textAlign: { xs: "center", sm: "left" },
+                  textAlign: { xs: 'center', sm: 'left' },
                   whiteSpace: 'normal',
-                  color: "black",
+                  color: 'black',
                   fontWeight: 500,
                   wordBreak: 'break-word',
-                  flexGrow: 1,  // Ocupa todo el espacio disponible
+                  flexGrow: 1, // Ocupa todo el espacio disponible
                 }}
               >
-                Publicado el {new Date(params.row.createdAt).toLocaleDateString('es-ES', {
+                Publicado el{' '}
+                {new Date(params.row.createdAt).toLocaleDateString('es-ES', {
                   day: 'numeric',
                   month: 'numeric',
-                  year: 'numeric'
+                  year: 'numeric',
                 })}
               </Typography>
             </Box>
           </Box>
           {/* Botón Edit */}
-          <Box sx={{
-
-            width: { xs: "100%", sm: "120px" },
-            marginBlock: { xs: "4px", sm: "auto" }
-          }}>
-
+          <Box
+            sx={{
+              width: { xs: '100%', sm: '120px' },
+              marginBlock: { xs: '4px', sm: 'auto' },
+            }}
+          >
             <Button
               sx={{
-                width: { xs: "100%", sm: "120px" },
+                width: { xs: '100%', sm: '120px' },
                 marginRight: { xs: 0, sm: 0, md: 10, lg: 40 },
               }}
               variant="contained"
@@ -129,29 +137,25 @@ export const Eventos = () => {
             </Button>
           </Box>
         </Box>
-
-
-      )
+      ),
     },
-
   ];
 
-
   React.useEffect(() => {
-    getRoles()
-  }, [])
+    getRoles();
+  }, []);
   return (
     <div>
       <Title title="Actualidad" />
 
       <ModalAdd typeUserSelected={selected} />
-      <FormControl sx={{ mb: 2, width: '100%',display:"none" }}>
+      <FormControl sx={{ mb: 2, width: '100%', display: 'none' }}>
         <InputLabel size="small" id="demo-simple-select-label">
           Elige el perfil
         </InputLabel>
         <Select
           value={selected}
-          sx={{ bgcolor: "#fff" }}
+          sx={{ bgcolor: '#fff' }}
           size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -160,29 +164,35 @@ export const Eventos = () => {
             setSelected(e.target.value);
             dispatch({
               type: TYPE_USER_SELECTED,
-              payload: e.target.value
-            })
-          }
-          }
+              payload: e.target.value,
+            });
+          }}
         >
-          {roles.map((role) =>
-            <MenuItem key={role.name} value={role.name}>{role.name}</MenuItem>
-          )}
+          {roles.map((role) => (
+            <MenuItem key={role.name} value={role.name}>
+              {role.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-      <DataTable urlId = {`eventos`} url = {`events/get`} columns1={columns1} VISIBLE_FIELDS={VISIBLE_FIELDS} typeUserSelected={selected}
+      <DataTable
+        urlId={`eventos`}
+        url={`events/get`}
+        columns1={columns1}
+        VISIBLE_FIELDS={VISIBLE_FIELDS}
+        typeUserSelected={selected}
         sx={{
           '& .MuiDataGrid-row:hover': {
             cursor: 'pointer', // Cambia el cursor al pasar el mouse
             //py: 1, // padding vertical para que haya espacio
             alignItems: 'flex-start', // para que el contenido quede arriba si es multilinea
-
           },
           '& .MuiDataGrid-row': {
-            fontWeight: 'bold',   //  hace todas las filas bold
-            bgcolor: 'rgba(255, 255, 255, 0.38)'
+            fontWeight: 'bold', //  hace todas las filas bold
+            bgcolor: 'rgba(255, 255, 255, 0.38)',
           },
-        }} />
+        }}
+      />
     </div>
   );
 };

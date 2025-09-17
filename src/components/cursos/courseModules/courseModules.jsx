@@ -13,20 +13,18 @@ export const Users = () => {
   const [selected, setSelected] = React.useState('');
   const [roles, setRoles] = React.useState([]);
 
-
   const getRoles = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `roles/get`);
       if (response.success) {
-        setRoles(response.response)
-
+        setRoles(response.response);
       } else {
-        setRoles([])
+        setRoles([]);
       }
     } catch (error) {
     } finally {
     }
-  }
+  };
   const VISIBLE_FIELDS = ['email', 'roles', 'fullname', 'linkPhoto', 'phone', 'acciones'];
 
   const columns1 = [
@@ -64,11 +62,7 @@ export const Users = () => {
       width: 100,
       editable: false,
       renderCell: (params) => (
-        <Avatar
-          alt="Foto"
-          src={params.row.linkPhoto}
-          sx={{ width: 40, height: 40 }}
-        />
+        <Avatar alt="Foto" src={params.row.linkPhoto} sx={{ width: 40, height: 40 }} />
       ),
     },
 
@@ -79,40 +73,40 @@ export const Users = () => {
       editable: false,
 
       renderCell: (params) => {
-
         const currentRow = params.row;
 
         return (
           <>
             {
               <>
-
-                <FormUpdate typeUserSelected={selected}  dataUserSelected={currentRow} url={`users/get`} />
-
+                <FormUpdate
+                  typeUserSelected={selected}
+                  dataUserSelected={currentRow}
+                  url={`users/get`}
+                />
               </>
             }
           </>
         );
       },
     },
-
   ];
 
   React.useEffect(() => {
-    getRoles()
-  }, [])
+    getRoles();
+  }, []);
   return (
     <div>
       <Title title="Usuarios" />
 
       <FormAdd typeUserSelected={selected} url={`users/get/${selected}`} />
-      <FormControl sx={{ mb: 2, width: '100%',display:"none" }}>
+      <FormControl sx={{ mb: 2, width: '100%', display: 'none' }}>
         <InputLabel size="small" id="demo-simple-select-label">
           Elige el perfil
         </InputLabel>
         <Select
           value={selected}
-          sx={{ bgcolor: "#fff" }}
+          sx={{ bgcolor: '#fff' }}
           size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -121,24 +115,30 @@ export const Users = () => {
             setSelected(e.target.value);
             dispatch({
               type: TYPE_USER_SELECTED,
-              payload: e.target.value
-            })
-          }
-          }
+              payload: e.target.value,
+            });
+          }}
         >
-          {roles.map((role) =>
-            <MenuItem key={role.name} value={role.name}>{role.name}</MenuItem>
-          )}
+          {roles.map((role) => (
+            <MenuItem key={role.name} value={role.name}>
+              {role.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-      <DataTable typeUserSelected={selected} VISIBLE_FIELDS={VISIBLE_FIELDS} columns1={columns1} url={`users/get`}
+      <DataTable
+        typeUserSelected={selected}
+        VISIBLE_FIELDS={VISIBLE_FIELDS}
+        columns1={columns1}
+        url={`users/get`}
         sx={{
           '& .MuiDataGrid-row': {
-            fontWeight: 'bold',   //  hace todas las filas bold
+            fontWeight: 'bold', //  hace todas las filas bold
             bgcolor: 'rgba(255, 255, 255, 0.38)',
             height: 80,
           },
-        }} />
+        }}
+      />
     </div>
   );
 };

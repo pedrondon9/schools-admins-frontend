@@ -21,12 +21,11 @@ import { cacheKeyUpdatePassword } from '../../components/form_components/constan
 import { useNavigate } from 'react-router-dom';
 
 function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
-
   const navigate = useNavigate();
 
   const cacheKey = cacheKeyUpdatePassword;
 
-  const { } = useContext(AppContext);
+  const {} = useContext(AppContext);
 
   const [loading, setLoad] = useState(false); //estado para activar el spinner del boton submit
   const [errorInit, setErrorInit] = useState(false);
@@ -57,7 +56,7 @@ function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
         url: `${URL_SERVER}/${path}`,
         method: 'post',
         data,
-    });
+      });
 
       await OnSubmit(
         data,
@@ -75,7 +74,7 @@ function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
   useEffect(() => {
     try {
       CacheDataOtp(cacheKey, setDataOTP);
-    } catch (error) { }
+    } catch (error) {}
   }, []);
 
   return (
@@ -98,8 +97,7 @@ function UpdatePasswordCreateNew({ setDataOTP, dataOTP, chooseForm }) {
             imageAlt="Global2a"
             linkUrl=""
             linkText=""
-            text = 'Crea una nueva contrasena'
-
+            text="Crea una nueva contrasena"
           />
         </>
       ) : (

@@ -17,9 +17,9 @@ export const stylesForm = {
   borderRadius: '8px',
   alignItems: 'center',
   flexDirection: 'column',
-}; 
+};
 export const stylesForm2 = {
-  //height: "300px", 
+  //height: "300px",
   paddingBlock: '20px',
   minHeight: 'auto',
   width: {
@@ -58,8 +58,6 @@ export const stylesFormOpt = {
   alignItems: 'center',
   flexDirection: 'column',
 };
-
-
 
 export const textStyleP = {
   textAlign: 'left',

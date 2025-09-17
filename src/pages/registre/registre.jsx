@@ -7,10 +7,9 @@ import { Box, Grid } from '@mui/material';
 
 import { useForm } from 'react-hook-form';
 
-import { stylesForm, textStyleP } from '../../components/form_components/styleForm';
+import { stylesForm } from '../../components/form_components/styleForm';
 import RegistrePost from './registerPost';
 import RegistreConfirmOTP from './registerConfirmOtp';
-import RegisterCreate from './registerCreate';
 
 function Registre() {
   const [token, setToken] = useState(null);
@@ -19,9 +18,6 @@ function Registre() {
 
   //el useForm de react form hook
   const {
-    register,
-    handleSubmit,
-    control,
     formState: { errors },
   } = useForm();
 
@@ -63,7 +59,6 @@ function Registre() {
               setSelect={(data) => setSelectForm(data)}
               chooseForm={'a'}
               setTken={(data)=> setToken(data)}
-
             />
             :
             <></>

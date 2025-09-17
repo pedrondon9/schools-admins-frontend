@@ -1,5 +1,19 @@
 import * as React from 'react';
-import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Modal, OutlinedInput, Select, TextareaAutosize, TextField, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  OutlinedInput,
+  Select,
+  TextareaAutosize,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Edit } from '@mui/icons-material';
@@ -9,7 +23,6 @@ import { mutate } from 'swr';
 import FieldImageInput from '../form_components/fieldImage';
 import FormAlert from '../form_components/FormAlert';
 import { LoadingButton } from '@mui/lab';
-
 
 const style = {
   //position: 'absolute',
@@ -31,7 +44,6 @@ const MenuProps = {
   },
 };
 
-
 function getStyles(name, personName, theme) {
   return {
     fontWeight: personName.includes(name)
@@ -43,8 +55,15 @@ function getStyles(name, personName, theme) {
 export default function FormUpdate({ courseId, id }) {
   const theme = useTheme();
 
-  const { AxiosConfigsToken, typeUserSelected, editEventId, getCourseId, courseCategory, getWithId,dataUserSelected } = React.useContext(AppContext);
-
+  const {
+    AxiosConfigsToken,
+    typeUserSelected,
+    editEventId,
+    getCourseId,
+    courseCategory,
+    getWithId,
+    dataUserSelected,
+  } = React.useContext(AppContext);
 
   const [errorInit, setErrorInit] = React.useState(false);
   const [errorInitMessage, setErrorInitMessage] = React.useState('');
@@ -59,15 +78,13 @@ export default function FormUpdate({ courseId, id }) {
   const [previImageUsers, setPreviImageUsers] = React.useState(null);
   const [personName, setPersonName] = React.useState([]);
 
-
-
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === 'string' ? value.split(',') : value
     );
   };
 
@@ -90,21 +107,18 @@ export default function FormUpdate({ courseId, id }) {
     setValue,
     control,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  let typerUsers = watch()
-
-
+  let typerUsers = watch();
 
   //para enviar datos en el servidor
 
   const onSubmit = async (data) => {
-
-    data.id = id
-    let rolesSelected = personName.map(n => roles.find(r => r.name === n)?._id)
+    data.id = id;
+    let rolesSelected = personName.map((n) => roles.find((r) => r.name === n)?._id);
 
     if (false) {
-      return
+      return;
     }
 
     try {
@@ -126,7 +140,6 @@ export default function FormUpdate({ courseId, id }) {
       fs.append('dni', data.dni);
       fs.append('brief_description', data.brief_description);
 
-
       const sendData = await AxiosConfigsToken({
         url: `/users/put`,
         method: 'put',
@@ -136,113 +149,87 @@ export default function FormUpdate({ courseId, id }) {
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
         //await getCourseId(id)
-        await getWithId(`users/get/${id}`, 'user')
-
+        await getWithId(`users/get/${id}`, 'user');
       } else {
         toast.error(`${sendData.data.message}`);
       }
     } catch (error) {
-      co
+      co;
       toast.error(error.response?.data?.message);
     } finally {
       setLoad(false);
     }
-
-
-
   };
-
-
-
-
-
-
-
 
   // Obtener categorias de los curso
   const GetSelect = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `categories/get_evnt_cat`);
       if (response.success) {
-        setCategories(response?.response)
-
+        setCategories(response?.response);
       } else {
-        setCategories([])
+        setCategories([]);
       }
     } catch (error) {
     } finally {
     }
-  }
-
-
+  };
 
   const getRoles = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `roles/get`);
       if (response.success) {
-        setRoles(response.response)
-
+        setRoles(response.response);
       } else {
-        setRoles([])
+        setRoles([]);
       }
     } catch (error) {
     } finally {
     }
-  }
-
-
-
+  };
 
   const onChangeTypeUser = (id) => {
-    const roleSelected = roles.filter(role => role._id === id);
+    const roleSelected = roles.filter((role) => role._id === id);
 
-    console.log(roleSelected)
+    console.log(roleSelected);
 
-    setTypeUser(roleSelected)
-    setUserTypeSelected(roleSelected[0].name)
-
-  }
-
+    setTypeUser(roleSelected);
+    setUserTypeSelected(roleSelected[0].name);
+  };
 
   React.useEffect(() => {
     //setImagen(null)
     //setPreviImage(null)
-    getRoles()
+    getRoles();
   }, []);
 
   React.useEffect(() => {
     if (typerUsers?.roles) {
-      onChangeTypeUser(typerUsers.roles)
-      console.log(typerUsers.roles)
+      onChangeTypeUser(typerUsers.roles);
+      console.log(typerUsers.roles);
     }
     //setUserTypeSelected(dataUserSelected.role.name)
-
   }, [typerUsers?.roles]);
 
   React.useEffect(() => {
     //setImagen(null)
     //setPreviImage(null)
-    GetSelect()
-    setPreviImageUsers(dataUserSelected?.linkPhoto)
-    setPersonName(dataUserSelected.roles?.map(r => r.name))
+    GetSelect();
+    setPreviImageUsers(dataUserSelected?.linkPhoto);
+    setPersonName(dataUserSelected.roles?.map((r) => r.name));
 
     //setPreviImageUsers(dataUserSelected?.linkPhoto)
   }, []);
-
-
 
   return (
     <Box
       sx={{
         height: 'auto',
         marginBottom: '10px',
-
       }}
     >
-
       <Box sx={style}>
-
-        {dataUserSelected ?
+        {dataUserSelected ? (
           <form
             onSubmit={handleSubmit(onSubmit)}
             style={{
@@ -252,8 +239,6 @@ export default function FormUpdate({ courseId, id }) {
               width: '100%',
             }}
           >
-
-
             <Typography
               sx={{
                 textAlign: 'center',
@@ -267,16 +252,13 @@ export default function FormUpdate({ courseId, id }) {
               Actulizar los datos
             </Typography>
 
-
             <Box sx={{ width: '95%', mt: 2 }}>
-
-
-              <FormControl fullWidth error={!!errors.fullname} sx={{ mb: 2, }}>
+              <FormControl fullWidth error={!!errors.fullname} sx={{ mb: 2 }}>
                 <TextField
-                  name='fullname'
+                  name="fullname"
                   size="large"
                   defaultValue={dataUserSelected.fullname}
-                  type='text'
+                  type="text"
                   id="outlined-basic"
                   label="Nombre completo"
                   variant="outlined"
@@ -289,11 +271,11 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl error={!!errors.email} fullWidth sx={{ mb: 2, }}>
+              <FormControl error={!!errors.email} fullWidth sx={{ mb: 2 }}>
                 <TextField
-                  name='email'
+                  name="email"
                   defaultValue={dataUserSelected.email}
-                  type='email'
+                  type="email"
                   size="large"
                   id="outlined-basic"
                   InputLabelProps={{
@@ -307,11 +289,11 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl error={!!errors.phone} fullWidth sx={{ mb: 2, }}>
+              <FormControl error={!!errors.phone} fullWidth sx={{ mb: 2 }}>
                 <TextField
-                  name='phone'
+                  name="phone"
                   defaultValue={dataUserSelected.phone}
-                  type='phone'
+                  type="phone"
                   size="large"
                   id="outlined-basic"
                   label="Telefono"
@@ -326,11 +308,11 @@ export default function FormUpdate({ courseId, id }) {
                 />
               </FormControl>
 
-              <FormControl error={!!errors.dni} fullWidth sx={{ mb: 2, }}>
+              <FormControl error={!!errors.dni} fullWidth sx={{ mb: 2 }}>
                 <TextField
-                  name='dni'
+                  name="dni"
                   defaultValue={dataUserSelected.dni}
-                  type='text'
+                  type="text"
                   size="large"
                   id="outlined-basic"
                   label="DNI o pasaporte"
@@ -345,30 +327,33 @@ export default function FormUpdate({ courseId, id }) {
                 />
               </FormControl>
 
-              <FormControl fullWidth error={!!errors.brief_description} sx={{ mb: 3, }}>
-
+              <FormControl fullWidth error={!!errors.brief_description} sx={{ mb: 3 }}>
                 <TextareaAutosize
-                  placeholder='Breve descripcion del usuario (Opcional)'
+                  placeholder="Breve descripcion del usuario (Opcional)"
                   name={'brief_description'}
                   defaultValue={dataUserSelected?.brief_description}
-
-                  style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    fontSize: '14px',
+                    marginBlock: '5px',
+                    height: '50px',
+                  }}
                   {...register('brief_description', {
                     required: false,
                     minLength: 1,
                   })}
-
                 />
               </FormControl>
 
-              <FormControl error={!!errors.birthdate} fullWidth sx={{ mb: 2, }}>
+              <FormControl error={!!errors.birthdate} fullWidth sx={{ mb: 2 }}>
                 <TextField
-                  name='birthdate'
-                  defaultValue={new Date(dataUserSelected?.birthdate).toISOString().split("T")[0]}
+                  name="birthdate"
+                  defaultValue={new Date(dataUserSelected?.birthdate).toISOString().split('T')[0]}
                   InputLabelProps={{
                     shrink: true, // Mantiene el label arriba
                   }}
-                  type='date'
+                  type="date"
                   size="large"
                   id="outlined-basic"
                   label="Fecha de nacimiento"
@@ -379,8 +364,6 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-
-
 
               <FormControl fullWidth size="large" sx={{ mt: 2.5 }}>
                 <InputLabel id="demo-multiple-chip-label">Tipo de usuario</InputLabel>
@@ -412,13 +395,12 @@ export default function FormUpdate({ courseId, id }) {
                 </Select>
               </FormControl>
 
-              <FormControl fullWidth sx={{ mt: 2, }}>
+              <FormControl fullWidth sx={{ mt: 2 }}>
                 <TextField
-                  name='position'
+                  name="position"
                   error={!!errors.position}
                   defaultValue={dataUserSelected?.position}
-
-                  type='text'
+                  type="text"
                   size="large"
                   id="outlined-basic"
                   InputLabelProps={{
@@ -432,11 +414,11 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl error={!!errors.posGalery} fullWidth sx={{ mt: 2, }}>
+              <FormControl error={!!errors.posGalery} fullWidth sx={{ mt: 2 }}>
                 <TextField
-                  name='posGalery'
+                  name="posGalery"
                   defaultValue={dataUserSelected?.posGalery}
-                  type='number'
+                  type="number"
                   size="large"
                   id="outlined-basic"
                   InputLabelProps={{
@@ -462,8 +444,7 @@ export default function FormUpdate({ courseId, id }) {
                       defaultValue={dataUserSelected.sex}
                       label={'Genero del usuario'}
                       labelId="roles-label"
-                      {...field}   // incluye value + onChange de RHF
-
+                      {...field} // incluye value + onChange de RHF
                     >
                       <MenuItem key={'hombre'} value={'hombre'}>
                         Hombre
@@ -479,7 +460,7 @@ export default function FormUpdate({ courseId, id }) {
               <Controller
                 name="imagen1"
                 control={control}
-                render={({ }) => (
+                render={({}) => (
                   <FieldImageInput
                     label={'Foto del usuario'}
                     onFileChange={(file) => {
@@ -489,7 +470,7 @@ export default function FormUpdate({ courseId, id }) {
                 )}
               />
 
-              {!arrayFiles ?
+              {!arrayFiles ? (
                 <div
                   style={{
                     display: 'flex',
@@ -499,16 +480,17 @@ export default function FormUpdate({ courseId, id }) {
                 >
                   <FormControl sx={{ mt: 1, width: '20%', justifyItems: 'center' }} size="small">
                     <img src={previImageUsers} alt="" />
-                  </FormControl></div> :
+                  </FormControl>
+                </div>
+              ) : (
                 <></>
-              }
+              )}
 
               {errorInit && (
                 <Box sx={{ width: '95%', mt: 2 }}>
                   <FormAlert message={errorInitMessage} />
                 </Box>
               )}
-
             </Box>
 
             <Box sx={{ width: '95%', mt: 2 }}>
@@ -523,16 +505,11 @@ export default function FormUpdate({ courseId, id }) {
                 Actualizar
               </LoadingButton>
             </Box>
-
           </form>
-          :
+        ) : (
           <></>
-        }
-
-
+        )}
       </Box>
-
-
     </Box>
   );
 }

@@ -14,7 +14,7 @@ const TextFieldInput = ({
   showPassword = false,
   onChange,
   togglePasswordVisibility,
-  defaultValue
+  defaultValue,
 }) => {
   return (
     <TextField

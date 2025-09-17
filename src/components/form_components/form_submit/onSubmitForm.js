@@ -3,176 +3,160 @@ import { DATA_USER, URL_SERVER } from '../../../contexts/constantesVar';
 import { ErrorG } from '../../errorGestion';
 
 export const OnSubmit = async (
-    data,
-    path,
-    setLoad,
-    setErrorInitMessage,
-    setErrorInit,
-    setDataOTP,
-    cacheKey = '',
-    navigate,
-
+  data,
+  path,
+  setLoad,
+  setErrorInitMessage,
+  setErrorInit,
+  setDataOTP,
+  cacheKey = '',
+  navigate
 ) => {
+  setErrorInit(false);
 
-    setErrorInit(false);
+  try {
+    setLoad(true);
 
+    const registerPost = await axios({
+      url: `${URL_SERVER}/${path}`,
+      method: 'post',
+      data,
+    });
 
-    try {
-        setLoad(true);
+    if (path === 'auth/update_password') {
+      if (registerPost.data.verify) {
+        console.log(registerPost.data);
 
-        const registerPost = await axios({
-            url: `${URL_SERVER}/${path}`,
-            method: 'post',
-            data,
-        });
+        let dataOtp = {
+          timeExpire: 0, // 2 minuto en milisegundos
+          token: '',
+          confirmEmail: '0',
+        };
 
-        if (path === 'auth/update_password') {
+        window.localStorage.removeItem(cacheKey);
 
-            if (registerPost.data.verify) {
-                console.log(registerPost.data);
-
-                let dataOtp = {
-                    timeExpire: 0, // 2 minuto en milisegundos
-                    token: "",
-                    confirmEmail: "0",
-                };
-
-                window.localStorage.removeItem(cacheKey);
-
-                setLoad(false);
-                setErrorInitMessage("");
-                setErrorInit(true);
-                setDataOTP(dataOtp);
-                navigate('/');
-
-            } else {
-                setLoad(false);
-                setErrorInitMessage(registerPost.data.mens);
-                setErrorInit(true);
-            }
-
-
-
-            return
-        }
-
-
-        if (registerPost.data.verify) {
-
-            let dataOtp = {
-                timeExpire: Date.now() + 10 * 60 * 1000, // 2 minuto en milisegundos
-                token: registerPost.data.token,
-                confirmEmail: '1',
-            };
-
-            window.localStorage.setItem(cacheKey, JSON.stringify(dataOtp));
-
-            setLoad(false);
-            setErrorInitMessage(registerPost.data.mens);
-            setErrorInit(true);
-            setDataOTP(dataOtp);
-
-            navigate('/');
-
-        } else {
-            setLoad(false);
-            setErrorInitMessage(registerPost.data.mens);
-            setErrorInit(true);
-        }
-
-    } catch (error) {
-
-        ErrorG(error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInit)
-
-        setErrorInit(true);
         setLoad(false);
+        setErrorInitMessage('');
+        setErrorInit(true);
+        setDataOTP(dataOtp);
+        navigate('/');
+      } else {
+        setLoad(false);
+        setErrorInitMessage(registerPost.data.mens);
+        setErrorInit(true);
+      }
+
+      return;
     }
+
+    if (registerPost.data.verify) {
+      let dataOtp = {
+        timeExpire: Date.now() + 10 * 60 * 1000, // 2 minuto en milisegundos
+        token: registerPost.data.token,
+        confirmEmail: '1',
+      };
+
+      window.localStorage.setItem(cacheKey, JSON.stringify(dataOtp));
+
+      setLoad(false);
+      setErrorInitMessage(registerPost.data.mens);
+      setErrorInit(true);
+      setDataOTP(dataOtp);
+
+      navigate('/');
+    } else {
+      setLoad(false);
+      setErrorInitMessage(registerPost.data.mens);
+      setErrorInit(true);
+    }
+  } catch (error) {
+    ErrorG(error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInit);
+
+    setErrorInit(true);
+    setLoad(false);
+  }
 };
 
 export const OnSubmitRegister = async (
-    data,
-    cacheKey,
-    setErrorInit,
-    setLoad,
-    setErrorInitMessage,
-    setDataOTP,
-    arrayFiles,
-    navigate,
-    dispatch
+  data,
+  cacheKey,
+  setErrorInit,
+  setLoad,
+  setErrorInitMessage,
+  setDataOTP,
+  arrayFiles,
+  navigate,
+  dispatch
 ) => {
+  const cachedDataOtp = JSON.parse(window.localStorage.getItem(cacheKey))
+    ? JSON.parse(window.localStorage.getItem(cacheKey))
+    : null;
 
-    const cachedDataOtp = JSON.parse(window.localStorage.getItem(cacheKey))
-        ? JSON.parse(window.localStorage.getItem(cacheKey))
-        : null;
+  if (cachedDataOtp) {
+    setErrorInit(false);
 
+    console.log('Datos del formulario:', data);
 
-    if (cachedDataOtp) {
-        setErrorInit(false);
+    try {
+      const fs = new FormData();
+      fs.append('arrayFiles', arrayFiles);
+      fs.append('schoolData', JSON.stringify(data));
+      fs.append('token', cachedDataOtp.token);
 
-        console.log('Datos del formulario:', data);
+      setLoad(true);
 
-        try {
-            const fs = new FormData();
-            fs.append('arrayFiles', arrayFiles);
-            fs.append('schoolData', JSON.stringify(data));
-            fs.append('token', cachedDataOtp.token);
+      const registerPost = await axios({
+        url: `${URL_SERVER}/auth/create_first_admin_post`,
+        method: 'post',
+        data: fs,
+        headers: {
+          'x-access-token': cachedDataOtp.token,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-            setLoad(true);
+      console.log(registerPost.data);
+      if (registerPost.data.verify) {
+        let dataUsers = {
+          login: registerPost.data.userData.isActive,
+          loginId: registerPost.data.userData._id,
+          logo: registerPost.data.userData?.logo,
+          loginName: registerPost.data.userData?.email,
+          loginEmail: registerPost.data.userData?.email,
+          loginToken: registerPost.data.token,
+          schoolTenant: registerPost.data.userData?.school[0]?._id,
+          schoolName: registerPost.data.userData?.school[0]?.name,
+          schoolLogo: registerPost.data.userData?.school[0]?.logo,
+        };
 
-            const registerPost = await axios({
-                url: `${URL_SERVER}/auth/create_first_admin_post`,
-                method: 'post',
-                data: fs,
-                headers:{
-                    'x-access-token':cachedDataOtp.token,
-                    'Content-Type': 'multipart/form-data'
-                },
-            });
+        window.localStorage.setItem('enableTAdmins', JSON.stringify(dataUsers));
+        window.localStorage.removeItem(cacheKey);
 
-            console.log(registerPost.data);
-            if (registerPost.data.verify) {
-                let dataUsers = {
-                    login: registerPost.data.userData.isActive,
-                    loginId: registerPost.data.userData._id,
-                    logo: registerPost.data.userData?.logo,
-                    loginName: registerPost.data.userData?.email,
-                    loginEmail: registerPost.data.userData?.email,
-                    loginToken: registerPost.data.token,
-                    schoolTenant: registerPost.data.userData?.school[0]?._id,
-                    schoolName: registerPost.data.userData?.school[0]?.name,
-                    schoolLogo: registerPost.data.userData?.school[0]?.logo,
-                };
+        //console.log(logearse)
 
+        setLoad(false);
 
-                window.localStorage.setItem('enableTAdmins', JSON.stringify(dataUsers));
-                window.localStorage.removeItem(cacheKey);
+        dispatch({
+          type: DATA_USER,
+          payload: dataUsers,
+        });
 
-                //console.log(logearse)
+        navigate('/');
 
-                setLoad(false);
+        setLoad(false);
+        setErrorInitMessage(registerPost.data.message);
+        setErrorInit(true);
+        setDataOTP(dataOtp);
+      } else {
+        setLoad(false);
+        setErrorInitMessage(registerPost.data.message);
+        setErrorInit(true);
+      }
+    } catch (error) {
+      ErrorG(error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInit);
 
-                dispatch({
-                    type: DATA_USER,
-                    payload: dataUsers,
-                });
-
-                navigate('/');
-
-                setLoad(false);
-                setErrorInitMessage(registerPost.data.message);
-                setErrorInit(true);
-                setDataOTP(dataOtp);
-            } else {
-                setLoad(false);
-                setErrorInitMessage(registerPost.data.message);
-                setErrorInit(true);
-            }
-        } catch (error) {
-
-            ErrorG(error, setErrorInitMessage, cacheKey, setDataOTP, setErrorInit)
-
-            setErrorInit(true);
-            setLoad(false);
-        }
+      setErrorInit(true);
+      setLoad(false);
     }
+  }
 };

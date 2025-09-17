@@ -30,8 +30,7 @@ function Homes() {
     } finally {
       setSpinner(false);
     }
-  }
-
+  };
 
   useEffect(() => {
     getData();
@@ -59,29 +58,24 @@ function Homes() {
     <div>
       <Title title="Dasboard" />
 
-      {!spinner ?
+      {!spinner ? (
         <>
-          {data ?
+          {data ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container spacing={2} sx={{ paddingTop: 3 }}>
-
-                <CardDasboard title={"Usuarios"} cantities={data.users} />
-                <CardDasboard title={"Cursos"} cantities={data.courses} />
-                <CardDasboard title={"Especialidades"} cantities={data.specialities} />
-                <CardDasboard title={"Publicaciones"} cantities={data.events} />
-
+                <CardDasboard title={'Usuarios'} cantities={data.users} />
+                <CardDasboard title={'Cursos'} cantities={data.courses} />
+                <CardDasboard title={'Especialidades'} cantities={data.specialities} />
+                <CardDasboard title={'Publicaciones'} cantities={data.events} />
               </Grid>
             </div>
-            :
+          ) : (
             <></>
-          }
+          )}
         </>
-
-        :
+      ) : (
         <SkeletonTable />
-      }
-
-
+      )}
     </div>
   );
 }

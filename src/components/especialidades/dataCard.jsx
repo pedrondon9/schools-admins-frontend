@@ -89,9 +89,7 @@ function DataCard() {
           //bgcolor="backgroundColorPage"
           container
           sx={{ justifyContent: 'center', maxWidth: '1000px' }}
-        >
-
-        </Grid>
+        ></Grid>
       </div>
     </>
   );

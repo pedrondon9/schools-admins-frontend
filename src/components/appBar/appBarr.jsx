@@ -9,24 +9,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import DrawerListt from './drawerListt';
 import AppContext from '../../contexts/ServiceContext';
-import { Button, Typography } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import {  Typography } from '@mui/material';
 const drawerWidth = 250;
 
 function MenuAppBars(props) {
-  const { titlePage, dataUser } = React.useContext(AppContext);
-  let userId = dataUser.loginName;
-  let userName = dataUser.loginId;
+  const { dataUser } = React.useContext(AppContext);
   let valideLogin = dataUser.login;
-  const pages = [
-    { name: 'Inicio', link: '/' },
-    { name: 'Usuario', link: '/users' },
-    { name: 'Cursos', link: '/course' },
-    { name: 'Eventos', link: '/events' },
-    { name: 'Perfiles', link: '/profil' },
-    { name: 'Configuracion', link: '/setting' },
-    //{ text: 'Cambiar contrasena', link: "/cambiar_password" },
-  ];
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -36,7 +24,7 @@ function MenuAppBars(props) {
   };
 
   const drawerToggle = <DrawerListt toggleDrawer={handleDrawerToggle} />;
-  const drawerStatic = <DrawerListt toggleDrawer={() => { }} />;
+  const drawerStatic = <DrawerListt toggleDrawer={() => {}} />;
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
@@ -73,22 +61,21 @@ function MenuAppBars(props) {
                 {dataUser.schoolName}
               </Typography>
               <IconButton
-
                 color="primary"
                 aria-label="open drawer"
-
                 edge="end"
-
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' }, color: '#212121',border:"2px solid #212121",borderRadius:"4px" }}
+                sx={{
+                  mr: 2,
+                  display: { sm: 'none' },
+                  color: '#212121',
+                  border: '2px solid #212121',
+                  borderRadius: '4px',
+                }}
               >
                 <MenuIcon />
               </IconButton>
-
-              
             </Toolbar>
-
-
           </AppBar>
 
           <Box
@@ -129,7 +116,7 @@ function MenuAppBars(props) {
                   boxSizing: 'border-box',
                   width: drawerWidth,
                   backgroundColor: '#FCF5EB',
-                  borderRight:"0.5px solid #212121"
+                  borderRight: '0.5px solid #212121',
                 },
               }}
               open
@@ -144,18 +131,15 @@ function MenuAppBars(props) {
               paddingInline: '5px',
               paddingTop: '10px',
               flexGrow: 1,
-              justifyContent:"center",
+              justifyContent: 'center',
               //display: 'flex',
               width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
               backgroundColor: '#FCF5EB',
             }}
           >
             <Toolbar />
-            <Box sx={{width:"100%", display:"flex", justifyContent:"center"}}>
-            <Box sx={{width:{ xs: '100%', sm: '95%', md: '900px' } }}>
-            {props.children}
-
-            </Box>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ width: { xs: '100%', sm: '95%', md: '900px' } }}>{props.children}</Box>
             </Box>
           </Box>
         </Box>

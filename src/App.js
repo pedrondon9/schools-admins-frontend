@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Auth from './contexts/Auth';
 import './App.css';
@@ -19,12 +20,11 @@ import RegisterUsers from './pages/users/register.users';
 import { Cursos } from './pages/formations/cursos';
 import EditCourse from './pages/editCourse/editCourse';
 import { Especialidades } from './pages/especialidades/especialidades';
-import NavTab from './components/especialidades/navTab/navTab';
 import EditEspecialities from './pages/editEspecialities/editEspecialities';
 import { Eventos } from './pages/eventos/eventos';
 import EventId from './pages/eventId/eventId';
 import { Schools } from './pages/school/school';
-import Student from './pages/student/student';
+import UserInfo from './pages/userInfo/userInfo';
 
 function App() {
   return (
@@ -94,7 +94,7 @@ function App() {
                 path="/users/info/:id"
                 element={
                   <Protected>
-                    <Student />
+                    <UserInfo />
                   </Protected>
                 }
               />
@@ -154,9 +154,6 @@ function App() {
                 }
               />
 
-
-
-
               <Route
                 exact
                 path="/cursos"
@@ -167,7 +164,6 @@ function App() {
                 }
               />
 
-
               <Route
                 exact
                 path="/info_event/:id"
@@ -177,8 +173,6 @@ function App() {
                   </Protected>
                 }
               />
-
-
             </Routes>
           </MenuAppBars>
         </HashRouter>

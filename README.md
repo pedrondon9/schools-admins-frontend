@@ -11,9 +11,7 @@ This project is the foundation of a future **SaaS (Software as a Service)** plat
 - ✨ Public-facing school website (news, events, contact, etc.)
 - 👩‍🏫 Dashboard for administrators, teachers, and staff
 - 📚 Student enrollment and course management
-- 💳 Payment and fee tracking
 - 📝 Grades and academic reports
-- 📦 Modular architecture for multi-tenant SaaS deployment
 - 🔐 Authentication and role-based access control
 
 ---

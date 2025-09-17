@@ -19,11 +19,11 @@ export const InitialState = {
         schoolCity: '',
         schoolCountry: '',
       },
-      dataEditUser:{},
-      typeUserSelected:'',
-      editCourseId:null,
-      editEspecialitiesId:null,
-      editEventId:null,
-      dataUserSelected:null,
-      courseCategory:null
+  dataEditUser: {},
+  typeUserSelected: '',
+  editCourseId: null,
+  editEspecialitiesId: null,
+  editEventId: null,
+  dataUserSelected: null,
+  courseCategory: null,
 };

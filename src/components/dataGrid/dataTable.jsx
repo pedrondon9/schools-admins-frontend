@@ -1,5 +1,18 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Avatar, Box, Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, Stack, TextField, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { DataGrid, esES, GridToolbar } from '@mui/x-data-grid';
 import useSWR from 'swr';
 
@@ -10,27 +23,20 @@ import { NavLink } from 'react-router-dom';
 import { CardEvents } from '../cardEvents';
 import { Search } from '@mui/icons-material';
 
-
 //'startDate', 'endDate', 'price', 'format'
 
-function DataTable({ url, columns1, sx, VISIBLE_FIELDS,urlId }) {
+function DataTable({ url, columns1, sx, VISIBLE_FIELDS, urlId }) {
   const { AxiosConfigsToken } = React.useContext(AppContext);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   const { data, isLoading } = useSWR(url, () => Get(AxiosConfigsToken, url), {});
-
-
-
 
   const columns = React.useMemo(
     () => columns1.filter((column) => VISIBLE_FIELDS.includes(column.field)),
     [columns1]
   );
 
-
-
   if (isLoading) return <SkeletonTable />;
-
 
   const filteredRows = data?.response?.docs?.filter((row) =>
     Object.values(row).some((value) =>
@@ -40,34 +46,33 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS,urlId }) {
   return (
     <>
       <FormControl sx={{ marginBlock: 3, width: '100%' }}>
-
         <TextField
           label="Buscar en todas las columnas"
           variant="outlined"
           size="small"
           onChange={(e) => setSearch(e.target.value)}
           sx={{
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "#212121",   // color del borde normal
-                borderWidth: 2,         // grosor del borde
-                borderRadius: 2,        // esquinas redondeadas
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#212121', // color del borde normal
+                borderWidth: 2, // grosor del borde
+                borderRadius: 2, // esquinas redondeadas
               },
-              "&:hover fieldset": {
-                borderColor: "#212121",  // al pasar el mouse
+              '&:hover fieldset': {
+                borderColor: '#212121', // al pasar el mouse
               },
-              "&.Mui-focused fieldset": {
-                borderColor: "#ff6f00",    // cuando el input está enfocado
+              '&.Mui-focused fieldset': {
+                borderColor: '#ff6f00', // cuando el input está enfocado
               },
             },
-            "& .MuiInputLabel-root": {
-              color: "gray", // normal
+            '& .MuiInputLabel-root': {
+              color: 'gray', // normal
             },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "gray", // cuando está enfocado
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: 'gray', // cuando está enfocado
             },
             mb: 2,
-            backgroundColor: "#fff",
+            backgroundColor: '#fff',
           }}
           InputProps={{
             endAdornment: (
@@ -89,7 +94,7 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS,urlId }) {
             <>
               {filteredRows?.map((x, y) => (
                 <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
-                  <CardEvents x={x} modal={<Box></Box>} urlId ={urlId} />
+                  <CardEvents x={x} modal={<Box></Box>} urlId={urlId} />
                 </Grid>
               ))}
             </>

@@ -9,7 +9,6 @@ import { Get } from './get';
 import { mutate } from 'swr';
 import { COURSE_CATEGORY } from '../../contexts/constantesVar';
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -26,7 +25,7 @@ const style = {
 };
 
 export default function FormAdd({ typeUserSelected }) {
-  const { AxiosConfigsToken, dataUser,dispatch } = React.useContext(AppContext);
+  const { AxiosConfigsToken, dataUser, dispatch } = React.useContext(AppContext);
   const [categories, setCategories] = React.useState([]);
 
   const [errorInit, setErrorInit] = React.useState(false);
@@ -38,7 +37,6 @@ export default function FormAdd({ typeUserSelected }) {
 
   const [typeUser, setTypeUser] = React.useState('');
   const [previImage, setPreviImage] = React.useState(null);
-
 
   //habrir y cerrar el modal
   const [openM, setOpenM] = React.useState(false);
@@ -60,20 +58,18 @@ export default function FormAdd({ typeUserSelected }) {
     formState: { errors },
   } = useForm();
 
-  let typerUsers = watch()
-
-
+  let typerUsers = watch();
 
   //para enviar datos en el servidor
   const onSubmit = async (data) => {
     setLoad(true);
     if (false) {
-      return
+      return;
     }
     try {
       const fs = new FormData();
 
-      fs.append('arrayFiles', arrayFiles ? arrayFiles:'');
+      fs.append('arrayFiles', arrayFiles ? arrayFiles : '');
       fs.append('title', data.title);
       fs.append('category', data.category);
       fs.append('startDate', data.startDate);
@@ -85,14 +81,13 @@ export default function FormAdd({ typeUserSelected }) {
       const sendData = await AxiosConfigsToken({
         url: `/course/post`,
         method: 'post',
-        data:fs,
+        data: fs,
         headers: { 'Content-Type': 'multipart/form-data' },
-
       });
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
-        reset()
-        await mutate(`course/get`)
+        reset();
+        await mutate(`course/get`);
         handleCloseM();
       } else {
         toast.error(`${sendData.data.message}`);
@@ -102,34 +97,29 @@ export default function FormAdd({ typeUserSelected }) {
     } finally {
       setLoad(false);
     }
-
-
   };
-
 
   const GetSelect = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `categories/get`);
       if (response.success) {
-        setCategories(response?.response)
+        setCategories(response?.response);
         dispatch({
           type: COURSE_CATEGORY,
-          payload: response?.response
-        })
-
+          payload: response?.response,
+        });
       } else {
-        setCategories([])
+        setCategories([]);
         dispatch({
           type: COURSE_CATEGORY,
-          payload: null
-        })
+          payload: null,
+        });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
     }
-  }
-
+  };
 
   const fieldCreateUsers = [
     {
@@ -146,8 +136,8 @@ export default function FormAdd({ typeUserSelected }) {
       validation: { required: 'Selecciona una categoria' },
       options: categories?.map((opt) => ({
         label: opt.name,
-        value: opt._id
-      }))
+        value: opt._id,
+      })),
     },
 
     {
@@ -155,7 +145,7 @@ export default function FormAdd({ typeUserSelected }) {
       label: 'Breve descripcion del curso',
       type: 'textarea',
       validation: { required: true },
-      startIcon: null
+      startIcon: null,
     },
 
     {
@@ -163,7 +153,7 @@ export default function FormAdd({ typeUserSelected }) {
       label: 'Precio del curso',
       type: 'Number',
       validation: { required: true },
-      startIcon: null
+      startIcon: null,
     },
     {
       name: 'format',
@@ -173,17 +163,17 @@ export default function FormAdd({ typeUserSelected }) {
       options: [
         {
           label: 'online',
-          value: 'online'
+          value: 'online',
         },
         {
           label: 'presencial',
-          value: 'presencial'
+          value: 'presencial',
         },
         {
           label: 'mixto',
-          value: 'mixto'
-        }
-      ]
+          value: 'mixto',
+        },
+      ],
     },
     {
       name: 'imagen1',
@@ -192,29 +182,23 @@ export default function FormAdd({ typeUserSelected }) {
       validation: { required: true },
       startIcon: null,
     },
-
   ];
 
-
   const onChangeTypeUser = (id) => {
-    const roleSelected = roles.filter(role => role._id === id);
+    const roleSelected = roles.filter((role) => role._id === id);
 
-    setTypeUser(roleSelected)
-
-  }
-
-
-
+    setTypeUser(roleSelected);
+  };
 
   React.useEffect(() => {
     //setImagen(null)
     //setPreviImage(null)
-    GetSelect()
+    GetSelect();
   }, []);
 
   React.useEffect(() => {
     if (typerUsers?.roles) {
-      onChangeTypeUser(typerUsers.roles)
+      onChangeTypeUser(typerUsers.roles);
     }
   }, [typerUsers?.roles]);
 
@@ -239,8 +223,6 @@ export default function FormAdd({ typeUserSelected }) {
         disableScrollLock={true}
       >
         <Box sx={style}>
-
-
           {
             <RegistreForm
               setArrayFiles={setArrayFiles}
@@ -259,17 +241,10 @@ export default function FormAdd({ typeUserSelected }) {
               imageAlt="Global2a"
               linkUrl=""
               linkText=""
-              text='Crear curso'
-
+              text="Crear curso"
             />
           }
         </Box>
-
-
-
-
-
-
       </Modal>
     </Box>
   );

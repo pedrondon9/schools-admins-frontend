@@ -2,7 +2,16 @@ import * as React from 'react';
 import AppContext from '../../contexts/ServiceContext';
 import { Title } from '../../components/textTitle/title';
 import FormAdd from '../../components/users/formAdd';
-import { Avatar, Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import { Get } from '../../components/users/get';
 import { TYPE_USER_SELECTED } from '../../contexts/constantesVar';
 import FormUpdate from '../../components/users/formUpdate';
@@ -15,20 +24,18 @@ export const Users = () => {
   const [selected, setSelected] = React.useState('');
   const [roles, setRoles] = React.useState([]);
 
-
   const getRoles = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `roles/get`);
       if (response.success) {
-        setRoles(response.response)
-
+        setRoles(response.response);
       } else {
-        setRoles([])
+        setRoles([]);
       }
     } catch (error) {
     } finally {
     }
-  }
+  };
   const VISIBLE_FIELDS = ['linkPhoto', 'acciones', 'datos'];
 
   const columns1 = [
@@ -41,7 +48,7 @@ export const Users = () => {
         <Avatar
           alt="Foto"
           src={params.row.linkPhoto}
-          sx={{ width: 60, height: 60, border: "2px solid #212121" }}
+          sx={{ width: 60, height: 60, border: '2px solid #212121' }}
         />
       ),
     },
@@ -51,19 +58,25 @@ export const Users = () => {
       width: 200,
       editable: false,
       renderCell: (params) => (
-        <Box sx={{ textAlign: { xs: "auto", sm: "auto" }, width: { xs: "100%", sm: "600px", }, paddingBlock: '14px', }}>
+        <Box
+          sx={{
+            textAlign: { xs: 'auto', sm: 'auto' },
+            width: { xs: '100%', sm: '600px' },
+            paddingBlock: '14px',
+          }}
+        >
           <Box>
             <Typography
               variant="p"
               component="p"
               sx={{
-                textAlign: "left",
+                textAlign: 'left',
                 whiteSpace: 'normal',
                 fontWeight: 600,
                 wordBreak: 'break-word',
                 //backgroundColor:"#1976d2",
                 //width: { xs: "100%", sm: "600px" },
-                flexGrow: 1,  // Ocupa todo el espacio disponible
+                flexGrow: 1, // Ocupa todo el espacio disponible
               }}
             >
               {params.row.fullname}
@@ -72,11 +85,11 @@ export const Users = () => {
               variant="p"
               component="p"
               sx={{
-                textAlign: "left",
+                textAlign: 'left',
                 whiteSpace: 'normal',
                 fontWeight: 600,
                 wordBreak: 'break-word',
-                flexGrow: 1,  // Ocupa todo el espacio disponible
+                flexGrow: 1, // Ocupa todo el espacio disponible
               }}
             >
               {params.row.phone}
@@ -85,11 +98,11 @@ export const Users = () => {
               variant="p"
               component="p"
               sx={{
-                textAlign: "left",
+                textAlign: 'left',
                 whiteSpace: 'normal',
                 fontWeight: 600,
                 wordBreak: 'break-word',
-                flexGrow: 1,  // Ocupa todo el espacio disponible
+                flexGrow: 1, // Ocupa todo el espacio disponible
               }}
             >
               {params.row.email}
@@ -120,7 +133,6 @@ export const Users = () => {
       },
     },
 
-
     {
       field: 'acciones',
       headerName: 'Acciones',
@@ -128,20 +140,24 @@ export const Users = () => {
       editable: false,
 
       renderCell: (params) => {
-
         const currentRow = params.row;
 
         return (
           <>
             {
               <>
-                <div style={{ display: "none" }}>
-
-                  <FormUpdate typeUserSelected={selected} dataUserSelected={currentRow} url={`users/get`} />
-
-
+                <div style={{ display: 'none' }}>
+                  <FormUpdate
+                    typeUserSelected={selected}
+                    dataUserSelected={currentRow}
+                    url={`users/get`}
+                  />
                 </div>
-                <Button variant='contained' component={NavLink} to = {`/users/info/${params.row._id}`} >
+                <Button
+                  variant="contained"
+                  component={NavLink}
+                  to={`/users/info/${params.row._id}`}
+                >
                   ver
                 </Button>
               </>
@@ -150,24 +166,23 @@ export const Users = () => {
         );
       },
     },
-
   ];
 
   React.useEffect(() => {
-    getRoles()
-  }, [])
+    getRoles();
+  }, []);
   return (
     <div>
       <Title title="Usuarios" />
 
       <FormAdd typeUserSelected={selected} url={`users/get/${selected}`} />
-      <FormControl sx={{ mb: 2, width: '100%', display: "none" }}>
+      <FormControl sx={{ mb: 2, width: '100%', display: 'none' }}>
         <InputLabel size="small" id="demo-simple-select-label">
           Elige el perfil
         </InputLabel>
         <Select
           value={selected}
-          sx={{ bgcolor: "#fff" }}
+          sx={{ bgcolor: '#fff' }}
           size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -176,25 +191,31 @@ export const Users = () => {
             setSelected(e.target.value);
             dispatch({
               type: TYPE_USER_SELECTED,
-              payload: e.target.value
-            })
-          }
-          }
+              payload: e.target.value,
+            });
+          }}
         >
-          {roles.map((role) =>
-            <MenuItem key={role.name} value={role.name}>{role.name}</MenuItem>
-          )}
+          {roles.map((role) => (
+            <MenuItem key={role.name} value={role.name}>
+              {role.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-      <DataTable typeUserSelected={selected} VISIBLE_FIELDS={VISIBLE_FIELDS} columns1={columns1} url={`users/get`}
+      <DataTable
+        typeUserSelected={selected}
+        VISIBLE_FIELDS={VISIBLE_FIELDS}
+        columns1={columns1}
+        url={`users/get`}
         sx={{
           '& .MuiDataGrid-row': {
-            fontWeight: 600,   //  hace todas las filas bold
+            fontWeight: 600, //  hace todas las filas bold
             fontFamily: 'sans-serif',
             bgcolor: '#FFFFFF',
             height: 'auto',
           },
-        }} />
+        }}
+      />
     </div>
   );
 };

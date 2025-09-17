@@ -27,7 +27,7 @@ const ExternalLink = ({ url, text, path = 'Aqui' }) => {
             fontFamily: 'sans-serif',
             marginLeft: '5px',
             fontWeight: 'bold',
-            fontSize: "15px",
+            fontSize: '15px',
             //color: "#3e2723",
           }}
         >

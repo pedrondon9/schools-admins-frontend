@@ -23,32 +23,39 @@ export const CardDasboard = ({ title, cantities }) => {
             //borderBottom: '1px #e0e0e0 solid',
             //borderRadius: '0px',
             border: '2px solid rgb(63, 63, 63)',
-            backgroundColor: "#fff3e0"
+            backgroundColor: '#fff3e0',
           }}
         >
           <CardContent sx={{ padding: '0px' }}>
             <Typography
               className="title-event"
-              sx={{ marginBlock: 2,bgcolor: '#FCF5EB', textAlign: "center", fontSize: { xs: "1.3rem", md: "1.2rem" }, fontWeight: '700' }}
+              sx={{
+                marginBlock: 2,
+                bgcolor: '#FCF5EB',
+                textAlign: 'center',
+                fontSize: { xs: '1.3rem', md: '1.2rem' },
+                fontWeight: '700',
+              }}
               gutterBottom
               component="div"
-
             >
               {title}
             </Typography>
             <Typography
               className="title-event"
-              sx={{ marginBlock: 2,bgcolor: '#FCF5EB', textAlign: "center", fontSize: { xs: "3.5rem", md: "3rem" }, fontWeight: '700' }}
+              sx={{
+                marginBlock: 2,
+                bgcolor: '#FCF5EB',
+                textAlign: 'center',
+                fontSize: { xs: '3.5rem', md: '3rem' },
+                fontWeight: '700',
+              }}
               gutterBottom
               component="div"
-
             >
-              { cantities}
+              {cantities}
             </Typography>
-
-
           </CardContent>
-
         </Card>
       </Box>
     </Grid>

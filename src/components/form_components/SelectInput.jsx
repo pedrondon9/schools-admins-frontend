@@ -4,7 +4,7 @@ import { FormControl, InputLabel, MenuItem, Select, FormHelperText } from '@mui/
 
 const SelectInput = ({ name, label, options = [], register, validation, error }) => {
   return (
-    <FormControl fullWidth error={!!error} size="large" sx={{mb:2}}>
+    <FormControl fullWidth error={!!error} size="large" sx={{ mb: 2 }}>
       <InputLabel id={`${name}-label`}>{label}</InputLabel>
       <Select
         defaultValue={''}
@@ -13,7 +13,7 @@ const SelectInput = ({ name, label, options = [], register, validation, error })
         {...register(name, validation)}
       >
         {options.map((opt) => (
-          <MenuItem key={opt.label} value={opt.value} >
+          <MenuItem key={opt.label} value={opt.value}>
             {opt.label}
           </MenuItem>
         ))}

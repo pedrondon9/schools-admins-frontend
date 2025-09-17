@@ -1,5 +1,16 @@
 import * as React from 'react';
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextareaAutosize, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextareaAutosize,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Edit } from '@mui/icons-material';
@@ -9,7 +20,6 @@ import { mutate } from 'swr';
 import FieldImageInput from '../form_components/fieldImage';
 import FormAlert from '../form_components/FormAlert';
 import { LoadingButton } from '@mui/lab';
-
 
 const style = {
   //position: 'absolute',
@@ -22,7 +32,14 @@ const style = {
 };
 
 export default function FormUpdate({ courseId, id }) {
-  const { AxiosConfigsToken, typeUserSelected, editCourseId, getCourseId, courseCategory, getWithId } = React.useContext(AppContext);
+  const {
+    AxiosConfigsToken,
+    typeUserSelected,
+    editCourseId,
+    getCourseId,
+    courseCategory,
+    getWithId,
+  } = React.useContext(AppContext);
 
   const [errorInit, setErrorInit] = React.useState(false);
   const [errorInitMessage, setErrorInitMessage] = React.useState('');
@@ -34,7 +51,6 @@ export default function FormUpdate({ courseId, id }) {
 
   const [typeUser, setTypeUser] = React.useState('');
   const [previImageUsers, setPreviImageUsers] = React.useState(null);
-
 
   //habrir y cerrar el modal
   const [openM, setOpenM] = React.useState(false);
@@ -55,20 +71,17 @@ export default function FormUpdate({ courseId, id }) {
     setValue,
     control,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  let typerUsers = watch()
-
-
+  let typerUsers = watch();
 
   //para enviar datos en el servidor
 
   const onSubmit = async (data) => {
-
-    data.id = id
+    data.id = id;
 
     if (false) {
-      return
+      return;
     }
 
     try {
@@ -87,15 +100,13 @@ export default function FormUpdate({ courseId, id }) {
       const sendData = await AxiosConfigsToken({
         url: `/course/put`,
         method: 'put',
-        data:fs,
+        data: fs,
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
         //await getCourseId(id)
-        await getWithId(`course/get/${id}`, 'course')
-
-
+        await getWithId(`course/get/${id}`, 'course');
       } else {
         toast.error(`${sendData.data.message}`);
       }
@@ -104,44 +115,30 @@ export default function FormUpdate({ courseId, id }) {
     } finally {
       setLoad(false);
     }
-
-
-
   };
-
-
-
-
-
-
-
 
   // Obtener categorias de los curso
   const GetSelect = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `categories/get`);
       if (response.success) {
-        setCategories(response?.response)
-
+        setCategories(response?.response);
       } else {
-        setCategories([])
+        setCategories([]);
       }
     } catch (error) {
     } finally {
     }
-  }
-
+  };
 
   React.useEffect(() => {
     //setImagen(null)
     //setPreviImage(null)
-    GetSelect()
-    setPreviImageUsers(editCourseId.courseImg)
+    GetSelect();
+    setPreviImageUsers(editCourseId?.courseImg);
 
     //setPreviImageUsers(dataUserSelected?.linkPhoto)
   }, []);
-
-
 
   return (
     <Box
@@ -149,12 +146,12 @@ export default function FormUpdate({ courseId, id }) {
         height: 'auto',
         width: '100%',
         marginBottom: '10px',
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
-
       <Box sx={style}>
-
-        {editCourseId ?
+        {editCourseId ? (
           <form
             onSubmit={handleSubmit(onSubmit)}
             style={{
@@ -164,8 +161,6 @@ export default function FormUpdate({ courseId, id }) {
               width: '100%',
             }}
           >
-
-
             <Typography
               sx={{
                 textAlign: 'center',
@@ -179,14 +174,13 @@ export default function FormUpdate({ courseId, id }) {
               Actulizar los datos del curso
             </Typography>
 
-
             <Box sx={{ width: '95%', mt: 2 }}>
-              <FormControl fullWidth error={!!errors.title} sx={{ mb: 3, }}>
+              <FormControl fullWidth error={!!errors.title} sx={{ mb: 3 }}>
                 <TextField
-                  name='title'
+                  name="title"
                   size="large"
                   defaultValue={editCourseId?.title}
-                  type='text'
+                  type="text"
                   id="outlined-basic"
                   label="Modificar nombre del curso"
                   variant="outlined"
@@ -205,16 +199,13 @@ export default function FormUpdate({ courseId, id }) {
                   name="category"
                   control={control}
                   rules={{ required: false }}
-                  defaultValue={editCourseId?.category?._id || ""}
-
+                  defaultValue={editCourseId?.category?._id || ''}
                   render={({ field }) => (
                     <Select
-
                       label={'Modifica la categoria del curso'}
                       labelId="categories-label"
-                      {...field}   // incluye value + onChange de RHF
+                      {...field} // incluye value + onChange de RHF
                     >
-
                       {categories.map((opt) => (
                         <MenuItem key={opt._id} value={opt._id}>
                           {opt.name}
@@ -224,29 +215,32 @@ export default function FormUpdate({ courseId, id }) {
                   )}
                 />
               </FormControl>
-              <FormControl fullWidth error={!!errors.brief_description} sx={{ mb: 3, }}>
-
+              <FormControl fullWidth error={!!errors.brief_description} sx={{ mb: 3 }}>
                 <TextareaAutosize
-                  placeholder='Breve descripcion del curso'
+                  placeholder="Breve descripcion del curso"
                   name={'brief_description'}
                   defaultValue={editCourseId?.brief_description}
-
-                  style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    fontSize: '14px',
+                    marginBlock: '5px',
+                    height: '50px',
+                  }}
                   {...register('brief_description', {
                     required: false,
                     minLength: 1,
                   })}
-
                 />
               </FormControl>
-              <FormControl error={!!errors.startDate} fullWidth sx={{ mb: 3, display: "none" }}>
+              <FormControl error={!!errors.startDate} fullWidth sx={{ mb: 3, display: 'none' }}>
                 <TextField
-                  name='startDate'
-                  defaultValue={new Date(editCourseId?.startDate).toISOString().split("T")[0]}
+                  name="startDate"
+                  defaultValue={new Date(editCourseId?.startDate).toISOString().split('T')[0]}
                   InputLabelProps={{
                     shrink: true, // Mantiene el label arriba
                   }}
-                  type='date'
+                  type="date"
                   size="large"
                   id="outlined-basic"
                   label="Modificar fecha de Inicio"
@@ -257,14 +251,14 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl error={!!errors.endDate} fullWidth sx={{ mb: 3, display: "none" }}>
+              <FormControl error={!!errors.endDate} fullWidth sx={{ mb: 3, display: 'none' }}>
                 <TextField
-                  name='endDate'
-                  defaultValue={new Date(editCourseId?.endDate).toISOString().split("T")[0]}
+                  name="endDate"
+                  defaultValue={new Date(editCourseId?.endDate).toISOString().split('T')[0]}
                   InputLabelProps={{
                     shrink: true, // Mantiene el label arriba
                   }}
-                  type='date'
+                  type="date"
                   size="large"
                   id="outlined-basic"
                   label="Modificar fecha de finalizacion"
@@ -275,11 +269,11 @@ export default function FormUpdate({ courseId, id }) {
                   })}
                 />
               </FormControl>
-              <FormControl error={!!errors.price} fullWidth sx={{ mb: 3, }}>
+              <FormControl error={!!errors.price} fullWidth sx={{ mb: 3 }}>
                 <TextField
-                  name='price'
+                  name="price"
                   defaultValue={editCourseId?.price}
-                  type='number'
+                  type="number"
                   size="large"
                   id="outlined-basic"
                   InputLabelProps={{
@@ -299,20 +293,16 @@ export default function FormUpdate({ courseId, id }) {
                   name="format"
                   control={control}
                   rules={{ required: false }}
-                  defaultValue={editCourseId?.format || ""}
-
+                  defaultValue={editCourseId?.format || ''}
                   render={({ field }) => (
                     <Select
-
                       label={'Modifica el formato del curso'}
                       labelId="format-label"
-                      {...field}   // incluye value + onChange de RHF
+                      {...field} // incluye value + onChange de RHF
                     >
-
                       <MenuItem value={'online'}>online</MenuItem>
                       <MenuItem value={'presencial'}>presencial</MenuItem>
                       <MenuItem value={'mixto'}>mixto</MenuItem>
-
                     </Select>
                   )}
                 />
@@ -321,7 +311,7 @@ export default function FormUpdate({ courseId, id }) {
               <Controller
                 name="imagen1"
                 control={control}
-                render={({ }) => (
+                render={({}) => (
                   <FieldImageInput
                     label={'Foto del usuario'}
                     onFileChange={(file) => {
@@ -331,7 +321,7 @@ export default function FormUpdate({ courseId, id }) {
                 )}
               />
 
-              {!arrayFiles ?
+              {!arrayFiles ? (
                 <div
                   style={{
                     display: 'flex',
@@ -341,19 +331,18 @@ export default function FormUpdate({ courseId, id }) {
                 >
                   <FormControl sx={{ mt: 1, width: '20%', justifyItems: 'center' }} size="small">
                     <img src={previImageUsers} alt="" />
-                  </FormControl></div> :
+                  </FormControl>
+                </div>
+              ) : (
                 <></>
-              }
+              )}
 
               {errorInit && (
                 <Box sx={{ width: '95%', mt: 2 }}>
                   <FormAlert message={errorInitMessage} />
                 </Box>
               )}
-
             </Box>
-
-
 
             <Box sx={{ width: '95%', mt: 2 }}>
               <LoadingButton
@@ -367,16 +356,11 @@ export default function FormUpdate({ courseId, id }) {
                 Actualizar
               </LoadingButton>
             </Box>
-
           </form>
-          :
+        ) : (
           <></>
-        }
-
-
+        )}
       </Box>
-
-
     </Box>
   );
 }

@@ -10,7 +10,7 @@ import { DATA_EDIT_COURSE, DATA_EDIT_USER } from '../../contexts/constantesVar';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Title } from '../../components/textTitle/title';
 import SkeletonTable from '../../components/skelholder/skelethonTable';
-import NavTab from '../../components/eventos/navTab/navTab';
+import NavTab from '../../components/student/navTab/navTab';
 
 const style = {
   width: { xs: '100%', sm: '70%', md: '80%' },
@@ -21,7 +21,7 @@ const style = {
   height: 'auto',
 };
 
-export default function EventId({}) {
+export default function UserInfo({}) {
   const {
     AxiosConfigsToken,
     dataUser,
@@ -29,14 +29,14 @@ export default function EventId({}) {
     dispatch,
     editCourseId,
     getWithId,
+    editStudent,
+    dataUserSelected,
     loadingEspecilitiesId,
     editEspecialitiesId,
     editEventId,
   } = React.useContext(AppContext);
   const { id } = useParams();
   const navigate = useNavigate();
-
-  let dataUserSelected = dataEditUser;
 
   const [courseId, setCourseId] = React.useState(null);
   const [loadingCourseId, setLoadingCourseId] = React.useState(false);
@@ -77,7 +77,7 @@ export default function EventId({}) {
 
   React.useEffect(() => {
     //getEspecialitieseId(id)
-    getWithId(`events/get/${id}`, 'events');
+    getWithId(`users/get/${id}`, 'user');
   }, []);
 
   return (
@@ -110,9 +110,10 @@ export default function EventId({}) {
           <ArrowBack />
         </Button>
       </Box>
-      {editEventId ? (
+      {dataUserSelected ? (
         <>
-          <NavTab id={id} courseId={editEventId} />
+          <Title title={dataUserSelected?.fullname} />
+          <NavTab id={id} courseId={dataUserSelected} />
         </>
       ) : (
         <SkeletonTable />

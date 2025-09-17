@@ -49,7 +49,7 @@ function DrawerListt({ toggleDrawer }) {
     //{ text: 'Cambiar contrasena', link: "/cambiar_password" },
   ];
 
-  const currentSegment = "/" + location.pathname.split("/")[1];
+  const currentSegment = '/' + location.pathname.split('/')[1];
 
   return (
     <div>
@@ -75,7 +75,7 @@ function DrawerListt({ toggleDrawer }) {
                     width={130}
                     style={{
                       filter: 'grayscale(100%)',
-                      display:"none"
+                      display: 'none',
                     }}
                   />
                 }
@@ -89,15 +89,19 @@ function DrawerListt({ toggleDrawer }) {
                 key={menu.text}
                 disablePadding
                 divider={true}
-                sx={{borderBottom: '1px solid rgb(121, 121, 121)'}}
-              //disableGutters={true}
- 
-
+                sx={{ borderBottom: '1px solid rgb(121, 121, 121)' }}
+                //disableGutters={true}
               >
-                <ListItemButton sx={{
-                  fontWeight: 9000, bgcolor: currentSegment === ("/" + menu.link.split("/")[1]) ? "#fff" : "'#E9EAF2'"
-                }} component={NavLink} to={menu.link} onClick={toggleDrawer}>
-
+                <ListItemButton
+                  sx={{
+                    fontWeight: 9000,
+                    bgcolor:
+                      currentSegment === '/' + menu.link.split('/')[1] ? '#fff' : "'#E9EAF2'",
+                  }}
+                  component={NavLink}
+                  to={menu.link}
+                  onClick={toggleDrawer}
+                >
                   <Typography
                     variant="p"
                     component="p"
@@ -105,9 +109,9 @@ function DrawerListt({ toggleDrawer }) {
                       textAlign: 'center',
                       whiteSpace: 'normal',
                       fontSize: 21,
-                      color: currentSegment === ("/" + menu.link.split("/")[1]) ? "#000000" : "#000000",
-                      fontWeight: 600
-
+                      color:
+                        currentSegment === '/' + menu.link.split('/')[1] ? '#000000' : '#000000',
+                      fontWeight: 600,
                     }}
                   >
                     {menu.text}
@@ -125,9 +129,7 @@ function DrawerListt({ toggleDrawer }) {
                 marginTop: 3,
                 fontSize: '25px',
                 bgcolor: '#fff',
-                fontWeight: 500
-
-
+                fontWeight: 500,
               }}
             >
               <ListItemButton
@@ -142,14 +144,13 @@ function DrawerListt({ toggleDrawer }) {
                     textAlign: 'center',
                     whiteSpace: 'normal',
                     fontSize: 19,
-                    color: "#000000",
-                    fontWeight: 500
-
+                    color: '#000000',
+                    fontWeight: 500,
                   }}
                 >
                   Salir
-                </Typography>              
-                </ListItemButton>
+                </Typography>
+              </ListItemButton>
             </ListItem>
           </List>
         </div>

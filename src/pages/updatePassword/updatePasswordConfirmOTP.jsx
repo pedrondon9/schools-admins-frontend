@@ -46,7 +46,6 @@ function UpdatePasswordConfirmOTP({ dataOTP, setDataOTP }) {
       setErrorInitMessageOtp,
       cacheKey,
       'confir_opt_register_post_global'
-
     );
   };
 
@@ -57,7 +56,7 @@ function UpdatePasswordConfirmOTP({ dataOTP, setDataOTP }) {
       setDataOTP,
       setLoad,
       setErrorInitMessageOtp,
-      cacheKey,
+      cacheKey
     );
   };
 

@@ -9,7 +9,6 @@ import { Get } from './get';
 import { mutate } from 'swr';
 import { COURSE_CATEGORY } from '../../contexts/constantesVar';
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -25,7 +24,7 @@ const style = {
 };
 
 export default function FormAdd({ typeUserSelected }) {
-  const { AxiosConfigsToken, dataUser,dispatch } = React.useContext(AppContext);
+  const { AxiosConfigsToken, dataUser, dispatch } = React.useContext(AppContext);
   const [categories, setCategories] = React.useState([]);
 
   const [errorInit, setErrorInit] = React.useState(false);
@@ -37,7 +36,6 @@ export default function FormAdd({ typeUserSelected }) {
 
   const [typeUser, setTypeUser] = React.useState('');
   const [previImage, setPreviImage] = React.useState(null);
-
 
   //habrir y cerrar el modal
   const [openM, setOpenM] = React.useState(false);
@@ -59,38 +57,38 @@ export default function FormAdd({ typeUserSelected }) {
     formState: { errors },
   } = useForm();
 
-  let typerUsers = watch()
-
-
+  let typerUsers = watch();
 
   //para enviar datos en el servidor
   const onSubmit = async (data) => {
     if (false) {
-      return
+      return;
     }
     setLoad(true);
 
     try {
       const fs = new FormData();
 
-      fs.append('arrayFiles', arrayFiles ? arrayFiles:'');
+      fs.append('arrayFiles', arrayFiles ? arrayFiles : '');
       fs.append('title', data.title);
       fs.append('category', data.category);
       fs.append('brief_description', data.brief_description);
       fs.append('content', ' ');
-      fs.append('tags', data.tags.split(",").map(item => item.trim()));
+      fs.append(
+        'tags',
+        data.tags.split(',').map((item) => item.trim())
+      );
 
       const sendData = await AxiosConfigsToken({
         url: `/events/post`,
         method: 'post',
-        data:fs,
+        data: fs,
         headers: { 'Content-Type': 'multipart/form-data' },
-
       });
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
-        reset()
-        await mutate(`events/get`)
+        reset();
+        await mutate(`events/get`);
         handleCloseM();
       } else {
         toast.error(`${sendData.data.message}`);
@@ -100,34 +98,29 @@ export default function FormAdd({ typeUserSelected }) {
     } finally {
       setLoad(false);
     }
-
-
   };
-
 
   const GetSelect = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `categories/get_evnt_cat`);
       if (response.success) {
-        setCategories(response?.response)
+        setCategories(response?.response);
         dispatch({
           type: COURSE_CATEGORY,
-          payload: response?.response
-        })
-
+          payload: response?.response,
+        });
       } else {
-        setCategories([])
+        setCategories([]);
         dispatch({
           type: COURSE_CATEGORY,
-          payload: null
-        })
+          payload: null,
+        });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
     }
-  }
-
+  };
 
   const fieldCreateUsers = [
     {
@@ -144,15 +137,15 @@ export default function FormAdd({ typeUserSelected }) {
       validation: { required: 'Selecciona una categoria' },
       options: categories?.map((opt) => ({
         label: opt.name,
-        value: opt._id
-      }))
+        value: opt._id,
+      })),
     },
     {
       name: 'brief_description',
       label: 'Breve descripcion de la especialidad',
       type: 'textarea',
       validation: { required: true },
-      startIcon: null
+      startIcon: null,
     },
     {
       name: 'tags',
@@ -168,29 +161,23 @@ export default function FormAdd({ typeUserSelected }) {
       validation: { required: true },
       startIcon: null,
     },
-
   ];
 
-
   const onChangeTypeUser = (id) => {
-    const roleSelected = roles.filter(role => role._id === id);
+    const roleSelected = roles.filter((role) => role._id === id);
 
-    setTypeUser(roleSelected)
-
-  }
-
-
-
+    setTypeUser(roleSelected);
+  };
 
   React.useEffect(() => {
     //setImagen(null)
     //setPreviImage(null)
-    GetSelect()
+    GetSelect();
   }, []);
 
   React.useEffect(() => {
     if (typerUsers?.roles) {
-      onChangeTypeUser(typerUsers.roles)
+      onChangeTypeUser(typerUsers.roles);
     }
   }, [typerUsers?.roles]);
 
@@ -215,8 +202,6 @@ export default function FormAdd({ typeUserSelected }) {
         disableScrollLock={true}
       >
         <Box sx={style}>
-
-
           {
             <RegistreForm
               setArrayFiles={setArrayFiles}
@@ -235,17 +220,10 @@ export default function FormAdd({ typeUserSelected }) {
               imageAlt="Global2a"
               linkUrl=""
               linkText=""
-              text='Crear nueva publicacion'
-
+              text="Crear nueva publicacion"
             />
           }
         </Box>
-
-
-
-
-
-
       </Modal>
     </Box>
   );

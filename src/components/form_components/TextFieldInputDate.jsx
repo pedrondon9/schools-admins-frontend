@@ -19,7 +19,6 @@ const TextFieldInputDate = ({
     <TextField
       fullWidth
       label={label}
-      
       InputLabelProps={{
         shrink: true, // Mantiene el label arriba
       }}

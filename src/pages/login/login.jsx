@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import AppContext from '../../contexts/ServiceContext';
 import { useNavigate } from 'react-router-dom';
@@ -55,7 +56,6 @@ function Login() {
         data,
       });
 
-      console.log(logearse.data.userData?.school?.name);
 
       if (logearse.data.verify) {
         let dataUsers = {
@@ -71,7 +71,6 @@ function Login() {
           schoolLogo: logearse.data.userData?.school?.logo || null,
         };
         window.localStorage.setItem('enableTAdmins', JSON.stringify(dataUsers));
-
 
         setLoad(false);
 
@@ -104,12 +103,9 @@ function Login() {
         setErrorInitMessage(logearse.data.message);
         setErrorInit(true);
         setLoad(false);
-
-
       }
     } catch (error) {
-
-      ErrorG(error, setErrorInitMessage, "", "", setErrorInit)
+      ErrorG(error, setErrorInitMessage, '', '', setErrorInit);
 
       setErrorInit(true);
       setLoad(false);
@@ -175,8 +171,7 @@ function Login() {
           imageAlt="Global2a"
           linkUrl=""
           linkText=""
-          text='Inicia sesion'
-
+          text="Inicia sesion"
         />
 
         <ExternalLink

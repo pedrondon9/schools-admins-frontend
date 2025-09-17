@@ -87,7 +87,6 @@ export default function FormUpdate({ dataUp }) {
       }
     }
 
-
     try {
       setLoad(true);
       const fs = new FormData();

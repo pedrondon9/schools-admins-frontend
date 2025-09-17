@@ -1,5 +1,18 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Avatar, Box, Button, Card, CardContent, FormControl, IconButton, InputAdornment, InputLabel, Stack, TextField, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { DataGrid, esES, GridToolbar } from '@mui/x-data-grid';
 import useSWR from 'swr';
 
@@ -9,28 +22,20 @@ import AppContext from '../../contexts/ServiceContext';
 import { NavLink } from 'react-router-dom';
 import { Search } from '@mui/icons-material';
 
-
 //'startDate', 'endDate', 'price', 'format'
 
 function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
   const { AxiosConfigsToken } = React.useContext(AppContext);
-  const [search, setSearch] = useState("");
-
+  const [search, setSearch] = useState('');
 
   const { data, isLoading } = useSWR(url, () => Get(AxiosConfigsToken, url), {});
-
-
-
 
   const columns = React.useMemo(
     () => columns1.filter((column) => VISIBLE_FIELDS.includes(column.field)),
     [columns1]
   );
 
-
-
   if (isLoading) return <SkeletonTable />;
-
 
   const filteredRows = data?.response?.docs?.filter((row) => {
     return (
@@ -42,36 +47,34 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
 
   return (
     <>
-
       <FormControl sx={{ marginBlock: 3, width: '100%' }}>
-
         <TextField
           label="Buscar en todas las columnas"
           variant="outlined"
           size="small"
           onChange={(e) => setSearch(e.target.value)}
           sx={{
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "#212121",   // color del borde normal
-                borderWidth: 2,         // grosor del borde
-                borderRadius: 2,        // esquinas redondeadas
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#212121', // color del borde normal
+                borderWidth: 2, // grosor del borde
+                borderRadius: 2, // esquinas redondeadas
               },
-              "&:hover fieldset": {
-                borderColor: "#212121",  // al pasar el mouse
+              '&:hover fieldset': {
+                borderColor: '#212121', // al pasar el mouse
               },
-              "&.Mui-focused fieldset": {
-                borderColor: "#ff6f00",    // cuando el input está enfocado
+              '&.Mui-focused fieldset': {
+                borderColor: '#ff6f00', // cuando el input está enfocado
               },
             },
-            "& .MuiInputLabel-root": {
-              color: "gray", // normal
+            '& .MuiInputLabel-root': {
+              color: 'gray', // normal
             },
-            "& .MuiInputLabel-root.Mui-focused": {
-              color: "gray", // cuando está enfocado
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: 'gray', // cuando está enfocado
             },
             mb: 2,
-            backgroundColor: "#fff",
+            backgroundColor: '#fff',
           }}
           InputProps={{
             endAdornment: (
@@ -82,8 +85,15 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
           }}
         />
       </FormControl>
-      <Box sx={{ height: 'auto', width: '100%', border: "2px solid #212121", borderRadius: 2, bgcolor: "#FFFFFF" }}>
-
+      <Box
+        sx={{
+          height: 'auto',
+          width: '100%',
+          border: '2px solid #212121',
+          borderRadius: 2,
+          bgcolor: '#FFFFFF',
+        }}
+      >
         <DataGrid
           rows={filteredRows || []}
           getRowId={(row) => row._id}
@@ -105,12 +115,9 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
           options={{
             responsive: 'scroll',
           }}
-          onRowClick={(params) => {
-          }}
-
+          onRowClick={(params) => {}}
           getRowHeight={() => 'auto'} // filas con altura dinámica según contenido
           sx={sx}
-
           initialState={{
             columns: {
               columnVisibilityModel: {
@@ -124,8 +131,6 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
           pagination={true}
         />
       </Box>
-
-
     </>
   );
 }

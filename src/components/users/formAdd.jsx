@@ -1,5 +1,16 @@
 import * as React from 'react';
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, TextareaAutosize, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextareaAutosize,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Add } from '@mui/icons-material';
@@ -28,9 +39,6 @@ const style = {
   borderRadius: '4px',
 };
 
-
-
-
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -41,8 +49,6 @@ const MenuProps = {
     },
   },
 };
-
-
 
 function getStyles(name, personName, theme) {
   return {
@@ -68,7 +74,6 @@ export default function FormAdd({ typeUserSelected, url }) {
   const [typeUser, setTypeUser] = React.useState('');
   const [previImage, setPreviImage] = React.useState(null);
 
-
   const [personName, setPersonName] = React.useState([]);
 
   const handleChange = (event) => {
@@ -77,10 +82,9 @@ export default function FormAdd({ typeUserSelected, url }) {
     } = event;
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === 'string' ? value.split(',') : value
     );
   };
-
 
   //habrir y cerrar el modal
   const [openM, setOpenM] = React.useState(false);
@@ -102,21 +106,19 @@ export default function FormAdd({ typeUserSelected, url }) {
     formState: { errors },
   } = useForm();
 
-  let typerUsers = watch()
-
-
+  let typerUsers = watch();
 
   //para enviar datos en el servidor
   const onSubmit = async (data) => {
-    data.roles = [data.roles]
+    data.roles = [data.roles];
 
-    let rolesSelected = personName.map(n => roles.find(r => r.name === n)?._id)
+    let rolesSelected = personName.map((n) => roles.find((r) => r.name === n)?._id);
 
     //console.log(Array.from(rolesSelected), 'data')
 
     try {
       if (false) {
-        return
+        return;
       }
       setLoad(true);
       const fs = new FormData();
@@ -145,7 +147,7 @@ export default function FormAdd({ typeUserSelected, url }) {
       if (sendData.data.success) {
         toast.success(`${sendData.data.message}`);
         setPreviImage(null);
-        setArrayFiles([])
+        setArrayFiles([]);
         //reset()
         await mutate('users/get');
         handleCloseM();
@@ -157,25 +159,20 @@ export default function FormAdd({ typeUserSelected, url }) {
     } finally {
       setLoad(false);
     }
-
-
   };
-
 
   const getRoles = async () => {
     try {
       const response = await Get(AxiosConfigsToken, `roles/get`);
       if (response.success) {
-        setRoles(response.response)
-
+        setRoles(response.response);
       } else {
-        setRoles([])
+        setRoles([]);
       }
     } catch (error) {
     } finally {
     }
-  }
-
+  };
 
   const fieldCreateUsers = [
     {
@@ -204,14 +201,14 @@ export default function FormAdd({ typeUserSelected, url }) {
       label: 'Identidad o pasaporte',
       type: 'text',
       validation: { required: true },
-      startIcon: null
+      startIcon: null,
     },
     {
       name: 'brief_description',
       label: 'Breve descripcion del usuario',
       type: 'textarea',
       validation: { required: true },
-      startIcon: null
+      startIcon: null,
     },
     {
       name: 'sex',
@@ -221,20 +218,20 @@ export default function FormAdd({ typeUserSelected, url }) {
       options: [
         {
           label: 'Hombre',
-          value: 'hombre'
+          value: 'hombre',
         },
         {
           label: 'Mujer',
-          value: 'mujer'
-        }
-      ]
+          value: 'mujer',
+        },
+      ],
     },
     {
       name: 'birthdate',
       label: 'Fecha de nacimiento',
       type: 'date',
       validation: { required: true },
-      startIcon: null
+      startIcon: null,
     },
     {
       name: 'roles',
@@ -243,27 +240,26 @@ export default function FormAdd({ typeUserSelected, url }) {
       validation: { required: 'Selecciona un role' },
       options: roles?.map((opt) => ({
         label: opt.name,
-        value: opt._id
-      }))
+        value: opt._id,
+      })),
     },
     {
       name: 'posGalery',
       label: 'Posicion en la galeria',
       type: 'number',
       validation: { required: false },
-      startIcon: null
+      startIcon: null,
     },
     ...(typeUser[0]?.name === 'admin'
       ? [
-
-        {
-          name: 'posGalery',
-          label: 'Posicion en la galeria',
-          type: 'number',
-          validation: { required: true },
-          startIcon: null
-        }
-      ]
+          {
+            name: 'posGalery',
+            label: 'Posicion en la galeria',
+            type: 'number',
+            validation: { required: true },
+            startIcon: null,
+          },
+        ]
       : []),
     {
       name: 'imagen1',
@@ -272,30 +268,25 @@ export default function FormAdd({ typeUserSelected, url }) {
       validation: { required: true },
       startIcon: null,
     },
-
   ];
 
-
   const onChangeTypeUser = (id) => {
-    const roleSelected = roles.filter(role => role._id === id);
+    const roleSelected = roles.filter((role) => role._id === id);
 
-    setTypeUser(roleSelected)
+    setTypeUser(roleSelected);
 
-    console.log(roleSelected, 'dd dd  dd  dd ')
-  }
-
-
-
+    console.log(roleSelected, 'dd dd  dd  dd ');
+  };
 
   React.useEffect(() => {
     //setImagen(null)
     //setPreviImage(null)
-    getRoles()
+    getRoles();
   }, []);
 
   React.useEffect(() => {
     if (typerUsers?.roles) {
-      onChangeTypeUser(typerUsers.roles)
+      onChangeTypeUser(typerUsers.roles);
     }
   }, [typerUsers?.roles]);
 
@@ -329,8 +320,6 @@ export default function FormAdd({ typeUserSelected, url }) {
               width: '100%',
             }}
           >
-
-
             <Typography
               sx={{
                 textAlign: 'center',
@@ -344,14 +333,13 @@ export default function FormAdd({ typeUserSelected, url }) {
               Actulizar
             </Typography>
 
-
             <Box sx={{ width: '95%', mt: 2 }}>
-              <FormControl fullWidth sx={{ mb: 2, }}>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <TextField
                   error={!!errors.fullname}
-                  name='fullname'
+                  name="fullname"
                   size="large"
-                  type='text'
+                  type="text"
                   id="outlined-basic"
                   label="Nombre completo"
                   variant="outlined"
@@ -364,11 +352,11 @@ export default function FormAdd({ typeUserSelected, url }) {
                   })}
                 />
               </FormControl>
-              <FormControl fullWidth sx={{ mb: 2, }}>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <TextField
                   error={!!errors.email}
-                  name='email'
-                  type='email'
+                  name="email"
+                  type="email"
                   size="large"
                   id="outlined-basic"
                   InputLabelProps={{
@@ -382,11 +370,11 @@ export default function FormAdd({ typeUserSelected, url }) {
                   })}
                 />
               </FormControl>
-              <FormControl fullWidth sx={{ mb: 2, }}>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <TextField
                   error={!!errors.phone}
-                  name='phone'
-                  type='phone'
+                  name="phone"
+                  type="phone"
                   size="large"
                   id="outlined-basic"
                   label="Telefono"
@@ -401,11 +389,11 @@ export default function FormAdd({ typeUserSelected, url }) {
                 />
               </FormControl>
 
-              <FormControl fullWidth sx={{ mb: 2, }}>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <TextField
                   error={!!errors.dni}
-                  name='dni'
-                  type='text'
+                  name="dni"
+                  type="text"
                   size="large"
                   id="outlined-basic"
                   label="DNI o pasaporte"
@@ -420,29 +408,32 @@ export default function FormAdd({ typeUserSelected, url }) {
                 />
               </FormControl>
 
-
-              <FormControl fullWidth  sx={{ mb: 3, }}>
-
+              <FormControl fullWidth sx={{ mb: 3 }}>
                 <TextareaAutosize
-                  placeholder='Breve descripcion del usuario (Opcional)'
+                  placeholder="Breve descripcion del usuario (Opcional)"
                   name={'brief_description'}
                   error={!!errors.brief_description}
-                  style={{ width: '100%', padding: '8px', fontSize: '14px', marginBlock: '5px', height: '50px' }}
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    fontSize: '14px',
+                    marginBlock: '5px',
+                    height: '50px',
+                  }}
                   {...register('brief_description', {
                     required: false,
                     minLength: 1,
                   })}
-
                 />
               </FormControl>
-              <FormControl fullWidth sx={{ mb: 2, }}>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <TextField
-                  name='birthdate'
+                  name="birthdate"
                   InputLabelProps={{
                     shrink: true, // Mantiene el label arriba
                   }}
                   error={!!errors.birthdate}
-                  type='date'
+                  type="date"
                   size="large"
                   id="outlined-basic"
                   label="Fecha de nacimiento"
@@ -453,7 +444,6 @@ export default function FormAdd({ typeUserSelected, url }) {
                   })}
                 />
               </FormControl>
-
 
               <FormControl fullWidth size="large" sx={{ mb: 2.5 }}>
                 <InputLabel id="demo-multiple-chip-label">Tipo de usuario</InputLabel>
@@ -485,11 +475,11 @@ export default function FormAdd({ typeUserSelected, url }) {
                 </Select>
               </FormControl>
 
-              <FormControl fullWidth sx={{ mb: 2, }}>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <TextField
-                  name='position'
+                  name="position"
                   error={!!errors.position}
-                  type='text'
+                  type="text"
                   size="large"
                   id="outlined-basic"
                   InputLabelProps={{
@@ -503,11 +493,11 @@ export default function FormAdd({ typeUserSelected, url }) {
                   })}
                 />
               </FormControl>
-              <FormControl fullWidth sx={{ mb: 2, }}>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <TextField
-                  name='posGalery'
+                  name="posGalery"
                   error={!!errors.posGalery}
-                  type='number'
+                  type="number"
                   size="large"
                   id="outlined-basic"
                   InputLabelProps={{
@@ -522,7 +512,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                 />
               </FormControl>
 
-              <FormControl fullWidth size="large" sx={{ mb:2 }}>
+              <FormControl fullWidth size="large" sx={{ mb: 2 }}>
                 <InputLabel id="roles-label">Genero del usuario</InputLabel>
                 <Controller
                   name="sex"
@@ -533,8 +523,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                       error={!!errors.sex}
                       label={'Genero del usuario'}
                       labelId="roles-label"
-                      {...field}   // incluye value + onChange de RHF
-
+                      {...field} // incluye value + onChange de RHF
                     >
                       <MenuItem key={'hombre'} value={'hombre'}>
                         Hombre
@@ -546,12 +535,11 @@ export default function FormAdd({ typeUserSelected, url }) {
                   )}
                 />
               </FormControl>
-             
 
               <Controller
                 name="imagen1"
                 control={control}
-                render={({ }) => (
+                render={({}) => (
                   <FieldImageInput
                     label={'Foto del usuario'}
                     onFileChange={(file) => {
@@ -580,13 +568,9 @@ export default function FormAdd({ typeUserSelected, url }) {
                 </LoadingButton>
               </Box>
             </Box>
-
-
-
-
           </form>
 
-          {false &&
+          {false && (
             <RegistreForm
               setArrayFiles={setArrayFiles}
               onSubmit={onSubmit}
@@ -604,17 +588,10 @@ export default function FormAdd({ typeUserSelected, url }) {
               imageAlt="Global2a"
               linkUrl=""
               linkText=""
-              text='Registrar usuario'
-
+              text="Registrar usuario"
             />
-          }
+          )}
         </Box>
-
-
-
-
-
-
       </Modal>
     </Box>
   );

@@ -23,8 +23,6 @@ function CardHome({ IconHome, colorIcon, titleCard, cantidad, colors, colorText 
       <Card sx={{ width: '100%', backgroundColor: colors }}>
         <CardContent>
           <Box
-           
-
             sx={{
               height: IconHome ? '160px' : '80px',
               width: '100%',

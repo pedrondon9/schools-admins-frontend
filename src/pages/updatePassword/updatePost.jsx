@@ -24,7 +24,7 @@ import { set } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
-  const { } = useContext(AppContext);
+  const {} = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -37,7 +37,6 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
   const [selectForm, setSelectForm] = useState('0');
 
   const cacheKey = cacheKeyUpdatePassword;
-
 
   const [errorInitOtp, setErrorInitOtp] = useState(false);
   const [errorInitMessageOtp, setErrorInitMessageOtp] = useState('');
@@ -61,14 +60,13 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
     setLoad(true);
 
     if (false) {
-      console.log(data)
+      console.log(data);
       setLoad(false);
 
-      return
+      return;
     }
 
     try {
-
       if (data.password1 !== data.password2) {
         setErrorInit(true);
         setErrorInitMessage('Las contrasenas no coinsiden');
@@ -83,64 +81,55 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
 
       if (registerPost.data.success) {
         console.log(registerPost.data);
-        setTokenData(registerPost.data.token)
+        setTokenData(registerPost.data.token);
         setLoad(false);
-        setErrorInitMessage("");
+        setErrorInitMessage('');
         setErrorInit(true);
         setSelectForm('1');
         //navigate('/');
-
       } else {
-
         setLoad(false);
         setErrorInitMessage(registerPost.data.mens);
         setErrorInit(true);
       }
-
     } catch (error) {
-
       if ([403, 400, 405, 401, 503].includes(error.response?.status)) {
         setErrorInitMessage(error.response?.data?.message);
-        setErrorInit(true)
-        return
+        setErrorInit(true);
+        return;
       }
 
       if (error.request) {
         // No hubo respuesta del servidor
         setErrorInitMessage('No se pudo conectar con el servidor.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       } else {
         // Otro error
         setErrorInitMessage('Error desconocido.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       }
     } finally {
-
       setLoad(false);
     }
-
   };
 
   const handleSubmitOpt = async () => {
-    setErrorInitMessage('')
-    setErrorInit(false)
-    setErrorInitMessageOtp('')
+    setErrorInitMessage('');
+    setErrorInit(false);
+    setErrorInitMessageOtp('');
     setErrorInitOtp(false);
     setLoadOtp(true);
 
     if (false) {
-      console.log(otpCode)
+      console.log(otpCode);
       setLoad(false);
 
-      return
+      return;
     }
 
     try {
-
       if (!otpCode) {
         setErrorInitOtp(true);
         setErrorInitMessageOtp('Ingrese el codigo');
@@ -152,8 +141,8 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
         method: 'post',
         data: { otp: otpCode },
         headers: {
-          'x-access-token': tokenData
-        }
+          'x-access-token': tokenData,
+        },
       });
 
       if (registerPost.data.success) {
@@ -163,41 +152,32 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
         setSelectForm('0');
         navigate('/signIn');
       } else {
-
-
       }
-
     } catch (error) {
-
       if ([403, 400, 405, 401, 503].includes(error.response?.status)) {
         setErrorInitMessageOtp(error.response?.data?.message);
-        setErrorInitOtp(true)
-        return
+        setErrorInitOtp(true);
+        return;
       }
 
       if (error.request) {
         // No hubo respuesta del servidor
         setErrorInitMessage('No se pudo conectar con el servidor.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       } else {
         // Otro error
         setErrorInitMessage('Error desconocido.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       }
     } finally {
-
       setLoadOtp(false);
     }
-
   };
 
   //Funcion que se llama despues dpulsar el boton submit
   const onSubmitResendOTP = async (data) => {
-
     try {
       setLoadResentOtp(true);
 
@@ -205,8 +185,8 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
         url: `${URL_SERVER}/auth/resend_otp_register`,
         method: 'post',
         headers: {
-          'x-access-token': tokenData
-        }
+          'x-access-token': tokenData,
+        },
       });
 
       if (registerPost.data.success) {
@@ -214,36 +194,30 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
         setErrorInitMessageOtp(registerPost.data.message);
         setErrorInitOtp(true);
       } else {
-
       }
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if ([403, 400, 405, 401, 503].includes(error.response?.status)) {
         setErrorInitMessageOtp(error.response?.data?.message);
-        setErrorInitOtp(true)
-        return
+        setErrorInitOtp(true);
+        return;
       }
 
       if (error.request) {
         // No hubo respuesta del servidor
         setErrorInitMessage('No se pudo conectar con el servidor.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       } else {
         // Otro error
         setErrorInitMessage('Error desconocido.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       }
     } finally {
-
       setLoadResentOtp(false);
     }
   };
-
 
   const fieldEmail = [
     {
@@ -271,7 +245,7 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
   ];
   useEffect(() => {
     try {
-    } catch (error) { }
+    } catch (error) {}
   }, []);
 
   return (
@@ -294,8 +268,7 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
             imageAlt="Global2a"
             linkUrl=""
             linkText=""
-            text='Recuperar contraseña'
-
+            text="Recuperar contraseña"
           />
           <ExternalLink
             url={'/signIn'}
@@ -351,13 +324,19 @@ function RegistrePost({ setDataOTP, dataOTP, chooseForm }) {
             </LoadingButton>
           </div>
 
-          <Button variant='outlined' onClick={() => { setSelectForm('0') }}>Atras</Button>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              setSelectForm('0');
+            }}
+          >
+            Atras
+          </Button>
           <ExternalLink
             url={'/signIn'}
             text={'Si ya tienes una cuenta inicia'}
             path={'Inicia sesion aqui'}
           />
-
         </>
       ) : (
         <></>

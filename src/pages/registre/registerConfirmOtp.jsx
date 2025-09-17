@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import AppContext from '../../contexts/ServiceContext';
 import { useNavigate } from 'react-router-dom';
 import { URL_SERVER, DATA_USER } from '../../contexts/constantesVar';
 import 'animate.css';
@@ -13,8 +12,6 @@ import { textStyleP } from '../../components/form_components/styleForm';
 import OtpInput from '../../components/form_components/form/OtpInput';
 import FormAlert from '../../components/form_components/FormAlert';
 import {
-  handleSubmitOptF,
-  onSubmitResendOTPF,
 } from '../../components/form_components/form_submit/onSubmitOtp';
 import CacheDataOtp from '../../components/form_components/form_submit/cacheDataOtp';
 import { cacheKeyRegister } from '../../components/form_components/constantVariable';
@@ -22,7 +19,7 @@ import { cacheKeyRegister } from '../../components/form_components/constantVaria
 function RegistreConfirmOTP({ setSelect, token, setTken }) {
   const navigate = useNavigate();
   const [loading, setLoad] = useState(false); //estado para activar el spinner del boton submit
-  const [loadingResentOtp, setLoadResentOtp] = useState(false);  
+  const [loadingResentOtp, setLoadResentOtp] = useState(false);
   const [errorInitOtp, setErrorInitOtp] = useState(false);
   const [errorInitMessageOtp, setErrorInitMessageOtp] = useState('');
   const [otpCode, setOtpCode] = useState('');
@@ -32,24 +29,20 @@ function RegistreConfirmOTP({ setSelect, token, setTken }) {
 
   //el useForm de react form hook
   const {
-    register,
-    handleSubmit,
-    control,
+   
     formState: { errors },
   } = useForm();
 
   const handleSubmitOpt = async () => {
-
     if (false) {
-      console.log(otpCode)
+      console.log(otpCode);
       setLoad(false);
 
-      return
+      return;
     }
 
     try {
       setLoadOtp(true);
-
 
       if (!otpCode) {
         setErrorInitOtp(true);
@@ -62,8 +55,8 @@ function RegistreConfirmOTP({ setSelect, token, setTken }) {
         method: 'post',
         data: { otp: otpCode },
         headers: {
-          'x-access-token': token
-        }
+          'x-access-token': token,
+        },
       });
 
       if (registerPost.data.success) {
@@ -72,40 +65,34 @@ function RegistreConfirmOTP({ setSelect, token, setTken }) {
         setErrorInitOtp(true);
         navigate('/signIn');
       } else {
-
       }
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
       if ([403, 400, 405, 401, 503].includes(error.response?.status)) {
         setErrorInitMessageOtp(error.response?.data?.message);
-        setErrorInitOtp(true)
-        return
+        setErrorInitOtp(true);
+        return;
       }
 
       if (error.request) {
         // No hubo respuesta del servidor
         setErrorInitMessageOtp('No se pudo conectar con el servidor.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       } else {
         // Otro error
         setErrorInitMessageOtp('Error desconocido.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       }
     } finally {
-
       setLoadOtp(false);
     }
   };
 
   //Funcion que se llama despues dpulsar el boton submit
   const onSubmitResendOTP = async (data) => {
-
     try {
       setLoadResentOtp(true);
 
@@ -113,8 +100,8 @@ function RegistreConfirmOTP({ setSelect, token, setTken }) {
         url: `${URL_SERVER}/auth/resend_otp_register`,
         method: 'post',
         headers: {
-          'x-access-token': token
-        }
+          'x-access-token': token,
+        },
       });
 
       if (registerPost.data.success) {
@@ -122,32 +109,26 @@ function RegistreConfirmOTP({ setSelect, token, setTken }) {
         setErrorInitMessageOtp(registerPost.data.message);
         setErrorInitOtp(true);
       } else {
-
       }
-
     } catch (error) {
-      console.log(error)
       if ([403, 400, 405, 401, 503].includes(error.response?.status)) {
         setErrorInitMessageOtp(error.response?.data?.message);
-        setErrorInitOtp(true)
-        return
+        setErrorInitOtp(true);
+        return;
       }
 
       if (error.request) {
         // No hubo respuesta del servidor
         setErrorInitMessageOtp('No se pudo conectar con el servidor.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       } else {
         // Otro error
         setErrorInitMessageOtp('Error desconocido.');
-        setErrorInitOtp(true)
-        return
-
+        setErrorInitOtp(true);
+        return;
       }
     } finally {
-
       setLoadResentOtp(false);
     }
   };
@@ -155,7 +136,7 @@ function RegistreConfirmOTP({ setSelect, token, setTken }) {
   useEffect(() => {
     try {
       CacheDataOtp(cacheKey, setDataOTP);
-    } catch (error) { }
+    } catch (error) {}
   }, []);
 
   return (
@@ -201,7 +182,6 @@ function RegistreConfirmOTP({ setSelect, token, setTken }) {
           Verificar
         </LoadingButton>
       </div>
-
     </>
   );
 }

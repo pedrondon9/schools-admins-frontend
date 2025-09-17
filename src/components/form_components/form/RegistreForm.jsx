@@ -30,7 +30,7 @@ const RegistreForm = ({
   defaultValue,
   linkText,
   setArrayFiles,
-  text
+  text,
 }) => {
   const { control } = useForm();
 
@@ -64,12 +64,10 @@ const RegistreForm = ({
         {text}
       </Typography>
 
-
       {fields.map((fld) => (
         <Box key={fld.name} sx={{ width: '95%', mt: 2 }}>
           {fld.type === 'select' || fld.type === 'file' || fld.type === 'textarea' ? (
             <>
-
               {fld.type === 'select' ? (
                 <SelectInput
                   name={fld.name}
@@ -82,7 +80,6 @@ const RegistreForm = ({
               ) : (
                 <>
                   <>
-
                     {fld.type === 'textarea' ? (
                       <TextAreas
                         name={fld.name}
@@ -95,7 +92,6 @@ const RegistreForm = ({
                     ) : (
                       <Controller
                         name="imagen1"
-                        
                         control={control}
                         render={({ field }) => (
                           <FieldImageInput

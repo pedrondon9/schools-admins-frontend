@@ -31,8 +31,6 @@ const RegistreForm2 = ({
 }) => {
   const { control } = useForm();
 
-
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -43,16 +41,13 @@ const RegistreForm2 = ({
         width: '100%',
       }}
     >
-
-
-
       {fields.map((fld) => (
         <Box key={fld.name} sx={{ width: '95%', mt: 2 }}>
           {fld.type === 'select' || fld.type === 'file' ? (
             <>
               {fld.type === 'select' ? (
                 <SelectInput
-                key={fld.name}
+                  key={fld.name}
                   name={fld.name}
                   label={fld.label}
                   options={fld.options}
@@ -60,7 +55,6 @@ const RegistreForm2 = ({
                   validation={fld.validation}
                   error={errors?.[fld.name]}
                 />
-              
               ) : (
                 <Controller
                   name="imagen1"
@@ -90,7 +84,6 @@ const RegistreForm2 = ({
               showPassword={showPassword}
               togglePasswordVisibility={togglePasswordVisibility}
             />
-
           )}
         </Box>
       ))}
