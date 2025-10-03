@@ -10,6 +10,7 @@ import {
   Select,
   TextareaAutosize,
   TextField,
+  Toolbar,
   Typography,
 } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
@@ -45,7 +46,7 @@ const style = {
   height: 'auto',
 };
 
-export default function EditCourse({}) {
+export default function EditCourse({ }) {
   const {
     AxiosConfigsToken,
     dataUser,
@@ -100,44 +101,46 @@ export default function EditCourse({}) {
   }, []);
 
   return (
-    <Box
-      sx={{
-        height: 'auto',
-        width: '100%',
-        marginBottom: '10px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
+    <div style={{ maxWidth: "1200px", margin: "auto" }}>
+      <Toolbar />
+
       <Box
         sx={{
           height: 'auto',
           width: '100%',
-          marginBottom: '10px',
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
         }}
       >
-        <Button
-          variant="contained"
-          onClick={() => {
-            navigate(-1);
+        <Box
+          sx={{
+            height: 'auto',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
           }}
-          size="small"
         >
-          <ArrowBack />
-        </Button>
-      </Box>
-      {editCourseId ? (
-        <>
-          <NavTab id={id} courseId={editCourseId} />
-        </>
-      ) : (
-        <Box sx={{ marginTop: '20px' }}>
-          <SkeletonTable />
+          <Button
+            variant="contained"
+            onClick={() => {
+              navigate(-1);
+            }}
+            size="small"
+          >
+            <ArrowBack />
+          </Button>
         </Box>
-      )}
-    </Box>
+        {editCourseId ? (
+          <>
+            <NavTab id={id} courseId={editCourseId} />
+          </>
+        ) : (
+          <Box sx={{ marginTop: '20px' }}>
+            <SkeletonTable />
+          </Box>
+        )}
+      </Box>
+    </div>
   );
 }

@@ -28,7 +28,6 @@ const style = {
   overflowY: 'scroll',
   height: 'auto',
   marginTop: '30px',
-  border: '2px solid rgb(63, 63, 63)',
   borderRadius: '8px',
 };
 export const Schools = () => {

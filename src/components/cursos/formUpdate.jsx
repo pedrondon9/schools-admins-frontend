@@ -147,7 +147,6 @@ export default function FormUpdate({ courseId, id }) {
         width: '100%',
         marginBottom: '10px',
         display: 'flex',
-        justifyContent: 'center',
       }}
     >
       <Box sx={style}>

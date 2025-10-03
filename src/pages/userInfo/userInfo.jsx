@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Toolbar, Typography } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Add, ArrowBack } from '@mui/icons-material';
@@ -21,7 +21,7 @@ const style = {
   height: 'auto',
 };
 
-export default function UserInfo({}) {
+export default function UserInfo({ }) {
   const {
     AxiosConfigsToken,
     dataUser,
@@ -81,43 +81,48 @@ export default function UserInfo({}) {
   }, []);
 
   return (
-    <Box
-      sx={{
-        height: 'auto',
-        width: '100%',
-        marginBottom: '10px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
+    <div style={{ maxWidth: "1200px", margin: "auto" }}>
+      <Toolbar />
+
       <Box
         sx={{
           height: 'auto',
           width: '100%',
-          marginBottom: '10px',
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
         }}
       >
-        <Button
-          variant="contained"
-          onClick={() => {
-            navigate(-1);
+
+        <Box
+          sx={{
+            height: 'auto',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
           }}
-          size="small"
         >
-          <ArrowBack />
-        </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              navigate(-1);
+            }}
+            size="small"
+          >
+            <ArrowBack />
+          </Button>
+        </Box>
+        {dataUserSelected ? (
+          <>
+            <Typography variant="h4" sx={{textAlign:"center",marginBlock:3}} gutterBottom fontWeight="bold">
+              {dataUserSelected?.fullname}
+            </Typography>
+            <NavTab id={id} courseId={dataUserSelected} />
+          </>
+        ) : (
+          <SkeletonTable />
+        )}
       </Box>
-      {dataUserSelected ? (
-        <>
-          <Title title={dataUserSelected?.fullname} />
-          <NavTab id={id} courseId={dataUserSelected} />
-        </>
-      ) : (
-        <SkeletonTable />
-      )}
-    </Box>
+    </div>
   );
 }

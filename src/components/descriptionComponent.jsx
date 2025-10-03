@@ -26,9 +26,10 @@ const DescriptionComponent = ({ dataId, description }) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <Box sx={{ width: { xs: '100%' }, justifyContent: 'center' }}>
-        <Box sx={{ mt: -4, mb: 2 }}>
-          <Title title={dataId?.title} />
-        </Box>
+        
+        <Typography variant="h4" sx={{ marginBlock: 3 }} gutterBottom fontWeight="bold">
+          {dataId?.title}
+        </Typography>
         <Box sx={{ display: 'flex' }}>
           <Box sx={{ width: { xs: '100%', md: '870px' }, mb: 4 }}>
             <Typography

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Toolbar } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Add, ArrowBack } from '@mui/icons-material';
@@ -81,6 +81,9 @@ export default function EventId({}) {
   }, []);
 
   return (
+    <div style={{ maxWidth: "1200px", margin: "auto" }}>
+      <Toolbar />
+
     <Box
       sx={{
         height: 'auto',
@@ -118,5 +121,6 @@ export default function EventId({}) {
         <SkeletonTable />
       )}
     </Box>
+    </div>
   );
 }
