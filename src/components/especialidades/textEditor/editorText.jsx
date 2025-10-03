@@ -144,7 +144,7 @@ export default function MyEditor({ id, courseId }) {
           color="primary"
           type="submit"
           fullWidth
-          size="small"
+          size="large"
           onClick={onSubmit}
         >
           Actualizar

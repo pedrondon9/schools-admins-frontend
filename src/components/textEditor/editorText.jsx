@@ -157,7 +157,7 @@ export default function MyEditor({ id, dataId, description, url, selected }) {
           color="primary"
           type="submit"
           fullWidth
-          size="small"
+          size="large"
           onClick={onSubmit}
         >
           Actualizar

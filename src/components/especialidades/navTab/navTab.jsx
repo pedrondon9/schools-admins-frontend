@@ -24,7 +24,7 @@ const NavTab = ({ id, courseId }) => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '60px' }}>
+    <div style={{ display: 'flex', justifyContent: 'center'}}>
       <Grid
         //bgcolor="backgroundColorPage"
         sx={{ justifyContent: 'center', width: { xs: '100%' } }}
