@@ -39,7 +39,7 @@ export const Users = () => {
     } finally {
     }
   };
-  const VISIBLE_FIELDS = ['photo', 'acciones', 'name','email','role'];
+  const VISIBLE_FIELDS = ['photo', 'acciones', 'name'];
 
   const columns1 = [
     {
@@ -122,135 +122,7 @@ export const Users = () => {
       },
     },
   ];
-  const columns = [
-    {
-      field: 'linkPhoto',
-      headerName: 'Foto',
-      width: 80,
-      editable: false,
-      renderCell: (params) => (
-        <Avatar
-          alt="Foto"
-          src={params.row.linkPhoto}
-          sx={{ width: 60, height: 60, border: '2px solid #212121' }}
-        />
-      ),
-    },
-    {
-      field: 'datos',
-      headerName: 'Datos',
-      width: 200,
-      editable: false,
-      renderCell: (params) => (
-        <Box
-          sx={{
-            textAlign: { xs: 'auto', sm: 'auto' },
-            width: { xs: '100%', sm: '600px' },
-            paddingBlock: '14px',
-          }}
-        >
-          <Box>
-            <Typography
-              variant="p"
-              component="p"
-              sx={{
-                textAlign: 'left',
-                whiteSpace: 'normal',
-                fontWeight: 600,
-                wordBreak: 'break-word',
-                //backgroundColor:"#1976d2",
-                //width: { xs: "100%", sm: "600px" },
-                flexGrow: 1, // Ocupa todo el espacio disponible
-              }}
-            >
-              {params.row.fullname}
-            </Typography>
-            <Typography
-              variant="p"
-              component="p"
-              sx={{
-                textAlign: 'left',
-                whiteSpace: 'normal',
-                fontWeight: 600,
-                wordBreak: 'break-word',
-                flexGrow: 1, // Ocupa todo el espacio disponible
-              }}
-            >
-              {params.row.phone}
-            </Typography>
-            <Typography
-              variant="p"
-              component="p"
-              sx={{
-                textAlign: 'left',
-                whiteSpace: 'normal',
-                fontWeight: 600,
-                wordBreak: 'break-word',
-                flexGrow: 1, // Ocupa todo el espacio disponible
-              }}
-            >
-              {params.row.email}
-            </Typography>
-          </Box>
-        </Box>
-      ),
-    },
-    {
-      field: 'phone',
-      headerName: 'Telefono',
-      width: 150,
-      editable: false,
-    },
-    {
-      field: 'fullname',
-      headerName: 'Nombre completo',
-      width: 200,
-      editable: false,
-    },
-    {
-      field: 'roles',
-      headerName: 'Role',
-      width: 100,
-      editable: false,
-      valueGetter: (params) => {
-        return params.row.roles?.map((role) => role.name).join(', ');
-      },
-    },
 
-    {
-      field: 'acciones',
-      headerName: 'Acciones',
-      width: 100,
-      editable: false,
-
-      renderCell: (params) => {
-        const currentRow = params.row;
-
-        return (
-          <>
-            {
-              <>
-                <div style={{ display: 'none' }}>
-                  <FormUpdate
-                    typeUserSelected={selected}
-                    dataUserSelected={currentRow}
-                    url={`users/get`}
-                  />
-                </div>
-                <Button
-                  variant="contained"
-                  component={NavLink}
-                  to={`/users/info/${params.row._id}`}
-                >
-                  ver
-                </Button>
-              </>
-            }
-          </>
-        );
-      },
-    },
-  ];
 
   React.useEffect(() => {
     getRoles();

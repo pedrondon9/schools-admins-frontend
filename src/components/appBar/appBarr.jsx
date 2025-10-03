@@ -72,7 +72,6 @@ function MenuAppBars(props) {
                   mr: 2,
                   display: { sm: 'none' },
                   color: '#212121',
-                  border: '2px solid #212121',
                   borderRadius: '4px',
                 }}
               >
