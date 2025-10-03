@@ -18,15 +18,11 @@ export const CardEvents = ({ x, modal, urlId }) => {
       <Card
         sx={{
           borderRadius: 3,
-          boxShadow: 3,
+          boxShadow: 1,
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          "&:hover": {
-            boxShadow: 6,
-            transform: "translateY(-5px)",
-            transition: "0.3s",
-          },
+         
         }}
       >
 
@@ -42,7 +38,7 @@ export const CardEvents = ({ x, modal, urlId }) => {
                 : 'https://visament.com/front/images/home/upload_user.png'
           }
           title={x?.title} alt={x.title}
-          sx={{ objectFit: "cover" }}
+          sx={{ objectFit: "contain",mt:1 }}
         />
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography

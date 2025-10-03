@@ -22,7 +22,6 @@ export const CardDasboard = ({ title, cantities }) => {
           sx={{
             boxShadow: 1,
             borderRadius: 3,
-            "&:hover": { transform: "scale(1.05)", transition: "0.3s" },
           }}
         >
 
