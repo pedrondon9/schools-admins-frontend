@@ -159,7 +159,7 @@ export const Especialidades = () => {
     getRoles();
   }, []);
   return (
-    <div>
+    <div style={{maxWidth:"1200px", margin:"auto"}}>
       <Toolbar />
       <Typography variant="h4" gutterBottom fontWeight="bold">
       Especialidades

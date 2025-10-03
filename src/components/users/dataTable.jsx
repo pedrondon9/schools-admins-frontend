@@ -78,8 +78,7 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
           slots={{ toolbar: GridToolbar }}
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           disableRowSelectionOnClick
-          autoHeight
-          //rowHeight={100}
+          
           slotProps={{
             toolbar: {
               showQuickFilter: false,
@@ -90,7 +89,7 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
             responsive: 'scroll',
           }}
           onRowClick={(params) => { }}
-          getRowHeight={() => 'auto'} // filas con altura dinámica según contenido
+          getRowHeight={() => 60} // filas con altura dinámica según contenido
           sx={sx}
           initialState={{
             columns: {

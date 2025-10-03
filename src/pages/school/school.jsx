@@ -151,11 +151,9 @@ export const Schools = () => {
     getSchool();
   }, []);
   return (
-    <div>
+    <div style={{maxWidth:"1200px", margin:"auto"}}>
       <Toolbar />
-      <Typography variant="h4" gutterBottom fontWeight="bold">
-      Registra o actualiza
-      </Typography>
+     
       <Box
         sx={{
           height: 'auto',
@@ -174,6 +172,7 @@ export const Schools = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 width: '100%',
+                boxShadow: 3,
               }}
             >
               <Typography
