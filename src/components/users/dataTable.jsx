@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardContent,
+  Fab,
   FormControl,
   IconButton,
   InputAdornment,
@@ -47,35 +48,14 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
 
   return (
     <>
-      <FormControl sx={{ marginBlock: 3, width: '100%' }}>
+      <FormControl sx={{ marginBlock: 3, width: '100%',display:'flex', alignItems:'center',justifyContent:'center' }}>
         <TextField
           label="Buscar en todas las columnas"
           variant="outlined"
           size="small"
           onChange={(e) => setSearch(e.target.value)}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: '#212121', // color del borde normal
-                borderWidth: 2, // grosor del borde
-                borderRadius: 2, // esquinas redondeadas
-              },
-              '&:hover fieldset': {
-                borderColor: '#212121', // al pasar el mouse
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: '#ff6f00', // cuando el input está enfocado
-              },
-            },
-            '& .MuiInputLabel-root': {
-              color: 'gray', // normal
-            },
-            '& .MuiInputLabel-root.Mui-focused': {
-              color: 'gray', // cuando está enfocado
-            },
-            mb: 2,
-            backgroundColor: '#fff',
-          }}
+          fullWidth
+          sx={{ maxWidth: 400 }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -86,13 +66,7 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
         />
       </FormControl>
       <Box
-        sx={{
-          height: 'auto',
-          width: '100%',
-          border: '2px solid #212121',
-          borderRadius: 2,
-          bgcolor: '#FFFFFF',
-        }}
+        sx={{ height: 400, width: "100%", bgcolor: "white", borderRadius: 2, boxShadow: 1 }}
       >
         <DataGrid
           rows={filteredRows || []}
@@ -115,7 +89,7 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
           options={{
             responsive: 'scroll',
           }}
-          onRowClick={(params) => {}}
+          onRowClick={(params) => { }}
           getRowHeight={() => 'auto'} // filas con altura dinámica según contenido
           sx={sx}
           initialState={{
@@ -130,6 +104,8 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
           }}
           pagination={true}
         />
+
+
       </Box>
     </>
   );

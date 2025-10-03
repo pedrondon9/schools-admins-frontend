@@ -7,9 +7,11 @@ import {
   Box,
   Button,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
+  Toolbar,
   Typography,
 } from '@mui/material';
 import { Get } from '../../components/users/get';
@@ -18,6 +20,7 @@ import FormUpdate from '../../components/users/formUpdate';
 import { render } from '@testing-library/react';
 import DataTable from '../../components/users/dataTable';
 import { NavLink } from 'react-router-dom';
+import { Visibility } from '@mui/icons-material';
 
 export const Users = () => {
   const { AxiosConfigsToken, dispatch } = React.useContext(AppContext);
@@ -36,9 +39,64 @@ export const Users = () => {
     } finally {
     }
   };
-  const VISIBLE_FIELDS = ['linkPhoto', 'acciones', 'datos'];
+  const VISIBLE_FIELDS = ['photo', 'acciones', 'name'];
 
   const columns1 = [
+    {
+      field: "photo",
+      headerName: "Foto",
+      width: 100,
+      renderCell: (params) => (
+
+
+        <Avatar
+          sx={{ bgcolor: "#1976d2" }}
+          alt="Foto"
+          src={params.row.linkPhoto}
+        />
+      ),
+    },
+    {
+      field: "name",
+      headerName: "Nombre",
+      flex: 1,
+      renderCell: (params) => (
+        <Box>
+          <Typography fontWeight="bold">{params.row.name}</Typography>
+          <Typography variant="body2" color="text.secondary">
+            {params.row.email}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      field: 'acciones',
+      headerName: 'Acciones',
+      width: 100,
+      editable: false,
+
+      renderCell: (params) => {
+        const currentRow = params.row;
+
+        return (
+          <>
+            {
+              <>
+                <IconButton
+                  component={NavLink}
+                  to={`/users/info/${params.row._id}`}
+                  color="primary"
+                >
+                  <Visibility />
+                </IconButton>
+              </>
+            }
+          </>
+        );
+      },
+    },
+  ];
+  const columns = [
     {
       field: 'linkPhoto',
       headerName: 'Foto',
@@ -173,8 +231,10 @@ export const Users = () => {
   }, []);
   return (
     <div>
-      <Title title="Usuarios" />
-
+      <Toolbar />
+      <Typography variant="h4" gutterBottom fontWeight="bold">
+        Usuarios
+      </Typography>
       <FormAdd typeUserSelected={selected} url={`users/get/${selected}`} />
       <FormControl sx={{ mb: 2, width: '100%', display: 'none' }}>
         <InputLabel size="small" id="demo-simple-select-label">

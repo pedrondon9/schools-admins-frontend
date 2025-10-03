@@ -4,7 +4,7 @@ import AppContext from '../../contexts/ServiceContext';
 import axios from 'axios';
 import { TITLEPAGE, URL_SERVER } from '../../contexts/constantesVar';
 
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Toolbar, Typography } from '@mui/material';
 import { CardDasboard } from '../../components/cardDasboard';
 import { Title } from '../../components/textTitle/title';
 import { set } from 'date-fns';
@@ -56,8 +56,10 @@ function Homes() {
 
   return (
     <div>
-      <Title title="Dasboard" />
-
+      <Toolbar />
+      <Typography variant="h4" gutterBottom fontWeight="bold">
+        Dashboard
+      </Typography>
       {!spinner ? (
         <>
           {data ? (

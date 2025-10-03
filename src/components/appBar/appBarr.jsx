@@ -9,7 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import DrawerListt from './drawerListt';
 import AppContext from '../../contexts/ServiceContext';
-import {  Typography } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 const drawerWidth = 250;
 
 function MenuAppBars(props) {
@@ -24,7 +24,7 @@ function MenuAppBars(props) {
   };
 
   const drawerToggle = <DrawerListt toggleDrawer={handleDrawerToggle} />;
-  const drawerStatic = <DrawerListt toggleDrawer={() => {}} />;
+  const drawerStatic = <DrawerListt toggleDrawer={() => { }} />;
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
@@ -38,15 +38,15 @@ function MenuAppBars(props) {
               width: { sm: `calc(100% - ${drawerWidth}px)` },
               ml: { sm: `${drawerWidth}px` },
               boxShadow: 0,
-              backgroundColor: '#fff3e0',
+              backgroundColor: "#1976d2",
               borderBottom: '1px solid rgb(172, 172, 172)',
             }}
+
           >
-            <Toolbar>
+            <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography
                 variant="h6"
                 noWrap
-                component="a"
                 href="#app-bar-with-responsive-menu"
                 sx={{
                   mr: 2,
@@ -58,8 +58,11 @@ function MenuAppBars(props) {
                   textDecoration: 'none',
                 }}
               >
-                {dataUser.schoolName}
+                {dataUser.schoolName}- Panel de Control
               </Typography>
+              <IconButton>
+                <Avatar alt="Usuario" src="/user.png" />
+              </IconButton>
               <IconButton
                 color="primary"
                 aria-label="open drawer"
@@ -102,7 +105,7 @@ function MenuAppBars(props) {
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: drawerWidth,
-                  backgroundColor: '#FCF5EB',
+                  backgroundColor: '#f4f6f8',
                 },
               }}
             >
@@ -115,8 +118,7 @@ function MenuAppBars(props) {
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: drawerWidth,
-                  backgroundColor: '#FCF5EB',
-                  borderRight: '0.5px solid #212121',
+                  backgroundColor: '#f4f6f8',
                 },
               }}
               open
@@ -129,17 +131,15 @@ function MenuAppBars(props) {
             sx={{
               minHeight: '100vh',
               paddingInline: '5px',
-              paddingTop: '10px',
               flexGrow: 1,
               justifyContent: 'center',
               //display: 'flex',
               width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
-              backgroundColor: '#FCF5EB',
+              backgroundColor: '#fafafa',
             }}
           >
-            <Toolbar />
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-              <Box sx={{ width: { xs: '100%', sm: '95%', md: '900px' } }}>{props.children}</Box>
+              <Box sx={{ width: { xs: '100%', sm: '95%', md: '100%' } }}>{props.children}</Box>
             </Box>
           </Box>
         </Box>

@@ -11,6 +11,7 @@ import {
   Select,
   TextareaAutosize,
   TextField,
+  Toolbar,
   Typography,
 } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
@@ -151,7 +152,10 @@ export const Schools = () => {
   }, []);
   return (
     <div>
-      <Title title="Registra o actualiza" />
+      <Toolbar />
+      <Typography variant="h4" gutterBottom fontWeight="bold">
+      Registra o actualiza
+      </Typography>
       <Box
         sx={{
           height: 'auto',

@@ -12,6 +12,7 @@ import {
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import ModalUpdate from './users/modalUpdate';
+import { School } from '@mui/icons-material';
 //#ede8f7 f3f0f8
 export const CardDasboard = ({ title, cantities }) => {
   return (
@@ -19,40 +20,18 @@ export const CardDasboard = ({ title, cantities }) => {
       <Box sx={{ width: '100%' }}>
         <Card
           sx={{
-            //boxShadow: 'none',
-            //borderBottom: '1px #e0e0e0 solid',
-            //borderRadius: '0px',
-            border: '2px solid rgb(63, 63, 63)',
-            backgroundColor: '#fff3e0',
+            boxShadow: 1,
+            borderRadius: 3,
+            "&:hover": { transform: "scale(1.05)", transition: "0.3s" },
           }}
         >
-          <CardContent sx={{ padding: '0px' }}>
-            <Typography
-              className="title-event"
-              sx={{
-                marginBlock: 2,
-                bgcolor: '#FCF5EB',
-                textAlign: 'center',
-                fontSize: { xs: '1.3rem', md: '1.2rem' },
-                fontWeight: '700',
-              }}
-              gutterBottom
-              component="div"
-            >
+
+          <CardContent sx={{ textAlign: "center" }}>
+            <School fontSize="large" color="primary" />
+            <Typography variant="h6" sx={{ mt: 1 }}>
               {title}
             </Typography>
-            <Typography
-              className="title-event"
-              sx={{
-                marginBlock: 2,
-                bgcolor: '#FCF5EB',
-                textAlign: 'center',
-                fontSize: { xs: '3.5rem', md: '3rem' },
-                fontWeight: '700',
-              }}
-              gutterBottom
-              component="div"
-            >
+            <Typography variant="h4" fontWeight="bold">
               {cantities}
             </Typography>
           </CardContent>

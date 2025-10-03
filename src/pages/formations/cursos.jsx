@@ -2,7 +2,7 @@ import * as React from 'react';
 import AppContext from '../../contexts/ServiceContext';
 import { Title } from '../../components/textTitle/title';
 import DataTable from '../../components/dataGrid/dataTable';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Toolbar, Typography } from '@mui/material';
 import { Get } from '../../components/cursos/get';
 import { TYPE_USER_SELECTED } from '../../contexts/constantesVar';
 import { NavLink } from 'react-router-dom';
@@ -158,8 +158,10 @@ export const Cursos = () => {
   }, []);
   return (
     <div>
-      <Title title="Cursos" />
-
+      <Toolbar />
+      <Typography variant="h4" gutterBottom fontWeight="bold">
+        Cursos
+      </Typography>
       <FormAdd typeUserSelected={selected} />
       <FormControl sx={{ mb: 2, width: '100%', display: 'none' }}>
         <InputLabel size="small" id="demo-simple-select-label">

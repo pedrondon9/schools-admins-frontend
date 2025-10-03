@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, Modal } from '@mui/material';
+import { Box, Button, Fab, Modal } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Add } from '@mui/icons-material';
@@ -212,9 +212,17 @@ export default function FormAdd({ typeUserSelected }) {
         justifyContent: 'end',
       }}
     >
-      <Button variant="contained" onClick={handleOpenM} size="small">
+
+
+      <Fab
+        variant="contained" onClick={handleOpenM} size="large"
+        color="primary"
+        sx={{ position: "absolute", bottom: 16, right: 16 }}
+      >
         <Add />
-      </Button>
+
+      </Fab>
+      
       <Modal
         open={openM}
         onClose={handleCloseM}

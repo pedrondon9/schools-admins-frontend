@@ -7,9 +7,10 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 
 import { NavLink, useLocation, matchPath } from 'react-router-dom';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Divider, ListItemIcon, Typography } from '@mui/material';
 import { DATA_USER } from '../../contexts/constantesVar';
 import AppContext from '../../contexts/ServiceContext';
+import { Book, Business, Dashboard, Event, Logout, Person, School } from '@mui/icons-material';
 
 const listTextStyle = {
   fontWeight: 900,
@@ -40,16 +41,17 @@ function DrawerListt({ toggleDrawer }) {
     });
   };
   const listePath = [
-    { text: 'Dasbord', link: '/' },
-    { text: 'Usuario', link: '/users' },
-    { text: 'Cursos', link: '/cursos' },
-    { text: 'Especialidades', link: '/especialidades' },
-    { text: 'Eventos', link: '/eventos' },
-    { text: 'Institucion', link: '/school' },
-    //{ text: 'Cambiar contrasena', link: "/cambiar_password" },
-  ];
+    { text: "Dashboard", icon: <Dashboard />, link: '/' },
+    { text: "Usuario", icon: <Person />, link: '/users' },
+    { text: "Cursos", icon: <School />, link: '/cursos' },
+    { text: "Especialidades", icon: <Book />, link: '/especialidades' },
+    { text: "Eventos", icon: <Event />, link: '/eventos' },
+    { text: "Institución", icon: <Business />, link: '/school' },
+  ]
 
   const currentSegment = '/' + location.pathname.split('/')[1];
+
+
 
   return (
     <div>
@@ -61,6 +63,7 @@ function DrawerListt({ toggleDrawer }) {
               //backgroundColor: '#000000',
               display: 'flex',
               justifyContent: 'center',
+              display: "none"
             }}
           >
             <Box>
@@ -83,76 +86,52 @@ function DrawerListt({ toggleDrawer }) {
             </Box>
           </Toolbar>
 
+          <Toolbar />
+          <Divider />
+
           <List>
             {listePath.map((menu, index) => (
               <ListItem
                 key={menu.text}
                 disablePadding
-                divider={true}
-                sx={{ borderBottom: '1px solid rgb(121, 121, 121)' }}
-                //disableGutters={true}
+              //disableGutters={true}
               >
                 <ListItemButton
                   sx={{
-                    fontWeight: 9000,
-                    bgcolor:
-                      currentSegment === '/' + menu.link.split('/')[1] ? '#fff' : "'#E9EAF2'",
+                    fontWeight: "9000 !important",  
+                    color:
+                      currentSegment === '/' + menu.link.split('/')[1] ? '#1976d2' : '',
                   }}
                   component={NavLink}
                   to={menu.link}
                   onClick={toggleDrawer}
                 >
-                  <Typography
-                    variant="p"
-                    component="p"
-                    sx={{
-                      textAlign: 'center',
-                      whiteSpace: 'normal',
-                      fontSize: 21,
-                      color:
-                        currentSegment === '/' + menu.link.split('/')[1] ? '#000000' : '#000000',
-                      fontWeight: 600,
-                    }}
-                  >
-                    {menu.text}
-                  </Typography>
+                  <ListItemIcon>{menu.icon}</ListItemIcon>
+                  <ListItemText primary={menu.text} />
                 </ListItemButton>
               </ListItem>
+
+
             ))}
           </List>
+          <Divider />
+
           <List>
             <ListItem
               disablePadding
-              divider={true}
-              sx={{
-                color: '#000000',
-                marginTop: 3,
-                fontSize: '25px',
-                bgcolor: '#fff',
-                fontWeight: 500,
-              }}
             >
               <ListItemButton
                 onClick={() => {
                   CloseSesion();
                 }}
               >
-                <Typography
-                  variant="p"
-                  component="p"
-                  sx={{
-                    textAlign: 'center',
-                    whiteSpace: 'normal',
-                    fontSize: 19,
-                    color: '#000000',
-                    fontWeight: 500,
-                  }}
-                >
-                  Salir
-                </Typography>
+                <ListItemIcon><Logout /></ListItemIcon>
+                <ListItemText primary="Salir" />
               </ListItemButton>
             </ListItem>
           </List>
+
+
         </div>
       ) : (
         <div></div>

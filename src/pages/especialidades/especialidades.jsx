@@ -5,7 +5,7 @@ import AppContext from '../../contexts/ServiceContext';
 import DataCard from '../../components/especialidades/dataCard';
 import { Title } from '../../components/textTitle/title';
 import DataTable from '../../components/dataGrid/dataTable';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Toolbar, Typography } from '@mui/material';
 import { Get } from '../../components/especialidades/get';
 import { TYPE_USER_SELECTED } from '../../contexts/constantesVar';
 import { NavLink } from 'react-router-dom';
@@ -160,8 +160,10 @@ export const Especialidades = () => {
   }, []);
   return (
     <div>
-      <Title title="Especialidades" />
-
+      <Toolbar />
+      <Typography variant="h4" gutterBottom fontWeight="bold">
+      Especialidades
+      </Typography>
       <ModalAdd typeUserSelected={selected} />
       <FormControl sx={{ mb: 2, width: '100%', display: 'none' }}>
         <InputLabel size="small" id="demo-simple-select-label">

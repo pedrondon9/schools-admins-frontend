@@ -17,18 +17,23 @@ export const CardEvents = ({ x, modal, urlId }) => {
     <Box sx={{ width: '100%' }}>
       <Card
         sx={{
-          //boxShadow: 'none',
-          //borderBottom: '1px #e0e0e0 solid',
-          //borderRadius: '0px',
-          border: '2px solid rgb(63, 63, 63)',
-          padding: '10px',
-          backgroundColor: '#fff3e0',
+          borderRadius: 3,
+          boxShadow: 3,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          "&:hover": {
+            boxShadow: 6,
+            transform: "translateY(-5px)",
+            transition: "0.3s",
+          },
         }}
       >
+
+
         <CardMedia
-          //variant='outlined'
           component="img"
-          sx={{ objectFit: 'contain', height: { xs: 100, md: 100 } }}
+          height="160"
           image={
             x?.courseImg
               ? x?.courseImg
@@ -36,33 +41,46 @@ export const CardEvents = ({ x, modal, urlId }) => {
                 ? x?.linkPhoto
                 : 'https://visament.com/front/images/home/upload_user.png'
           }
-          title={x?.title}
+          title={x?.title} alt={x.title}
+          sx={{ objectFit: "cover" }}
         />
-
-        <CardContent sx={{ padding: '0px', marginTop: '10px', bgcolor: '#FCF5EB' }}>
+        <CardContent sx={{ flexGrow: 1 }}>
           <Typography
-            className="title-event"
-            sx={{ marginBlock: 2, fontSize: { xs: '2rem', md: '1.5rem' }, fontWeight: '700' }}
+            variant="h6"
+            fontWeight="bold"
             gutterBottom
-            component="div"
+            sx={{
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
           >
-            {x?.title?.slice(0, 70)}...
+            {x.title}
           </Typography>
 
+
+
+
           <Typography
-            className="title-event"
-            sx={{ marginBlock: 2, fontSize: { xs: '1.1rem', md: '1.1rem' }, fontWeight: '700' }}
-            gutterBottom
-            component="div"
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
           >
-            {x?.brief_description?.slice(0, 90)}...
+            {x.brief_description}
           </Typography>
         </CardContent>
         <CardActions style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button variant="contained" size="large" component={NavLink} to={`/${urlId}/${x?._id}`}>
+          <Button variant="text" sx={{fontWeight:"bold"}} size="large" component={NavLink} to={`/${urlId}/${x?._id}`}>
             Mas info
           </Button>
         </CardActions>
+
       </Card>
     </Box>
   );

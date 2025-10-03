@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   Box,
   Button,
+  Fab,
   FormControl,
   InputLabel,
   MenuItem,
@@ -252,14 +253,14 @@ export default function FormAdd({ typeUserSelected, url }) {
     },
     ...(typeUser[0]?.name === 'admin'
       ? [
-          {
-            name: 'posGalery',
-            label: 'Posicion en la galeria',
-            type: 'number',
-            validation: { required: true },
-            startIcon: null,
-          },
-        ]
+        {
+          name: 'posGalery',
+          label: 'Posicion en la galeria',
+          type: 'number',
+          validation: { required: true },
+          startIcon: null,
+        },
+      ]
       : []),
     {
       name: 'imagen1',
@@ -300,9 +301,15 @@ export default function FormAdd({ typeUserSelected, url }) {
         justifyContent: 'end',
       }}
     >
-      <Button variant="contained" onClick={handleOpenM} size="large">
+      
+      <Fab
+        variant="contained" onClick={handleOpenM} size="large"
+        color="primary"
+        sx={{ position: "absolute", bottom: 16, right: 16 }}
+      >
         <Add />
-      </Button>
+
+      </Fab>
       <Modal
         open={openM}
         onClose={handleCloseM}
@@ -330,7 +337,7 @@ export default function FormAdd({ typeUserSelected, url }) {
               variant="h4"
               component="h4"
             >
-              Actulizar
+              Registrar
             </Typography>
 
             <Box sx={{ width: '95%', mt: 2 }}>
@@ -539,7 +546,7 @@ export default function FormAdd({ typeUserSelected, url }) {
               <Controller
                 name="imagen1"
                 control={control}
-                render={({}) => (
+                render={({ }) => (
                   <FieldImageInput
                     label={'Foto del usuario'}
                     onFileChange={(file) => {
@@ -555,7 +562,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                 </Box>
               )}
 
-              <Box sx={{ width: '100%', mb: 2 }}>
+              <Box sx={{ width: '100%', mb: 2, mt: 2 }}>
                 <LoadingButton
                   loading={loading}
                   variant="contained"
@@ -564,7 +571,7 @@ export default function FormAdd({ typeUserSelected, url }) {
                   fullWidth
                   size="large"
                 >
-                  Actualizar
+                  Registrar
                 </LoadingButton>
               </Box>
             </Box>
