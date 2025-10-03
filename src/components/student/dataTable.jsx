@@ -268,7 +268,7 @@ function DataTable({}) {
               alignItems: 'flex-start', // para que el contenido quede arriba si es multilinea
             },
             '& .MuiDataGrid-row': {
-              fontWeight: 'bold', //  hace todas las filas bold
+              fontWeight: '600', //  hace todas las filas bold
               bgcolor: 'rgba(255, 255, 255, 0.38)',
             },
           }}

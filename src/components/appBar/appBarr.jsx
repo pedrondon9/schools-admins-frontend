@@ -61,7 +61,7 @@ function MenuAppBars(props) {
                 {dataUser.schoolName}- Panel de Control
               </Typography>
               <IconButton>
-                <Avatar alt="Usuario" src="/user.png" />
+                <Avatar sx={{bgcolor:"#f5f5f5",color:"#212121"}} alt="Usuario" src="/user.png" />
               </IconButton>
               <IconButton
                 color="primary"

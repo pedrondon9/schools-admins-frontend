@@ -39,7 +39,7 @@ export const Users = () => {
     } finally {
     }
   };
-  const VISIBLE_FIELDS = ['photo', 'acciones', 'name'];
+  const VISIBLE_FIELDS = ['photo', 'acciones', 'name','email','role'];
 
   const columns1 = [
     {
@@ -63,8 +63,34 @@ export const Users = () => {
       renderCell: (params) => (
         <Box>
           <Typography fontWeight="bold">{params.row.name}</Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography sx={{fontWeight:500}} variant="body2" color="text.secondary">
+            {params.row.fullname}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 1,
+      renderCell: (params) => (
+        <Box>
+          <Typography fontWeight="bold">{params.row.name}</Typography>
+          <Typography sx={{fontWeight:500}} variant="body2" color="text.secondary">
             {params.row.email}
+          </Typography>
+        </Box>
+      ),
+    },
+    {
+      field: "role",
+      headerName: "Roles",
+      flex: 1,
+      renderCell: (params) => (
+        <Box>
+          <Typography fontWeight="bold">{params.row.name}</Typography>
+          <Typography sx={{fontWeight:500}} variant="body2" color="text.secondary">
+            {params.row.roles?.map((role) => role.name).join(", ")}
           </Typography>
         </Box>
       ),

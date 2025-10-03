@@ -66,7 +66,7 @@ function DataTable({ url, columns1, sx, VISIBLE_FIELDS }) {
         />
       </FormControl>
       <Box
-        sx={{ height: 400, width: "100%", bgcolor: "white", borderRadius: 2, boxShadow: 1 }}
+        sx={{ height: 600, width: "100%", bgcolor: "white", borderRadius: 2, boxShadow: 1 }}
       >
         <DataGrid
           rows={filteredRows || []}
