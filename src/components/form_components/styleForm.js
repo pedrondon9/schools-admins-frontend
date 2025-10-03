@@ -9,11 +9,10 @@ export const stylesForm = {
     lg: 300,
     xl: 300,
   },
-  bgcolor: '#f5f5f5',
+  bgcolor: '#fff',
   //borderRadius: 1,
   display: 'flex',
   justifyContent: 'center',
-  border: '2px solid rgb(59, 59, 59)',
   borderRadius: '8px',
   alignItems: 'center',
   flexDirection: 'column',
@@ -33,7 +32,6 @@ export const stylesForm2 = {
   //borderRadius: 1,
   display: 'flex',
   justifyContent: 'center',
-  border: '1px solid #cac7c7ff',
 
   alignItems: 'center',
   flexDirection: 'column',
@@ -53,7 +51,6 @@ export const stylesFormOpt = {
   //borderRadius: 1,
   display: 'flex',
   justifyContent: 'center',
-  border: '1px solid #cac7c7ff',
 
   alignItems: 'center',
   flexDirection: 'column',

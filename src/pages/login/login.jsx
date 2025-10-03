@@ -146,7 +146,7 @@ function Login() {
 
   return (
     <Grid
-      bgcolor="#FCF5EB"
+      bgcolor="#f5f5f5"
       sx={{
         display: 'flex',
         minHeight: '100vh',
