@@ -31,7 +31,7 @@ export const CardDasboard = ({ title, cantities }) => {
               {title}
             </Typography>
             <Typography variant="h4" fontWeight="bold">
-              {cantities}
+              {cantities}  
             </Typography>
           </CardContent>
         </Card>
