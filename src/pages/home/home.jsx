@@ -20,6 +20,7 @@ function Homes() {
     try {
       setSpinner(true);
       const response = await AxiosConfigsToken.get('/dasboard/get');
+      console.log(response);
 
       if (response.data.success) {
         setData(response.data.response);
@@ -65,7 +66,9 @@ function Homes() {
           {data ? (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Grid container spacing={2} sx={{ paddingTop: 3 }}>
-                <CardDasboard title={'Usuarios'} cantities={data.users} />
+                <CardDasboard title={'Admins'} cantities={data.admin} />
+                <CardDasboard title={'Estudiantes'} cantities={data.student} />
+                <CardDasboard title={'Profesores'} cantities={data.teacher} />
                 <CardDasboard title={'Cursos'} cantities={data.courses} />
                 <CardDasboard title={'Especialidades'} cantities={data.specialities} />
                 <CardDasboard title={'Publicaciones'} cantities={data.events} />

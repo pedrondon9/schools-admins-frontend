@@ -16,7 +16,7 @@ import { School } from '@mui/icons-material';
 //#ede8f7 f3f0f8
 export const CardDasboard = ({ title, cantities }) => {
   return (
-    <Grid item xs={12} sm={6} md={4} lg={4} xl={4}>
+    <Grid item xs={6} sm={6} md={4} lg={3} xl={3}>
       <Box sx={{ width: '100%' }}>
         <Card
           sx={{

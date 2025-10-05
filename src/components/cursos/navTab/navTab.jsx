@@ -35,7 +35,7 @@ const NavTab = ({ id, courseId }) => {
         <DescriptionComponent dataId={editCourseId} description={editCourseId?.description} />
 
         <TabContext value={`${value}`} sx={{ display: 'flex' }}>
-          <Box sx={{}}>
+          <Box sx={{}} >
             <Tabs
               value={`${value}`}
               onChange={handleChange}
