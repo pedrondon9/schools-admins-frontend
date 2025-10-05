@@ -24,10 +24,10 @@ const NavTab = ({ id, courseId }) => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '60px' }}>
+    <div style={{ display: 'flex'}}>
       <Grid
         //bgcolor="backgroundColorPage"
-        sx={{ justifyContent: 'center', width: { xs: '100%' } }}
+        sx={{ width: { xs: '100%' } }}
       >
         <DescriptionComponent dataId={editEventId} description={editEventId.content} />
 
@@ -57,7 +57,7 @@ const NavTab = ({ id, courseId }) => {
             </Tabs>
           </Box>
           <TabPanel value={'1'} sx={{ paddingInline: '0px' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex'}}>
               <MyEditor
                 url={`events/get/${id}`}
                 selected={'events'}
@@ -68,7 +68,7 @@ const NavTab = ({ id, courseId }) => {
             </Box>
           </TabPanel>
           <TabPanel value={'2'} sx={{ paddingInline: '0px' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex'}}>
               <FormUpdate id={id} courseId={courseId} />
             </Box>
           </TabPanel>
