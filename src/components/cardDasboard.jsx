@@ -24,7 +24,6 @@ export const CardDasboard = ({ title, cantities }) => {
             borderRadius: 3,
           }}
         >
-
           <CardContent sx={{ textAlign: "center" }}>
             <School fontSize="large" color="primary" />
             <Typography variant="h6" sx={{ mt: 1 }}>

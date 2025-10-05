@@ -96,10 +96,10 @@ export default function MyEditor({ id, dataId, description, url, selected }) {
   const onSubmit = async () => {
     // Aquí puedes manejar el envío del contenido del editor
     if (selected === 'course' || selected === 'especialities') {
-      await Put(AxiosConfigsToken, setLoad, { description: value, id: id }, id, toast, selected);
+      await Put(AxiosConfigsToken, setLoad, { description: value, id: id,put:'editText' }, id, toast, selected);
     }
     if (selected === 'events') {
-      await Put(AxiosConfigsToken, setLoad, { content: value, id: id }, id, toast, selected);
+      await Put(AxiosConfigsToken, setLoad, { content: value, id: id ,put:'editText'}, id, toast, selected);
     }
     //await getCourseId(id)
     await getWithId(url, selected);
