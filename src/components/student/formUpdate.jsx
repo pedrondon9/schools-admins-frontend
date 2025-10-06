@@ -133,6 +133,7 @@ export default function FormUpdate({ courseId, id }) {
       fs.append('phone', data.phone);
       fs.append('posGalery', data.posGalery ? Number(data.posGalery) : 0);
       fs.append('email', data.email);
+      fs.append('isActive', data.isActive);
       fs.append('birthdate', data.birthdate);
       fs.append('info', data.info);
       fs.append('roles', JSON.stringify(rolesSelected));
@@ -154,7 +155,7 @@ export default function FormUpdate({ courseId, id }) {
         toast.error(`${sendData.data.message}`);
       }
     } catch (error) {
-      co;
+      
       toast.error(error.response?.data?.message);
     } finally {
       setLoad(false);
@@ -457,10 +458,34 @@ export default function FormUpdate({ courseId, id }) {
                 />
               </FormControl>
 
+              <FormControl fullWidth size="large" sx={{ mt: 2, mb: 2 }}>
+                <InputLabel id="roles-label">Activar o desactivar usuario</InputLabel>
+                <Controller
+                  name="isActive"
+                  control={control}
+                  rules={{ required: false }}
+                  render={({ field }) => (
+                    <Select
+                      defaultValue={dataUserSelected.isActive ? 'Activar' : 'Dessactivar'}
+                      label={'Activar o desactivar usuario'}
+                      labelId="roles-label"
+                      {...field} // incluye value + onChange de RHF
+                    >
+                      <MenuItem key={'Activar'} value={'Activar'}>
+                        Activar
+                      </MenuItem>
+                      <MenuItem key={'Dessactivar'} value={'Dessactivar'}>
+                        Dessactivar
+                      </MenuItem>
+                    </Select>
+                  )}
+                />
+              </FormControl>
+
               <Controller
                 name="imagen1"
                 control={control}
-                render={({}) => (
+                render={({ }) => (
                   <FieldImageInput
                     label={'Foto del usuario'}
                     onFileChange={(file) => {

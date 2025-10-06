@@ -125,6 +125,7 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
       fs.append('fullname', data.fullname);
       fs.append('sex', data.sex);
       fs.append('id', dataUserSelected._id);
+      fs.append('isActive', data.isActive);
       fs.append('phone', data.phone);
       fs.append('posGalery', data.posGalery ? Number(data.posGalery) : 0);
       fs.append('email', data.email);
@@ -452,10 +453,34 @@ export default function FormUpdate({ dataUserSelected, mutateLocal, url }) {
                   />
                 </FormControl>
 
+                <FormControl fullWidth size="large" sx={{ mt: 2, mb: 2 }}>
+                  <InputLabel id="roles-label">Activar o desactivar usuario</InputLabel>
+                  <Controller
+                    name="isActive"
+                    control={control}
+                    rules={{ required: false }}
+                    render={({ field }) => (
+                      <Select
+                        defaultValue={dataUserSelected.isActive?'Activar':'Dessactivar'}
+                        label={'Activar o desactivar usuario'}
+                        labelId="roles-label"
+                        {...field} // incluye value + onChange de RHF
+                      >
+                        <MenuItem key={'Activar'} value={'Activar'}>
+                          Activar
+                        </MenuItem>
+                        <MenuItem key={'Dessactivar'} value={'Dessactivar'}>
+                          Dessactivar
+                        </MenuItem>
+                      </Select>
+                    )}
+                  />
+                </FormControl>
+
                 <Controller
                   name="imagen1"
                   control={control}
-                  render={({}) => (
+                  render={({ }) => (
                     <FieldImageInput
                       label={'Foto del usuario'}
                       onFileChange={(file) => {

@@ -46,7 +46,7 @@ const RegistreForm = ({
     >
       {
         <FormImage
-          src={'https://res.cloudinary.com/mumbex/image/upload/v1660494910/logo1_ffq1qu.png'}
+          src={'https://res.cloudinary.com/mumbex/image/upload/v1670484271/axx_vlc1ai.jpg'}
           alt={imageAlt}
         />
       }

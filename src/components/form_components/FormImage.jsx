@@ -7,7 +7,6 @@ const FormImage = ({ src, alt }) => {
     <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
       <img
         style={{
-          filter: 'grayscale(100%)',
         }}
         src={src}
         alt={alt}
